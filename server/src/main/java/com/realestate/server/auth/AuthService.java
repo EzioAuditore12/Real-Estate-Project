@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.realestate.server.auth.dto.LoginUserDto;
 import com.realestate.server.auth.dto.RegisterUserDto;
 import com.realestate.server.auth.dto.RegisterUserResponseDto;
+import com.realestate.server.auth.utils.JwtService;
 import com.realestate.server.user.UserService;
 import com.realestate.server.user.dto.UserDto;
 
@@ -23,6 +24,7 @@ public class AuthService {
     private final UserService userService;
     private final AuthMapper authMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final JwtService jwtService;
 
     public RegisterUserResponseDto registerUser(RegisterUserDto registerUserDto) {
         UserDto existingUser = userService.findByEmail(registerUserDto.getEmail());
@@ -40,7 +42,7 @@ public class AuthService {
         return authMapper.toRegisterUserResponseDto(createdUser);
     }
 
-    public RegisterUserResponseDto validateUser(LoginUserDto loginUserDto) {
+    public String validateUser(LoginUserDto loginUserDto) {
         UserDto existingUser = userService.findByEmail(loginUserDto.getEmail());
 
         if(Objects.isNull(existingUser))
@@ -52,6 +54,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Eithere entered email or password is wrong");
         
         
-        return authMapper.toRegisterUserResponseDto(existingUser);
+        // return authMapper.toRegisterUserResponseDto(existingUser);
+        return jwtService.generateToken(existingUser.getId());
     }
 }

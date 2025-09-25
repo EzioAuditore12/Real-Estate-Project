@@ -33,8 +33,8 @@ public class AuthController {
 
     @PostMapping("login")
     @Operation(summary = "Login user", description = "Validates user credentials and logs in the user.")
-    public BaseResponseDto<RegisterUserResponseDto> login(@Valid @RequestBody LoginUserDto loginUserDto) {
-        RegisterUserResponseDto userDetails = authService.validateUser(loginUserDto);
+    public BaseResponseDto<String> login(@Valid @RequestBody LoginUserDto loginUserDto) {
+        String userDetails = authService.validateUser(loginUserDto);
 
         return new BaseResponseDto<>(true, "User logged in successfully", userDetails);
     }
