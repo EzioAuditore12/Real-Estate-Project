@@ -1,6 +1,7 @@
 package com.realestate.server.auth.entities;
 
-import java.time.Instant;
+import java.util.Date;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,14 +17,14 @@ public class BlackListRefreshTokenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false, nullable = false )
-    private String id;
+    private UUID id;
 
     @Column(columnDefinition = "text", nullable = false, unique = true)
     private String refreshToken;
 
     @Column(nullable = false)
-    private Instant iat;
+    private Date iat;
 
     @Column(nullable = false)
-    private Instant exp;
+    private Date exp;
 }

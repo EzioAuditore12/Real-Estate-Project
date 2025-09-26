@@ -1,5 +1,7 @@
 package com.realestate.server.auth.dto;
 
+import com.realestate.server.user.dto.UserResponseDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterUserResponseDto {
-    private String id;
-    private String name;
-    private String email;
-    private String avatar;
+public class AuthResponseDto {
+    private UserResponseDto user;
+    private TokensDto tokens;
 }
