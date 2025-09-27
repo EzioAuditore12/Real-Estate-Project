@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.realestate.server.auth.dto.AuthResponseDto;
-import com.realestate.server.auth.dto.LoginUserDto;
+import com.realestate.server.auth.dto.LoginTenantDto;
 import com.realestate.server.auth.dto.RefreshTokensDto;
-import com.realestate.server.auth.dto.RegisterUserDto;
+import com.realestate.server.auth.dto.RegisterTenantDto;
 import com.realestate.server.auth.dto.TokensDto;
 import com.realestate.server.common.dto.BaseResponseDto;
 
@@ -27,20 +27,20 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("register")
+    @PostMapping("register-tenant")
     @ResponseStatus(code = HttpStatus.CREATED)
-    @Operation(summary = "Register a new user", description = "Creates a new user account with the provided details.")
-    public BaseResponseDto<AuthResponseDto> register(@Valid @RequestBody RegisterUserDto registerUserDto) {
-        AuthResponseDto credentials = authService.registerUser(registerUserDto);
+    @Operation(summary = "Register a new tenant", description = "Creates a new tenant account with the provided details.")
+    public BaseResponseDto<AuthResponseDto> register(@Valid @RequestBody RegisterTenantDto registerTenantDto) {
+        AuthResponseDto credentials = authService.registerTenant(registerTenantDto);
 
-        return new BaseResponseDto<>(true, "User Registered Successully", credentials);
+        return new BaseResponseDto<>(true, "Tenant Registered Successully", credentials);
     }
 
-    @PostMapping("login")
+    @PostMapping("login-tenant")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    @Operation(summary = "Login user", description = "Validates user credentials and logs in the user.")
-    public BaseResponseDto<AuthResponseDto> login(@Valid @RequestBody LoginUserDto loginUserDto) {
-        AuthResponseDto credentials = authService.validateUser(loginUserDto);
+    @Operation(summary = "Login tenant", description = "Validates tenant credentials and logs in the tenant.")
+    public BaseResponseDto<AuthResponseDto> login(@Valid @RequestBody LoginTenantDto loginTenantDto) {
+        AuthResponseDto credentials = authService.validateTenant(loginTenantDto);
 
         return new BaseResponseDto<>(true, "User logged in successfully", credentials);
     }

@@ -6,17 +6,17 @@ import com.realestate.server.auth.dto.AuthResponseDto;
 import com.realestate.server.auth.dto.BlackListRefreshTokenDto;
 import com.realestate.server.auth.dto.TokensDto;
 import com.realestate.server.auth.entities.BlackListRefreshTokenEntity;
-import com.realestate.server.user.dto.UserDto;
-import com.realestate.server.user.dto.UserResponseDto;
+import com.realestate.server.tenant.dto.TenantDto;
+import com.realestate.server.tenant.dto.TenantResponseDto;
 
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AuthMapper {
-    UserResponseDto toUserResponseDto(UserDto userDto);
+    TenantResponseDto toTenantResponseDto(TenantDto tenantDto);
 
-    @Mapping(target = "user", source = "userDto")
-    AuthResponseDto toAuthenticatedUserResponseDto(UserResponseDto userDto, TokensDto tokens);
+    @Mapping(target = "tenant", source = "tenantDto")
+    AuthResponseDto toAuthenticatedTenantResponseDto(TenantResponseDto tenantDto, TokensDto tokens);
 
     @Mapping(target = "id", ignore = true)
     BlackListRefreshTokenEntity insertBlackListedToken(BlackListRefreshTokenDto dto);

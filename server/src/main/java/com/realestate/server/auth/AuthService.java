@@ -13,16 +13,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.auth.dto.AuthResponseDto;
 import com.realestate.server.auth.dto.BlackListRefreshTokenDto;
-import com.realestate.server.auth.dto.LoginUserDto;
+import com.realestate.server.auth.dto.LoginTenantDto;
 import com.realestate.server.auth.dto.RefreshTokensDto;
+import com.realestate.server.auth.dto.RegisterTenantDto;
 import com.realestate.server.auth.dto.TokensDto;
-import com.realestate.server.auth.dto.RegisterUserDto;
 import com.realestate.server.auth.repositories.BlackListRefreshTokenRepository;
 import com.realestate.server.auth.utils.JwtService;
 import com.realestate.server.auth.utils.TokenType;
-import com.realestate.server.user.UserService;
-import com.realestate.server.user.dto.UserDto;
-import com.realestate.server.user.dto.UserResponseDto;
+import com.realestate.server.tenant.TenantService;
+import com.realestate.server.tenant.dto.TenantDto;
+import com.realestate.server.tenant.dto.TenantResponseDto;
 import com.realestate.server.auth.entities.BlackListRefreshTokenEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -31,49 +31,49 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserService userService;
+    private final TenantService tenantService;
     private final AuthMapper authMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final JwtService jwtService;
     private final BlackListRefreshTokenRepository blackListRefreshTokenRepository;
     private final UserDetailsService userDetailsService;
 
-    public AuthResponseDto registerUser(RegisterUserDto registerUserDto) {
-        UserDto existingUser = userService.findByEmail(registerUserDto.getEmail());
+    public AuthResponseDto registerTenant(RegisterTenantDto registerTenantDto) {
+        TenantDto existingTenant = tenantService.findByEmail(registerTenantDto.getEmail());
 
-        if (!Objects.isNull(existingUser))
+        if (!Objects.isNull(existingTenant))
             throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "User with this email is already registered with us");
+                    "Tenant with this email is already registered with us");
 
-        String hashedPassword = passwordEncoder.encode(registerUserDto.getPassword());
+        String hashedPassword = passwordEncoder.encode(registerTenantDto.getPassword());
 
-        registerUserDto.setPassword(hashedPassword);
+        registerTenantDto.setPassword(hashedPassword);
 
-        UserDto createdUser = userService.createUser(registerUserDto);
+        TenantDto createdTenant = tenantService.createTenantAccount(registerTenantDto);
 
-        TokensDto tokensDto = jwtService.generateTokens(createdUser.getId());
+        TokensDto tokensDto = jwtService.generateTokens(createdTenant.getId().toString());
 
-        UserResponseDto userResponseDto = authMapper.toUserResponseDto(createdUser);
+        TenantResponseDto tenantResponseDto = authMapper.toTenantResponseDto(createdTenant);
 
-        return authMapper.toAuthenticatedUserResponseDto(userResponseDto,tokensDto);
+        return authMapper.toAuthenticatedTenantResponseDto(tenantResponseDto, tokensDto);
     }
 
-    public AuthResponseDto validateUser(LoginUserDto loginUserDto) {
-        UserDto existingUser = userService.findByEmail(loginUserDto.getEmail());
+    public AuthResponseDto validateTenant(LoginTenantDto loginTenantDto) {
+        TenantDto existingTenant = tenantService.findByEmail(loginTenantDto.getEmail());
 
-        if (Objects.isNull(existingUser))
+        if (Objects.isNull(existingTenant))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Given user with this email does not exist");
 
-        boolean isValidPassword = passwordEncoder.matches(loginUserDto.getPassword(), existingUser.getPassword());
+        boolean isValidPassword = passwordEncoder.matches(loginTenantDto.getPassword(), existingTenant.getPassword());
 
         if (!isValidPassword)
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Eithere entered email or password is wrong");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Either entered email or password is wrong");
 
-        UserResponseDto userResponseDto = authMapper.toUserResponseDto(existingUser);
+        TenantResponseDto tenantResponseDto = authMapper.toTenantResponseDto(existingTenant);
 
-        TokensDto tokensDto = jwtService.generateTokens(existingUser.getId());
+        TokensDto tokensDto = jwtService.generateTokens(existingTenant.getId().toString());
 
-        return authMapper.toAuthenticatedUserResponseDto(userResponseDto, tokensDto);
+        return authMapper.toAuthenticatedTenantResponseDto(tenantResponseDto, tokensDto);
     }
 
     private void insertBlackListedToken(BlackListRefreshTokenDto blackListRefreshTokenDto) {

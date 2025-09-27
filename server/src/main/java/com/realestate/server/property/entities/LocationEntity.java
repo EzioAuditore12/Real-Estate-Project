@@ -3,7 +3,7 @@ package com.realestate.server.property.entities;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.data.geo.Point;
+import org.locationtech.jts.geom.Point;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,9 +35,11 @@ public class LocationEntity {
     @Column(length = 20, nullable = false)
     private String postalCode;
 
-    @Column(columnDefinition = "geography(Point,4326)", nullable = false)
+   /* 
+   TODO: Need to find alternative to this
+   @Column(columnDefinition = "geography(Point,4326)", nullable = false)
     private Point coordinates;
-
+    */
     @OneToMany(mappedBy = "locationId")
     private List<PropertyEntity> properties;
 }

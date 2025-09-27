@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginUserDto {
+public class LoginTenantDto {
     
     @Email
     @Size(max = 240)

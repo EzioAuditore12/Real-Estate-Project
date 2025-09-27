@@ -1,4 +1,4 @@
-package com.realestate.server.user.dto;
+package com.realestate.server.tenant.dto;
 
 import com.realestate.server.common.validators.StrongPassword;
 
@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto {
-    
+public class CreateTenantDto {
+     
     @NotBlank
     @Size(max = 50)
     @Schema(example = "Saitama")
@@ -25,8 +25,6 @@ public class CreateUserDto {
     @Size(max = 240)
     @Schema(example = "example@example.com")
     private String email;
-
-    private String avatar;
 
     @NotBlank
     @StrongPassword

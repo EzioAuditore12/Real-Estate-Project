@@ -1,17 +1,19 @@
-package com.realestate.server.user;
+package com.realestate.server.tenant;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("tenant")
+@RequiredArgsConstructor
+public class TenantController {
     
     @GetMapping
-    public String hello(){
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        return "Hello " + userId;
+    public String helloTenant(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }
