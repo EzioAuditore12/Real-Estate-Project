@@ -21,7 +21,7 @@ public class LoginUserDto {
     @NotBlank
     @Schema(example = "Example@123")
     @Size(max = 16)
-    private String passsword;
+    private String password;
 
     public void setEmail(String email) {
         this.email = (email!=null) ? email.toLowerCase() : null;

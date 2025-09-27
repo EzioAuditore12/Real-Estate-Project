@@ -64,7 +64,7 @@ public class AuthService {
         if (Objects.isNull(existingUser))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Given user with this email does not exist");
 
-        boolean isValidPassword = passwordEncoder.matches(loginUserDto.getPasssword(), existingUser.getPassword());
+        boolean isValidPassword = passwordEncoder.matches(loginUserDto.getPassword(), existingUser.getPassword());
 
         if (!isValidPassword)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Eithere entered email or password is wrong");
