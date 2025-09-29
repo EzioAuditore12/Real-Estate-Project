@@ -1,4 +1,4 @@
-package com.realestate.server.auth;
+package com.realestate.server.auth.services;
 
 import java.util.Date;
 import java.util.Objects;
@@ -11,26 +11,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.realestate.server.auth.AuthMapper;
 import com.realestate.server.auth.dto.AuthResponseDto;
 import com.realestate.server.auth.dto.BlackListRefreshTokenDto;
 import com.realestate.server.auth.dto.LoginTenantDto;
 import com.realestate.server.auth.dto.RefreshTokensDto;
 import com.realestate.server.auth.dto.RegisterTenantDto;
 import com.realestate.server.auth.dto.TokensDto;
+import com.realestate.server.auth.entities.BlackListRefreshTokenEntity;
+import com.realestate.server.auth.enums.Role;
 import com.realestate.server.auth.repositories.BlackListRefreshTokenRepository;
 import com.realestate.server.auth.utils.JwtService;
 import com.realestate.server.auth.utils.TokenType;
 import com.realestate.server.tenant.TenantService;
 import com.realestate.server.tenant.dto.TenantDto;
 import com.realestate.server.tenant.dto.TenantResponseDto;
-import com.realestate.server.auth.entities.BlackListRefreshTokenEntity;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
-
+public class AuthTenantService {
+    
     private final TenantService tenantService;
     private final AuthMapper authMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -38,7 +40,7 @@ public class AuthService {
     private final BlackListRefreshTokenRepository blackListRefreshTokenRepository;
     private final UserDetailsService userDetailsService;
 
-    public AuthResponseDto registerTenant(RegisterTenantDto registerTenantDto) {
+      public AuthResponseDto registerTenant(RegisterTenantDto registerTenantDto) {
         TenantDto existingTenant = tenantService.findByEmail(registerTenantDto.getEmail());
 
         if (!Objects.isNull(existingTenant))
@@ -51,7 +53,7 @@ public class AuthService {
 
         TenantDto createdTenant = tenantService.createTenantAccount(registerTenantDto);
 
-        TokensDto tokensDto = jwtService.generateTokens(createdTenant.getId().toString());
+        TokensDto tokensDto = jwtService.generateTokens(createdTenant.getId().toString(), Role.TENANT);
 
         TenantResponseDto tenantResponseDto = authMapper.toTenantResponseDto(createdTenant);
 
@@ -71,11 +73,12 @@ public class AuthService {
 
         TenantResponseDto tenantResponseDto = authMapper.toTenantResponseDto(existingTenant);
 
-        TokensDto tokensDto = jwtService.generateTokens(existingTenant.getId().toString());
+        TokensDto tokensDto = jwtService.generateTokens(existingTenant.getId().toString(), Role.TENANT);
 
         return authMapper.toAuthenticatedTenantResponseDto(tenantResponseDto, tokensDto);
     }
 
+    
     private void insertBlackListedToken(BlackListRefreshTokenDto blackListRefreshTokenDto) {
         BlackListRefreshTokenEntity entity = authMapper.insertBlackListedToken(blackListRefreshTokenDto);
         blackListRefreshTokenRepository.save(entity);
@@ -85,7 +88,7 @@ public class AuthService {
         return blackListRefreshTokenRepository.findByRefreshToken(refreshToken).isPresent();
     }
 
-    public TokensDto regenerateTokens(RefreshTokensDto refreshTokensDto) {
+    public TokensDto regenerateTokens(RefreshTokensDto refreshTokensDto, Role role) {
 
         String userId = jwtService.extractUserId(refreshTokensDto.getRefreshToken(), TokenType.REFRESH);
 
@@ -108,7 +111,8 @@ public class AuthService {
                 refreshTokensDto.getRefreshToken(), iat, exp);
         insertBlackListedToken(blackListRefreshTokenDto);
 
-        return jwtService.generateTokens(userId);
+        return jwtService.generateTokens(userId, role);
     }
+
 
 }

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.realestate.server.auth.dto.TokensDto;
+import com.realestate.server.auth.enums.Role;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -39,7 +40,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(decode);
     }
 
-    public String generateToken(String userId, TokenType tokenType) {
+    public String generateToken(String userId, TokenType tokenType, Role role) {
         long expirationTime;
 
         if (tokenType == TokenType.ACCESS) {
@@ -50,6 +51,7 @@ public class JwtService {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("type", tokenType.name());
+        claims.put("role", role.name());
 
         return Jwts.builder()
                 .claims().add(claims)
@@ -59,23 +61,27 @@ public class JwtService {
                 .and().signWith(generateKey(tokenType)).compact();
     }
 
-    public TokensDto generateTokens(String payload) {
-        String accessToken = generateAccessToken(payload);
-        String refreshToken = generateRefreshToken(payload);
+    public TokensDto generateTokens(String subject, Role role) {
+        String accessToken = generateAccessToken(subject,role);
+        String refreshToken = generateRefreshToken(subject,role);
 
         return new TokensDto(accessToken, refreshToken);
     }
 
-    public String generateAccessToken(String payload) {
-        return generateToken(payload, TokenType.ACCESS);
+    public String generateAccessToken(String payload, Role role) {
+        return generateToken(payload, TokenType.ACCESS, role);
     }
 
-    public String generateRefreshToken(String payload) {
-        return generateToken(payload, TokenType.REFRESH);
+    public String generateRefreshToken(String payload,Role role) {
+        return generateToken(payload, TokenType.REFRESH, role);
     }
 
     public String extractUserId(String token, TokenType tokenType) {
         return extractClaims(token, Claims::getSubject, tokenType);
+    }
+
+    public String extractRole(String token, TokenType tokenType) {
+        return extractClaims(token, claims -> claims.get("role", String.class), tokenType);
     }
 
     private <T> T extractClaims(String token, Function<Claims, T> claimResolver, TokenType tokenType) {
@@ -104,5 +110,4 @@ public class JwtService {
     public Date extractExpiration(String token, TokenType tokenType) {
         return extractClaims(token, Claims::getExpiration, tokenType);
     }
-
 }

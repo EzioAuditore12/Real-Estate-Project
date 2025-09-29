@@ -50,7 +50,7 @@ public class WebSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
                         request -> request
@@ -60,6 +60,8 @@ public class WebSecurityConfig {
                                         "/v3/api-docs/**",
                                         "/docs/**")
                                 .permitAll()
+                                .requestMatchers("/manager/**").hasAuthority("MANAGER")
+                                .requestMatchers("/tenant/**").hasAuthority("TENANT")
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint()));
