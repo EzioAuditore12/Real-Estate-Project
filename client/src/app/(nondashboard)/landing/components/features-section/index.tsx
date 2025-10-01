@@ -56,7 +56,7 @@ export function FeaturesSection(){
                   ][index]
                 }
                 linkText={["Explore", "Search", "Discover"][index]}
-                linkHref={["/explore", "/search", "/discover"][index]}
+                linkHref={[{ pathname: "/" }, { pathname: "/" }, { pathname: "/" }][index]}
               />
             </motion.div>
           ))}
