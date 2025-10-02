@@ -7,10 +7,16 @@ interface FeatureCardProps {
   title: string;
   description: string;
   linkText: string;
-  linkHref: UrlObject; 
+  linkHref: UrlObject;
 }
 
-export function FeatureCard({ imageSrc, title, description, linkText, linkHref }: FeatureCardProps) {
+export function FeatureCard({
+  imageSrc,
+  title,
+  description,
+  linkText,
+  linkHref,
+}: FeatureCardProps) {
   return (
     <div className="text-center">
       <div className="p-4 rounded-lg mb-4 flex items-center justify-center h-48">

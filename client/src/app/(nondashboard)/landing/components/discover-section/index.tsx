@@ -72,4 +72,4 @@ export function DiscoverSection() {
       </div>
     </motion.div>
   );
-};
+}

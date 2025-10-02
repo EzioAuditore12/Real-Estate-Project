@@ -1,6 +1,6 @@
 "use client";
 
-import {motion} from "motion/react"
+import { motion } from "motion/react";
 import { FeatureCard } from "./card";
 
 const containerVariants = {
@@ -20,9 +20,9 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export function FeaturesSection(){
-    return(
-         <motion.div
+export function FeaturesSection() {
+  return (
+    <motion.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
@@ -56,12 +56,16 @@ export function FeaturesSection(){
                   ][index]
                 }
                 linkText={["Explore", "Search", "Discover"][index]}
-                linkHref={[{ pathname: "/" }, { pathname: "/" }, { pathname: "/" }][index]}
+                linkHref={
+                  [{ pathname: "/" }, { pathname: "/" }, { pathname: "/" }][
+                    index
+                  ]
+                }
               />
             </motion.div>
           ))}
         </div>
       </div>
     </motion.div>
-    )
+  );
 }

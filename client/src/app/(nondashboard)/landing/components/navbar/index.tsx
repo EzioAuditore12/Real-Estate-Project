@@ -22,7 +22,7 @@ export function Navbar() {
 
         {/* Auth Buttons */}
         <div className="ml-auto flex items-center gap-5">
-          <Link href={"/"}>
+          <Link href={"/login"}>
             <Button
               variant="outline"
               className="text-white border-white bg-transparent hover:bg-white hover:text-[#27272a] rounded-lg"
@@ -30,7 +30,7 @@ export function Navbar() {
               Sign In
             </Button>
           </Link>
-          <Link href={"/"}>
+          <Link href={"/register"}>
             <Button
               variant="secondary"
               className="text-white bg-secondary-600 hover:bg-red-500 hover:text- rounded-lg"

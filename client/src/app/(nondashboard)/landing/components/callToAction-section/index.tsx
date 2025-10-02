@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
-import { motion } from "motion/react"
+import { motion } from "motion/react";
 import Link from "next/link";
 
 export const CallToActionSection = () => {
@@ -14,7 +14,7 @@ export const CallToActionSection = () => {
         fill
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-black/60"/> 
+      <div className="absolute inset-0 bg-black/60" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}
@@ -41,7 +41,7 @@ export const CallToActionSection = () => {
                 Search
               </button>
               <Link
-                href="/"
+                href="/register"
                 className="inline-block text-white bg-secondary-500 rounded-lg px-6 py-3 font-semibold hover:bg-secondary-600"
                 scroll={false}
               >
