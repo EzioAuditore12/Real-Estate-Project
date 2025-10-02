@@ -46,9 +46,11 @@ export function LoginForm({
     const { role, ...credentials } = data;
 
     startTransition(() => {
-      role === "TENANT"
-        ? tenantLoginFormAction(credentials)
-        : managerLoginFormAction(credentials);
+      if (role === "TENANT") {
+        tenantLoginFormAction(credentials);
+      } else {
+        managerLoginFormAction(credentials);
+      }
     });
   };
 

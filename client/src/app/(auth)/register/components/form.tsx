@@ -50,9 +50,11 @@ export function RegisterForm({
     const { role, ...credentials } = data;
 
     startTransition(() => {
-      role === "TENANT"
-        ? registerTenantFormAction(credentials)
-        : registerManagerFormAction(credentials);
+      if (role === "TENANT") {
+        registerTenantFormAction(credentials);
+      } else {
+        registerManagerFormAction(credentials);
+      }
     });
   };
 
@@ -107,7 +109,7 @@ export function RegisterForm({
                 </div>
               </FormControl>
               <FormDescription className="text-xs">
-                We'll use this to send you important updates
+                We&apos;ll use this to send you important updates
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -186,7 +188,7 @@ export function RegisterForm({
                 </RadioGroup>
               </FormControl>
               <FormDescription className="text-xs">
-                This determines what features you'll have access to
+                This determines what features you&apos;ll have access to
               </FormDescription>
               <FormMessage />
             </FormItem>
