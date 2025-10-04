@@ -5,15 +5,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.realestate.server.common.dto.BaseResponseDto;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("manager")
 @RequiredArgsConstructor
+@Tag(name = "Manager")
 public class ManagerController {
     
     @GetMapping
-    public String helloManager(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    public BaseResponseDto<String> helloManager(){
+          return new BaseResponseDto<>(true,"User Verified successfully",SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }
