@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { AuthStore } from './types';
+import { cookieStorage } from './storage';
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -34,7 +35,7 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: 'Auth-Rental-PG',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => cookieStorage),
     },
   ),
 );

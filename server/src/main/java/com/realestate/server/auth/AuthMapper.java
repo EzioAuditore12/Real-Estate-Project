@@ -21,10 +21,13 @@ public interface AuthMapper {
     ManagerResponseDto toManagerResponseDto(ManagerDto managerDto);
 
     @Mapping(target = "user", source = "tenantDto")
+    @Mapping(target = "tokens", source = "tokens")
+    @Mapping(target = "role", constant = "TENANT")
     AuthResponseDto toAuthenticatedTenantResponseDto(TenantResponseDto tenantDto, TokensDto tokens);
 
     @Mapping(target = "user", source = "managerDto")
     @Mapping(target = "tokens", source = "tokensDto")
+    @Mapping(target = "role", constant = "MANAGER")
     AuthManagerResponseDto toAuthenticatedManagerResponseDto(ManagerResponseDto managerDto, TokensDto tokensDto);
 
     @Mapping(target = "id", ignore = true)

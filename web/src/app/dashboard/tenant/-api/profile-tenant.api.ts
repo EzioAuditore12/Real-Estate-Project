@@ -1,10 +1,11 @@
+import type { user, userProperties } from '@/app/(auth)/-types';
 import authenticatedAxiosInstance from '@/lib/auth';
 
 type mangerProfileServiceResponse = {
   success: boolean;
   message: string;
-  data: string;
-};
+} & user &
+  userProperties;
 
 const url = '/tenant';
 

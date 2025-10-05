@@ -13,7 +13,11 @@ export function useTenantLoginForm() {
   return useMutation({
     mutationFn: loginFormTenantApi,
     onSuccess: (data) => {
-      setUserDetails(data.user);
+      setUserDetails({
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+      });
       setUserTokens(data.tokens);
       setUserRole(data.role);
 

@@ -9,4 +9,9 @@ export type tokens = {
   refreshToken: string;
 };
 
+export type userProperties = {
+  favourites: Array<string>;
+  properties: Array<string>;
+};
+
 export type role = 'TENANT' | 'MANAGER';

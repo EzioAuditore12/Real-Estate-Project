@@ -42,7 +42,8 @@ function RouteComponent() {
               Sign in here
             </Link>
           </P>
-        </div><div className="text-center space-y-2">
+        </div>
+        <div className="text-center space-y-2">
           <P className="text-sm text-muted-foreground">
             Already have an account?{' '}
             <Link

@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 
 import com.realestate.server.tenant.dto.CreateTenantDto;
 import com.realestate.server.tenant.dto.TenantDto;
+import com.realestate.server.tenant.dto.TenantResponseDto;
 import com.realestate.server.tenant.entites.TenantEntity;
 import com.realestate.server.property.entities.PropertyEntity;
 
@@ -18,6 +19,9 @@ public interface TenantMapper {
     @Mapping(target = "favourites", source = "favourites", qualifiedByName = "propertyListToUuidList")
     @Mapping(target = "properties", source = "properties", qualifiedByName = "propertyListToUuidList")
     TenantDto toDto(TenantEntity entity);
+
+    // Remove the qualifiers since both source and target are List<UUID>
+    TenantResponseDto toResponseDto(TenantDto dto);
 
     @Mapping(target = "favourites", source = "favourites", qualifiedByName = "uuidListToPropertyList")
     @Mapping(target = "properties", source = "properties", qualifiedByName = "uuidListToPropertyList")
@@ -41,8 +45,6 @@ public interface TenantMapper {
     default List<PropertyEntity> uuidListToPropertyList(List<UUID> uuids) {
         if (uuids == null)
             return Collections.emptyList();
-        // You may want to fetch entities from DB here in a real app
-        // For now, just create empty PropertyEntity with id set
         return uuids.stream()
                 .map(id -> {
                     PropertyEntity entity = new PropertyEntity();

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { env } from '@/env';
-import type { user, tokens, role } from '../../../-types';
+import type { user, tokens, role, userProperties } from '../../../-types';
 
 export type loginFormTenantProps = {
   email: string;
@@ -10,7 +10,7 @@ export type loginFormTenantProps = {
 export type loginFormTenantResponse = {
   success: boolean;
   message: string;
-  user: user;
+  user: user & userProperties;
   tokens: tokens;
   role: role;
 };
