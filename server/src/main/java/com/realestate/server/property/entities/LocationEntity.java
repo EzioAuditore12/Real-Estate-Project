@@ -3,7 +3,7 @@ package com.realestate.server.property.entities;
 import java.util.List;
 import java.util.UUID;
 
-import org.locationtech.jts.geom.Point;
+import com.realestate.server.common.dto.CoordinatesDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,11 +35,10 @@ public class LocationEntity {
     @Column(length = 20, nullable = false)
     private String postalCode;
 
-   /* 
-   TODO: Need to find alternative to this
-   @Column(columnDefinition = "geography(Point,4326)", nullable = false)
-    private Point coordinates;
-    */
+    // This will automatically use your converter
+    @Column(name = "coordinates", columnDefinition = "TEXT")
+    private CoordinatesDto coordinates;
+
     @OneToMany(mappedBy = "locationId")
     private List<PropertyEntity> properties;
 }

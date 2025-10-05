@@ -13,10 +13,11 @@ export const Route = createFileRoute('/dashboard/tenant/')({
 function RouteComponent() {
   const { data } = useSuspenseQuery(tenantProfileQuery);
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="p-2 w-full">
       <TenantDetails
         tenant={data}
         showEditButton={true}
+        className=""
         onEdit={() => {
           // Handle edit action
           console.log('Edit tenant profile');

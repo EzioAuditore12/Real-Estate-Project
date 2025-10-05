@@ -13,6 +13,7 @@ import { Route as DashboardLayoutRouteImport } from './app/dashboard/layout'
 import { Route as nondashboardLayoutRouteImport } from './app/(nondashboard)/layout'
 import { Route as authLayoutRouteImport } from './app/(auth)/layout'
 import { Route as PageRouteImport } from './app/page'
+import { Route as DashboardTenantLayoutRouteImport } from './app/dashboard/tenant/layout'
 import { Route as DashboardTenantPageRouteImport } from './app/dashboard/tenant/page'
 import { Route as DashboardManagerPageRouteImport } from './app/dashboard/manager/page'
 import { Route as nondashboardLandingPageRouteImport } from './app/(nondashboard)/landing/page'
@@ -20,6 +21,13 @@ import { Route as authRegisterTenantPageRouteImport } from './app/(auth)/registe
 import { Route as authRegisterManagerPageRouteImport } from './app/(auth)/register/manager/page'
 import { Route as authLoginTenantPageRouteImport } from './app/(auth)/login/tenant/page'
 import { Route as authLoginManagerPageRouteImport } from './app/(auth)/login/manager/page'
+import { Route as DashboardTenantsectionsSettingsPageRouteImport } from './app/dashboard/tenant/(sections)/settings/page'
+import { Route as DashboardTenantsectionsResidencesPageRouteImport } from './app/dashboard/tenant/(sections)/residences/page'
+import { Route as DashboardTenantsectionsFavouritesPageRouteImport } from './app/dashboard/tenant/(sections)/favourites/page'
+import { Route as DashboardTenantsectionsApplicationsPageRouteImport } from './app/dashboard/tenant/(sections)/applications/page'
+import { Route as DashboardTenantsectionsResidencesIdRouteImport } from './app/dashboard/tenant/(sections)/residences/$id'
+import { Route as DashboardTenantsectionsFavouritesIdRouteImport } from './app/dashboard/tenant/(sections)/favourites/$id'
+import { Route as DashboardTenantsectionsApplicationsIdRouteImport } from './app/dashboard/tenant/(sections)/applications/$id'
 
 const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
   id: '/dashboard',
@@ -39,10 +47,15 @@ const PageRoute = PageRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardTenantPageRoute = DashboardTenantPageRouteImport.update({
-  id: '/tenant/',
-  path: '/tenant/',
+const DashboardTenantLayoutRoute = DashboardTenantLayoutRouteImport.update({
+  id: '/tenant',
+  path: '/tenant',
   getParentRoute: () => DashboardLayoutRoute,
+} as any)
+const DashboardTenantPageRoute = DashboardTenantPageRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardTenantLayoutRoute,
 } as any)
 const DashboardManagerPageRoute = DashboardManagerPageRouteImport.update({
   id: '/manager/',
@@ -74,17 +87,67 @@ const authLoginManagerPageRoute = authLoginManagerPageRouteImport.update({
   path: '/login/manager/',
   getParentRoute: () => authLayoutRoute,
 } as any)
+const DashboardTenantsectionsSettingsPageRoute =
+  DashboardTenantsectionsSettingsPageRouteImport.update({
+    id: '/(sections)/settings/',
+    path: '/settings/',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
+const DashboardTenantsectionsResidencesPageRoute =
+  DashboardTenantsectionsResidencesPageRouteImport.update({
+    id: '/(sections)/residences/',
+    path: '/residences/',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
+const DashboardTenantsectionsFavouritesPageRoute =
+  DashboardTenantsectionsFavouritesPageRouteImport.update({
+    id: '/(sections)/favourites/',
+    path: '/favourites/',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
+const DashboardTenantsectionsApplicationsPageRoute =
+  DashboardTenantsectionsApplicationsPageRouteImport.update({
+    id: '/(sections)/applications/',
+    path: '/applications/',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
+const DashboardTenantsectionsResidencesIdRoute =
+  DashboardTenantsectionsResidencesIdRouteImport.update({
+    id: '/(sections)/residences/$id',
+    path: '/residences/$id',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
+const DashboardTenantsectionsFavouritesIdRoute =
+  DashboardTenantsectionsFavouritesIdRouteImport.update({
+    id: '/(sections)/favourites/$id',
+    path: '/favourites/$id',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
+const DashboardTenantsectionsApplicationsIdRoute =
+  DashboardTenantsectionsApplicationsIdRouteImport.update({
+    id: '/(sections)/applications/$id',
+    path: '/applications/$id',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof nondashboardLayoutRouteWithChildren
   '/dashboard': typeof DashboardLayoutRouteWithChildren
+  '/dashboard/tenant': typeof DashboardTenantLayoutRouteWithChildren
   '/landing': typeof nondashboardLandingPageRoute
   '/dashboard/manager': typeof DashboardManagerPageRoute
-  '/dashboard/tenant': typeof DashboardTenantPageRoute
+  '/dashboard/tenant/': typeof DashboardTenantPageRoute
   '/login/manager': typeof authLoginManagerPageRoute
   '/login/tenant': typeof authLoginTenantPageRoute
   '/register/manager': typeof authRegisterManagerPageRoute
   '/register/tenant': typeof authRegisterTenantPageRoute
+  '/dashboard/tenant/applications/$id': typeof DashboardTenantsectionsApplicationsIdRoute
+  '/dashboard/tenant/favourites/$id': typeof DashboardTenantsectionsFavouritesIdRoute
+  '/dashboard/tenant/residences/$id': typeof DashboardTenantsectionsResidencesIdRoute
+  '/dashboard/tenant/applications': typeof DashboardTenantsectionsApplicationsPageRoute
+  '/dashboard/tenant/favourites': typeof DashboardTenantsectionsFavouritesPageRoute
+  '/dashboard/tenant/residences': typeof DashboardTenantsectionsResidencesPageRoute
+  '/dashboard/tenant/settings': typeof DashboardTenantsectionsSettingsPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof nondashboardLayoutRouteWithChildren
@@ -96,6 +159,13 @@ export interface FileRoutesByTo {
   '/login/tenant': typeof authLoginTenantPageRoute
   '/register/manager': typeof authRegisterManagerPageRoute
   '/register/tenant': typeof authRegisterTenantPageRoute
+  '/dashboard/tenant/applications/$id': typeof DashboardTenantsectionsApplicationsIdRoute
+  '/dashboard/tenant/favourites/$id': typeof DashboardTenantsectionsFavouritesIdRoute
+  '/dashboard/tenant/residences/$id': typeof DashboardTenantsectionsResidencesIdRoute
+  '/dashboard/tenant/applications': typeof DashboardTenantsectionsApplicationsPageRoute
+  '/dashboard/tenant/favourites': typeof DashboardTenantsectionsFavouritesPageRoute
+  '/dashboard/tenant/residences': typeof DashboardTenantsectionsResidencesPageRoute
+  '/dashboard/tenant/settings': typeof DashboardTenantsectionsSettingsPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -103,6 +173,7 @@ export interface FileRoutesById {
   '/(auth)': typeof authLayoutRouteWithChildren
   '/(nondashboard)': typeof nondashboardLayoutRouteWithChildren
   '/dashboard': typeof DashboardLayoutRouteWithChildren
+  '/dashboard/tenant': typeof DashboardTenantLayoutRouteWithChildren
   '/(nondashboard)/landing/': typeof nondashboardLandingPageRoute
   '/dashboard/manager/': typeof DashboardManagerPageRoute
   '/dashboard/tenant/': typeof DashboardTenantPageRoute
@@ -110,19 +181,34 @@ export interface FileRoutesById {
   '/(auth)/login/tenant/': typeof authLoginTenantPageRoute
   '/(auth)/register/manager/': typeof authRegisterManagerPageRoute
   '/(auth)/register/tenant/': typeof authRegisterTenantPageRoute
+  '/dashboard/tenant/(sections)/applications/$id': typeof DashboardTenantsectionsApplicationsIdRoute
+  '/dashboard/tenant/(sections)/favourites/$id': typeof DashboardTenantsectionsFavouritesIdRoute
+  '/dashboard/tenant/(sections)/residences/$id': typeof DashboardTenantsectionsResidencesIdRoute
+  '/dashboard/tenant/(sections)/applications/': typeof DashboardTenantsectionsApplicationsPageRoute
+  '/dashboard/tenant/(sections)/favourites/': typeof DashboardTenantsectionsFavouritesPageRoute
+  '/dashboard/tenant/(sections)/residences/': typeof DashboardTenantsectionsResidencesPageRoute
+  '/dashboard/tenant/(sections)/settings/': typeof DashboardTenantsectionsSettingsPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/dashboard/tenant'
     | '/landing'
     | '/dashboard/manager'
-    | '/dashboard/tenant'
+    | '/dashboard/tenant/'
     | '/login/manager'
     | '/login/tenant'
     | '/register/manager'
     | '/register/tenant'
+    | '/dashboard/tenant/applications/$id'
+    | '/dashboard/tenant/favourites/$id'
+    | '/dashboard/tenant/residences/$id'
+    | '/dashboard/tenant/applications'
+    | '/dashboard/tenant/favourites'
+    | '/dashboard/tenant/residences'
+    | '/dashboard/tenant/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -134,12 +220,20 @@ export interface FileRouteTypes {
     | '/login/tenant'
     | '/register/manager'
     | '/register/tenant'
+    | '/dashboard/tenant/applications/$id'
+    | '/dashboard/tenant/favourites/$id'
+    | '/dashboard/tenant/residences/$id'
+    | '/dashboard/tenant/applications'
+    | '/dashboard/tenant/favourites'
+    | '/dashboard/tenant/residences'
+    | '/dashboard/tenant/settings'
   id:
     | '__root__'
     | '/'
     | '/(auth)'
     | '/(nondashboard)'
     | '/dashboard'
+    | '/dashboard/tenant'
     | '/(nondashboard)/landing/'
     | '/dashboard/manager/'
     | '/dashboard/tenant/'
@@ -147,6 +241,13 @@ export interface FileRouteTypes {
     | '/(auth)/login/tenant/'
     | '/(auth)/register/manager/'
     | '/(auth)/register/tenant/'
+    | '/dashboard/tenant/(sections)/applications/$id'
+    | '/dashboard/tenant/(sections)/favourites/$id'
+    | '/dashboard/tenant/(sections)/residences/$id'
+    | '/dashboard/tenant/(sections)/applications/'
+    | '/dashboard/tenant/(sections)/favourites/'
+    | '/dashboard/tenant/(sections)/residences/'
+    | '/dashboard/tenant/(sections)/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -186,12 +287,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/tenant/': {
-      id: '/dashboard/tenant/'
+    '/dashboard/tenant': {
+      id: '/dashboard/tenant'
       path: '/tenant'
       fullPath: '/dashboard/tenant'
-      preLoaderRoute: typeof DashboardTenantPageRouteImport
+      preLoaderRoute: typeof DashboardTenantLayoutRouteImport
       parentRoute: typeof DashboardLayoutRoute
+    }
+    '/dashboard/tenant/': {
+      id: '/dashboard/tenant/'
+      path: '/'
+      fullPath: '/dashboard/tenant/'
+      preLoaderRoute: typeof DashboardTenantPageRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
     }
     '/dashboard/manager/': {
       id: '/dashboard/manager/'
@@ -235,6 +343,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginManagerPageRouteImport
       parentRoute: typeof authLayoutRoute
     }
+    '/dashboard/tenant/(sections)/settings/': {
+      id: '/dashboard/tenant/(sections)/settings/'
+      path: '/settings'
+      fullPath: '/dashboard/tenant/settings'
+      preLoaderRoute: typeof DashboardTenantsectionsSettingsPageRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
+    '/dashboard/tenant/(sections)/residences/': {
+      id: '/dashboard/tenant/(sections)/residences/'
+      path: '/residences'
+      fullPath: '/dashboard/tenant/residences'
+      preLoaderRoute: typeof DashboardTenantsectionsResidencesPageRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
+    '/dashboard/tenant/(sections)/favourites/': {
+      id: '/dashboard/tenant/(sections)/favourites/'
+      path: '/favourites'
+      fullPath: '/dashboard/tenant/favourites'
+      preLoaderRoute: typeof DashboardTenantsectionsFavouritesPageRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
+    '/dashboard/tenant/(sections)/applications/': {
+      id: '/dashboard/tenant/(sections)/applications/'
+      path: '/applications'
+      fullPath: '/dashboard/tenant/applications'
+      preLoaderRoute: typeof DashboardTenantsectionsApplicationsPageRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
+    '/dashboard/tenant/(sections)/residences/$id': {
+      id: '/dashboard/tenant/(sections)/residences/$id'
+      path: '/residences/$id'
+      fullPath: '/dashboard/tenant/residences/$id'
+      preLoaderRoute: typeof DashboardTenantsectionsResidencesIdRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
+    '/dashboard/tenant/(sections)/favourites/$id': {
+      id: '/dashboard/tenant/(sections)/favourites/$id'
+      path: '/favourites/$id'
+      fullPath: '/dashboard/tenant/favourites/$id'
+      preLoaderRoute: typeof DashboardTenantsectionsFavouritesIdRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
+    '/dashboard/tenant/(sections)/applications/$id': {
+      id: '/dashboard/tenant/(sections)/applications/$id'
+      path: '/applications/$id'
+      fullPath: '/dashboard/tenant/applications/$id'
+      preLoaderRoute: typeof DashboardTenantsectionsApplicationsIdRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
   }
 }
 
@@ -267,14 +424,48 @@ const nondashboardLayoutRouteChildren: nondashboardLayoutRouteChildren = {
 const nondashboardLayoutRouteWithChildren =
   nondashboardLayoutRoute._addFileChildren(nondashboardLayoutRouteChildren)
 
-interface DashboardLayoutRouteChildren {
-  DashboardManagerPageRoute: typeof DashboardManagerPageRoute
+interface DashboardTenantLayoutRouteChildren {
   DashboardTenantPageRoute: typeof DashboardTenantPageRoute
+  DashboardTenantsectionsApplicationsIdRoute: typeof DashboardTenantsectionsApplicationsIdRoute
+  DashboardTenantsectionsFavouritesIdRoute: typeof DashboardTenantsectionsFavouritesIdRoute
+  DashboardTenantsectionsResidencesIdRoute: typeof DashboardTenantsectionsResidencesIdRoute
+  DashboardTenantsectionsApplicationsPageRoute: typeof DashboardTenantsectionsApplicationsPageRoute
+  DashboardTenantsectionsFavouritesPageRoute: typeof DashboardTenantsectionsFavouritesPageRoute
+  DashboardTenantsectionsResidencesPageRoute: typeof DashboardTenantsectionsResidencesPageRoute
+  DashboardTenantsectionsSettingsPageRoute: typeof DashboardTenantsectionsSettingsPageRoute
+}
+
+const DashboardTenantLayoutRouteChildren: DashboardTenantLayoutRouteChildren = {
+  DashboardTenantPageRoute: DashboardTenantPageRoute,
+  DashboardTenantsectionsApplicationsIdRoute:
+    DashboardTenantsectionsApplicationsIdRoute,
+  DashboardTenantsectionsFavouritesIdRoute:
+    DashboardTenantsectionsFavouritesIdRoute,
+  DashboardTenantsectionsResidencesIdRoute:
+    DashboardTenantsectionsResidencesIdRoute,
+  DashboardTenantsectionsApplicationsPageRoute:
+    DashboardTenantsectionsApplicationsPageRoute,
+  DashboardTenantsectionsFavouritesPageRoute:
+    DashboardTenantsectionsFavouritesPageRoute,
+  DashboardTenantsectionsResidencesPageRoute:
+    DashboardTenantsectionsResidencesPageRoute,
+  DashboardTenantsectionsSettingsPageRoute:
+    DashboardTenantsectionsSettingsPageRoute,
+}
+
+const DashboardTenantLayoutRouteWithChildren =
+  DashboardTenantLayoutRoute._addFileChildren(
+    DashboardTenantLayoutRouteChildren,
+  )
+
+interface DashboardLayoutRouteChildren {
+  DashboardTenantLayoutRoute: typeof DashboardTenantLayoutRouteWithChildren
+  DashboardManagerPageRoute: typeof DashboardManagerPageRoute
 }
 
 const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
+  DashboardTenantLayoutRoute: DashboardTenantLayoutRouteWithChildren,
   DashboardManagerPageRoute: DashboardManagerPageRoute,
-  DashboardTenantPageRoute: DashboardTenantPageRoute,
 }
 
 const DashboardLayoutRouteWithChildren = DashboardLayoutRoute._addFileChildren(

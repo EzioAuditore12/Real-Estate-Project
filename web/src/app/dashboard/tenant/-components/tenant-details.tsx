@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { User, Mail, Phone, Calendar, Edit, Heart, Home } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface TenantDetailsProps {
   tenant: {
@@ -40,7 +41,7 @@ export function TenantDetails({
     .slice(0, 2);
 
   return (
-    <Card className={`w-full max-w-2xl ${className}`}>
+    <Card className={cn('w-full', className)}>
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-2xl font-bold">Tenant Profile</CardTitle>
