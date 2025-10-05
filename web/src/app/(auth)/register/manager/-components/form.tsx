@@ -5,24 +5,25 @@ import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
 import {
-  tenantLoginFormValidator,
-  type tenantLoginInputs,
-} from '../-validators';
+  managerRegisterationFormValidator,
+  type managerRegisterationFromInputs,
+} from '../-validators/index';
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
-  handleSubmit: (data: tenantLoginInputs) => void;
+  handleSubmit: (data: managerRegisterationFromInputs) => void;
   isRequestPending: boolean;
 }
 
-export function TenantLoginForm({
+export function ManagerRegisterForm({
   className,
   handleSubmit,
   isRequestPending,
   ...props
 }: Readonly<ManagerLoginFormProps>) {
   const LoginForm = useAppForm({
-    validators: { onChange: tenantLoginFormValidator },
+    validators: { onChange: managerRegisterationFormValidator },
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
@@ -43,13 +44,13 @@ export function TenantLoginForm({
       }}
       {...props}
     >
+      <LoginForm.AppField name="name">
+        {(field) => <field.TextField className="mt-2" placeholder="name" />}
+      </LoginForm.AppField>
+
       <LoginForm.AppField name="email">
         {(field) => (
-          <field.TextField
-            className="mt-2"
-            placeholder="name@example.com"
-            type="email"
-          />
+          <field.TextField className="mt-2" placeholder="name@example.com" />
         )}
       </LoginForm.AppField>
 
@@ -58,7 +59,7 @@ export function TenantLoginForm({
       </LoginForm.AppField>
 
       <Button type="submit" className="w-full" disabled={isRequestPending}>
-        {isRequestPending ? 'Logging In...' : 'Login'}
+        {isRequestPending ? 'Registering...' : 'Register'}
       </Button>
     </form>
   );

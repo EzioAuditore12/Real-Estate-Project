@@ -1,38 +1,16 @@
 import './index.css';
-import { RouterProvider, createRouter } from '@tanstack/react-router';
-import { QueryClient } from '@tanstack/react-query'
-import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query'
+import { RouterProvider } from '@tanstack/react-router';
 
-import { routeTree } from './routeTree.gen';
+import { getRouter } from './hooks/get-router';
 
-const router = ()=>{
-   const queryClient = new QueryClient()
-    const tanstackRouter = createRouter({
-    routeTree,
-    // optionally expose the QueryClient via router context
-    context: { queryClient },
-    scrollRestoration: true,
-    defaultPreload: 'intent',
-  })
-
-  setupRouterSsrQueryIntegration({
-    router: tanstackRouter,
-    queryClient,
-    // optional:
-    // handleRedirects: true,
-    // wrapQueryClient: true,
-  })
-
-  return tanstackRouter
-}
-
+// Fix: Use ReturnType to get the type of the router instance
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router;
+    router: ReturnType<typeof getRouter>;
   }
 }
 
 export default function App() {
-  const tanstackRouter = router();
-  return <RouterProvider router={tanstackRouter} />;
+  const router = getRouter();
+  return <RouterProvider router={router} />;
 }

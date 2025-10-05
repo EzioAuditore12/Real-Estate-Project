@@ -3,15 +3,15 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { H1, P } from '@/components/ui/typography';
 import { Card, CardContent } from '@/components/ui/card';
 
-import { TenantLoginForm } from './-components/form';
-import { useTenantLoginForm } from './-hooks/use-tenant-login-form';
+import { ManagerRegisterForm } from './-components/form';
+import { useManagerRegisterationForm } from './-hooks/use-manager-register-form';
 
-export const Route = createFileRoute('/(auth)/login/tenant/')({
+export const Route = createFileRoute('/(auth)/register/manager/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { mutate, isPending } = useTenantLoginForm();
+  const { mutate, isPending } = useManagerRegisterationForm();
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-4 bg-gradient-to-br from-background to-muted/20">
@@ -25,31 +25,31 @@ function RouteComponent() {
 
         <Card className="border-0 shadow-lg">
           <CardContent className="pt-6">
-            <TenantLoginForm
+            <ManagerRegisterForm
               handleSubmit={mutate}
               isRequestPending={isPending}
             />
           </CardContent>
         </Card>
 
-        <div className="text-center">
+        <div className="text-center space-y-2">
+          <P className="text-sm text-muted-foreground">
+            Already have an account?{' '}
+            <Link
+              to="/login/manager"
+              className="font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
+            >
+              Sign in here
+            </Link>
+          </P>
+
           <P className="text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Link
               to="/register/tenant"
               className="font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
             >
-              Sign up here
-            </Link>
-          </P>
-
-          <P className="text-sm text-muted-foreground mt-2">
-            Or sign in as a{' '}
-            <Link
-              to="/login/manager"
-              className="font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
-            >
-              Manager
+              Register as tenant
             </Link>
           </P>
         </div>

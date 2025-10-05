@@ -9,18 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './app/__root'
-import { Route as AboutRouteImport } from './app/about'
+import { Route as DashboardLayoutRouteImport } from './app/dashboard/layout'
 import { Route as nondashboardLayoutRouteImport } from './app/(nondashboard)/layout'
 import { Route as authLayoutRouteImport } from './app/(auth)/layout'
 import { Route as PageRouteImport } from './app/page'
+import { Route as DashboardTenantPageRouteImport } from './app/dashboard/tenant/page'
+import { Route as DashboardManagerPageRouteImport } from './app/dashboard/manager/page'
 import { Route as nondashboardLandingPageRouteImport } from './app/(nondashboard)/landing/page'
-import { Route as authRegisterPageRouteImport } from './app/(auth)/register/page'
+import { Route as authRegisterTenantPageRouteImport } from './app/(auth)/register/tenant/page'
+import { Route as authRegisterManagerPageRouteImport } from './app/(auth)/register/manager/page'
 import { Route as authLoginTenantPageRouteImport } from './app/(auth)/login/tenant/page'
 import { Route as authLoginManagerPageRouteImport } from './app/(auth)/login/manager/page'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const nondashboardLayoutRoute = nondashboardLayoutRouteImport.update({
@@ -36,14 +39,29 @@ const PageRoute = PageRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardTenantPageRoute = DashboardTenantPageRouteImport.update({
+  id: '/tenant/',
+  path: '/tenant/',
+  getParentRoute: () => DashboardLayoutRoute,
+} as any)
+const DashboardManagerPageRoute = DashboardManagerPageRouteImport.update({
+  id: '/manager/',
+  path: '/manager/',
+  getParentRoute: () => DashboardLayoutRoute,
+} as any)
 const nondashboardLandingPageRoute = nondashboardLandingPageRouteImport.update({
   id: '/landing/',
   path: '/landing/',
   getParentRoute: () => nondashboardLayoutRoute,
 } as any)
-const authRegisterPageRoute = authRegisterPageRouteImport.update({
-  id: '/register/',
-  path: '/register/',
+const authRegisterTenantPageRoute = authRegisterTenantPageRouteImport.update({
+  id: '/register/tenant/',
+  path: '/register/tenant/',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authRegisterManagerPageRoute = authRegisterManagerPageRouteImport.update({
+  id: '/register/manager/',
+  path: '/register/manager/',
   getParentRoute: () => authLayoutRoute,
 } as any)
 const authLoginTenantPageRoute = authLoginTenantPageRouteImport.update({
@@ -59,74 +77,92 @@ const authLoginManagerPageRoute = authLoginManagerPageRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof nondashboardLayoutRouteWithChildren
-  '/about': typeof AboutRoute
-  '/register': typeof authRegisterPageRoute
+  '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/landing': typeof nondashboardLandingPageRoute
+  '/dashboard/manager': typeof DashboardManagerPageRoute
+  '/dashboard/tenant': typeof DashboardTenantPageRoute
   '/login/manager': typeof authLoginManagerPageRoute
   '/login/tenant': typeof authLoginTenantPageRoute
+  '/register/manager': typeof authRegisterManagerPageRoute
+  '/register/tenant': typeof authRegisterTenantPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof nondashboardLayoutRouteWithChildren
-  '/about': typeof AboutRoute
-  '/register': typeof authRegisterPageRoute
+  '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/landing': typeof nondashboardLandingPageRoute
+  '/dashboard/manager': typeof DashboardManagerPageRoute
+  '/dashboard/tenant': typeof DashboardTenantPageRoute
   '/login/manager': typeof authLoginManagerPageRoute
   '/login/tenant': typeof authLoginTenantPageRoute
+  '/register/manager': typeof authRegisterManagerPageRoute
+  '/register/tenant': typeof authRegisterTenantPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof PageRoute
   '/(auth)': typeof authLayoutRouteWithChildren
   '/(nondashboard)': typeof nondashboardLayoutRouteWithChildren
-  '/about': typeof AboutRoute
-  '/(auth)/register/': typeof authRegisterPageRoute
+  '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/(nondashboard)/landing/': typeof nondashboardLandingPageRoute
+  '/dashboard/manager/': typeof DashboardManagerPageRoute
+  '/dashboard/tenant/': typeof DashboardTenantPageRoute
   '/(auth)/login/manager/': typeof authLoginManagerPageRoute
   '/(auth)/login/tenant/': typeof authLoginTenantPageRoute
+  '/(auth)/register/manager/': typeof authRegisterManagerPageRoute
+  '/(auth)/register/tenant/': typeof authRegisterTenantPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
-    | '/register'
+    | '/dashboard'
     | '/landing'
+    | '/dashboard/manager'
+    | '/dashboard/tenant'
     | '/login/manager'
     | '/login/tenant'
+    | '/register/manager'
+    | '/register/tenant'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
-    | '/register'
+    | '/dashboard'
     | '/landing'
+    | '/dashboard/manager'
+    | '/dashboard/tenant'
     | '/login/manager'
     | '/login/tenant'
+    | '/register/manager'
+    | '/register/tenant'
   id:
     | '__root__'
     | '/'
     | '/(auth)'
     | '/(nondashboard)'
-    | '/about'
-    | '/(auth)/register/'
+    | '/dashboard'
     | '/(nondashboard)/landing/'
+    | '/dashboard/manager/'
+    | '/dashboard/tenant/'
     | '/(auth)/login/manager/'
     | '/(auth)/login/tenant/'
+    | '/(auth)/register/manager/'
+    | '/(auth)/register/tenant/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   PageRoute: typeof PageRoute
   authLayoutRoute: typeof authLayoutRouteWithChildren
   nondashboardLayoutRoute: typeof nondashboardLayoutRouteWithChildren
-  AboutRoute: typeof AboutRoute
+  DashboardLayoutRoute: typeof DashboardLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(nondashboard)': {
@@ -150,6 +186,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/tenant/': {
+      id: '/dashboard/tenant/'
+      path: '/tenant'
+      fullPath: '/dashboard/tenant'
+      preLoaderRoute: typeof DashboardTenantPageRouteImport
+      parentRoute: typeof DashboardLayoutRoute
+    }
+    '/dashboard/manager/': {
+      id: '/dashboard/manager/'
+      path: '/manager'
+      fullPath: '/dashboard/manager'
+      preLoaderRoute: typeof DashboardManagerPageRouteImport
+      parentRoute: typeof DashboardLayoutRoute
+    }
     '/(nondashboard)/landing/': {
       id: '/(nondashboard)/landing/'
       path: '/landing'
@@ -157,11 +207,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof nondashboardLandingPageRouteImport
       parentRoute: typeof nondashboardLayoutRoute
     }
-    '/(auth)/register/': {
-      id: '/(auth)/register/'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof authRegisterPageRouteImport
+    '/(auth)/register/tenant/': {
+      id: '/(auth)/register/tenant/'
+      path: '/register/tenant'
+      fullPath: '/register/tenant'
+      preLoaderRoute: typeof authRegisterTenantPageRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/register/manager/': {
+      id: '/(auth)/register/manager/'
+      path: '/register/manager'
+      fullPath: '/register/manager'
+      preLoaderRoute: typeof authRegisterManagerPageRouteImport
       parentRoute: typeof authLayoutRoute
     }
     '/(auth)/login/tenant/': {
@@ -182,15 +239,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface authLayoutRouteChildren {
-  authRegisterPageRoute: typeof authRegisterPageRoute
   authLoginManagerPageRoute: typeof authLoginManagerPageRoute
   authLoginTenantPageRoute: typeof authLoginTenantPageRoute
+  authRegisterManagerPageRoute: typeof authRegisterManagerPageRoute
+  authRegisterTenantPageRoute: typeof authRegisterTenantPageRoute
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
-  authRegisterPageRoute: authRegisterPageRoute,
   authLoginManagerPageRoute: authLoginManagerPageRoute,
   authLoginTenantPageRoute: authLoginTenantPageRoute,
+  authRegisterManagerPageRoute: authRegisterManagerPageRoute,
+  authRegisterTenantPageRoute: authRegisterTenantPageRoute,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
@@ -208,11 +267,25 @@ const nondashboardLayoutRouteChildren: nondashboardLayoutRouteChildren = {
 const nondashboardLayoutRouteWithChildren =
   nondashboardLayoutRoute._addFileChildren(nondashboardLayoutRouteChildren)
 
+interface DashboardLayoutRouteChildren {
+  DashboardManagerPageRoute: typeof DashboardManagerPageRoute
+  DashboardTenantPageRoute: typeof DashboardTenantPageRoute
+}
+
+const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
+  DashboardManagerPageRoute: DashboardManagerPageRoute,
+  DashboardTenantPageRoute: DashboardTenantPageRoute,
+}
+
+const DashboardLayoutRouteWithChildren = DashboardLayoutRoute._addFileChildren(
+  DashboardLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   PageRoute: PageRoute,
   authLayoutRoute: authLayoutRouteWithChildren,
   nondashboardLayoutRoute: nondashboardLayoutRouteWithChildren,
-  AboutRoute: AboutRoute,
+  DashboardLayoutRoute: DashboardLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

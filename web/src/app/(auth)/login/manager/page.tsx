@@ -1,18 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 
-import { H1, P } from "@/components/ui/typography";
-import { Card, CardContent, } from "@/components/ui/card";
+import { H1, P } from '@/components/ui/typography';
+import { Card, CardContent } from '@/components/ui/card';
 
-import { ManagerLoginForm } from "./-components/form"
-import { useManagerLoginForm } from "./-hooks/use-manager-login-form"
+import { ManagerLoginForm } from './-components/form';
+import { useManagerLoginForm } from './-hooks/use-manager-login-form';
 
 export const Route = createFileRoute('/(auth)/login/manager/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-
-  const {mutate, isPending} = useManagerLoginForm()
+  const { mutate, isPending } = useManagerLoginForm();
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-4 bg-gradient-to-br from-background to-muted/20">
@@ -27,24 +26,34 @@ function RouteComponent() {
         <Card className="border-0 shadow-lg">
           <CardContent className="pt-6">
             <ManagerLoginForm
-                handleSubmit={mutate}
-                isRequestPending={isPending}
+              handleSubmit={mutate}
+              isRequestPending={isPending}
             />
           </CardContent>
         </Card>
 
         <div className="text-center">
           <P className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <Link
-              to='/register'
+              to="/register/tenant"
               className="font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
             >
               Sign up here
             </Link>
           </P>
+
+          <P className="text-sm text-muted-foreground mt-2">
+            Or sign in as a{' '}
+            <Link
+              to="/login/tenant"
+              className="font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
+            >
+              Tenant
+            </Link>
+          </P>
         </div>
       </div>
     </div>
-  )
+  );
 }

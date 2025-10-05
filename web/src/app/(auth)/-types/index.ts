@@ -9,4 +9,4 @@ export type tokens = {
   refreshToken: string;
 };
 
-export type role = "TENANT" | "MANAGER";
+export type role = 'TENANT' | 'MANAGER';

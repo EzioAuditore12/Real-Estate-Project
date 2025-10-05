@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import { loginFormTenantApi } from '../-api/login-form-tenant.api';
+import { registerFormTenantApi } from '../-api/register-form-tenant.api';
 import { useAuthStore } from '@/store';
 
-export function useTenantLoginForm() {
+export function useTenantRegisterationForm() {
   const { setUserDetails, setUserTokens, setUserRole } = useAuthStore(
     (state) => state,
   );
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: loginFormTenantApi,
+    mutationFn: registerFormTenantApi,
     onSuccess: (data) => {
       setUserDetails(data.user);
       setUserTokens(data.tokens);

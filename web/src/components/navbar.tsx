@@ -1,9 +1,15 @@
 import { NAVBAR_HEIGHT } from '@/lib/constants';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { NavbarLogo } from './logo';
 import { Button } from '@/components/ui/button';
+import { useAuthStore } from '@/store';
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 
 export function Navbar() {
+  const { user, logout } = useAuthStore((state) => state);
+
+  const navigate = useNavigate();
+
   return (
     <div
       className="fixed top-0 left-0 w-full z-50 shadow-xl"
@@ -20,24 +26,49 @@ export function Navbar() {
           </p>
         </div>
 
-        {/* Auth Buttons */}
         <div className="ml-auto flex items-center gap-5">
-          <Link to={'/login/tenant'}>
-            <Button
-              variant="outline"
-              className="text-white border-white bg-transparent hover:bg-white hover:text-[#27272a] rounded-lg"
-            >
-              Sign In
-            </Button>
-          </Link>
-          <Link to={'/register'}>
-            <Button
-              variant="secondary"
-              className="text-white bg-secondary-600 hover:bg-red-500 hover:text- rounded-lg"
-            >
-              Sign Up
-            </Button>
-          </Link>
+          {user ? (
+            <>
+              <Avatar
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate({ to: '/dashboard' });
+                }}
+              >
+                <AvatarImage />
+                <AvatarFallback>RS</AvatarFallback>
+              </Avatar>
+
+              <Button
+                variant={'destructive'}
+                onClick={() => {
+                  logout();
+                  navigate({ to: '/login/tenant', replace: true });
+                }}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to={'/login/tenant'}>
+                <Button
+                  variant="outline"
+                  className="text-white border-white bg-transparent hover:bg-white hover:text-[#27272a] rounded-lg"
+                >
+                  Sign In
+                </Button>
+              </Link>
+              <Link to={'/register/tenant'}>
+                <Button
+                  variant="secondary"
+                  className="text-white bg-secondary-600 hover:bg-red-500 hover:text- rounded-lg"
+                >
+                  Sign Up
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

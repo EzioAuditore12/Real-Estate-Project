@@ -1,18 +1,18 @@
-import { type AnyFieldMeta } from "@tanstack/react-form";
-import { type ComponentProps } from "react";
-import { ZodError } from "zod";
+import { type AnyFieldMeta } from '@tanstack/react-form';
+import { type ComponentProps } from 'react';
+import { ZodError } from 'zod';
 
 type FieldErrorProps = {
-	meta: AnyFieldMeta;
-} & ComponentProps<"p">;
+  meta: AnyFieldMeta;
+} & ComponentProps<'p'>;
 
 export const FieldError = ({ meta, ...props }: FieldErrorProps) => {
-	if (!meta.isTouched) {
-		return null;
-	}
-	return meta.errors.map(({ message }: ZodError, index) => (
-		<p key={index} className="text-red-500" {...props}>
-			{message}
-		</p>
-	));
+  if (!meta.isTouched) {
+    return null;
+  }
+  return meta.errors.map(({ message }: ZodError, index) => (
+    <p key={index} className="text-red-500" {...props}>
+      {message}
+    </p>
+  ));
 };
