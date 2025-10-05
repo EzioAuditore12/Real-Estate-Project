@@ -3,14 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Calendar,
-  Edit,
-  Home
-} from 'lucide-react';
+import { User, Mail, Phone, Calendar, Edit, Home } from 'lucide-react';
 
 interface ManagerDetailsProps {
   manager: {
@@ -21,23 +14,26 @@ interface ManagerDetailsProps {
     email: string;
     phoneNumber?: string;
     createdAt?: string;
-    properties?: string[];
+    managedProperties?: string[];
   };
   showEditButton?: boolean;
   onEdit?: () => void;
   className?: string;
 }
 
-export function ManagerDetails({ 
-  manager, 
-  showEditButton = false, 
+export function ManagerDetails({
+  manager,
+  showEditButton = false,
   onEdit,
-  className = ""
+  className = '',
 }: ManagerDetailsProps) {
-  const displayName = manager.name || `${manager.firstName || ''} ${manager.lastName || ''}`.trim() || 'Unknown User';
+  const displayName =
+    manager.name ||
+    `${manager.firstName || ''} ${manager.lastName || ''}`.trim() ||
+    'Unknown User';
   const initials = displayName
     .split(' ')
-    .map(n => n[0])
+    .map((n) => n[0])
     .join('')
     .toUpperCase()
     .slice(0, 2);
@@ -55,7 +51,7 @@ export function ManagerDetails({
           )}
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-6">
         {/* Avatar and Basic Info */}
         <div className="flex items-center space-x-4">
@@ -79,7 +75,7 @@ export function ManagerDetails({
         {/* Contact Information */}
         <div className="space-y-4">
           <h4 className="text-lg font-medium">Contact Information</h4>
-          
+
           <div className="grid gap-3">
             <div className="flex items-center space-x-3">
               <Mail className="h-5 w-5 text-muted-foreground" />
@@ -118,16 +114,18 @@ export function ManagerDetails({
         {/* Statistics */}
         <div className="space-y-4">
           <h4 className="text-lg font-medium">Statistics</h4>
-          
+
           <div className="grid grid-cols-1 gap-4">
             <div className="text-center p-4 bg-muted/50 rounded-lg">
               <div className="flex items-center justify-center mb-2">
                 <Home className="h-5 w-5 text-blue-500" />
               </div>
               <p className="text-2xl font-bold">
-                {manager.properties?.length || 0}
+                {manager.managedProperties?.length || 0}
               </p>
-              <p className="text-sm text-muted-foreground">Properties Managed</p>
+              <p className="text-sm text-muted-foreground">
+                Properties Managed
+              </p>
             </div>
           </div>
         </div>

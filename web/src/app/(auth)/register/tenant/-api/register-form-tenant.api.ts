@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { env } from '@/env';
-import type { user, tokens, role, userProperties } from '../../../-types';
+import type { user, tokens, role, tenantProperties } from '../../../-types';
 
 export type registerFormTenantProps = {
   name: string;
@@ -11,7 +11,7 @@ export type registerFormTenantProps = {
 export type registerFormTenantResponse = {
   success: boolean;
   message: string;
-  user: user & userProperties;
+  user: user & tenantProperties;
   tokens: tokens;
   role: role;
 };

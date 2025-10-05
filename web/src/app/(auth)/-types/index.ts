@@ -9,9 +9,13 @@ export type tokens = {
   refreshToken: string;
 };
 
-export type userProperties = {
+export type tenantProperties = {
   favourites: Array<string>;
   properties: Array<string>;
+};
+
+export type managerManagedProperties = {
+  managedProperties: Array<string>;
 };
 
 export type role = 'TENANT' | 'MANAGER';

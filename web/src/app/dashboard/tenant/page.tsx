@@ -14,8 +14,8 @@ function RouteComponent() {
   const { data } = useSuspenseQuery(tenantProfileQuery);
   return (
     <div className="container mx-auto py-8 px-4">
-      <TenantDetails 
-        tenant={data} 
+      <TenantDetails
+        tenant={data}
         showEditButton={true}
         onEdit={() => {
           // Handle edit action

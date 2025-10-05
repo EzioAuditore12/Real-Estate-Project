@@ -1,11 +1,11 @@
-import type { user, userProperties } from '@/app/(auth)/-types';
+import type { managerManagedProperties, user } from '@/app/(auth)/-types';
 import authenticatedAxiosInstance from '@/lib/auth';
 
 type mangerProfileServiceResponse = {
   success: boolean;
   message: string;
 } & user &
-  userProperties;
+  managerManagedProperties;
 
 const url = '/manager';
 

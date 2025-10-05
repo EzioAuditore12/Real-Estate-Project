@@ -10,6 +10,7 @@ import org.mapstruct.Named;
 
 import com.realestate.server.manager.dto.CreateManagerDto;
 import com.realestate.server.manager.dto.ManagerDto;
+import com.realestate.server.manager.dto.ManagerResponseDto;
 import com.realestate.server.manager.entites.ManagerEntity;
 import com.realestate.server.property.entities.PropertyEntity;
 
@@ -22,6 +23,8 @@ public interface ManagerMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "managedProperties", ignore = true)
     ManagerEntity fromCreateDto(CreateManagerDto dto);
+
+    ManagerResponseDto tResponseDto(ManagerDto dto);
 
     @Named("propertyListToUuidList")
     default List<UUID> propertyListToUuidList(List<PropertyEntity> entities) {

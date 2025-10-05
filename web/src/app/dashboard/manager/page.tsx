@@ -15,14 +15,14 @@ function RouteComponent() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-          <ManagerDetails
-            manager={data} 
-            showEditButton={true}
-            onEdit={() => {
-              // Handle edit action
-              console.log('Edit tenant profile');
-            }}
-          />
-        </div>
+      <ManagerDetails
+        manager={data}
+        showEditButton={true}
+        onEdit={() => {
+          // Handle edit action
+          console.log('Edit tenant profile');
+        }}
+      />
+    </div>
   );
 }

@@ -3,15 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Calendar,
-  Edit,
-  Heart,
-  Home
-} from 'lucide-react';
+import { User, Mail, Phone, Calendar, Edit, Heart, Home } from 'lucide-react';
 
 interface TenantDetailsProps {
   tenant: {
@@ -30,16 +22,19 @@ interface TenantDetailsProps {
   className?: string;
 }
 
-export function TenantDetails({ 
-  tenant, 
-  showEditButton = false, 
+export function TenantDetails({
+  tenant,
+  showEditButton = false,
   onEdit,
-  className = ""
+  className = '',
 }: TenantDetailsProps) {
-  const displayName = tenant.name || `${tenant.firstName || ''} ${tenant.lastName || ''}`.trim() || 'Unknown User';
+  const displayName =
+    tenant.name ||
+    `${tenant.firstName || ''} ${tenant.lastName || ''}`.trim() ||
+    'Unknown User';
   const initials = displayName
     .split(' ')
-    .map(n => n[0])
+    .map((n) => n[0])
     .join('')
     .toUpperCase()
     .slice(0, 2);
@@ -57,7 +52,7 @@ export function TenantDetails({
           )}
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-6">
         {/* Avatar and Basic Info */}
         <div className="flex items-center space-x-4">
@@ -81,7 +76,7 @@ export function TenantDetails({
         {/* Contact Information */}
         <div className="space-y-4">
           <h4 className="text-lg font-medium">Contact Information</h4>
-          
+
           <div className="grid gap-3">
             <div className="flex items-center space-x-3">
               <Mail className="h-5 w-5 text-muted-foreground" />
@@ -120,7 +115,7 @@ export function TenantDetails({
         {/* Statistics */}
         <div className="space-y-4">
           <h4 className="text-lg font-medium">Statistics</h4>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div className="text-center p-4 bg-muted/50 rounded-lg">
               <div className="flex items-center justify-center mb-2">
