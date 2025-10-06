@@ -2,7 +2,9 @@ package com.realestate.server.manager;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.manager.dto.CreateManagerDto;
 import com.realestate.server.manager.dto.ManagerDto;
@@ -35,5 +37,9 @@ public class ManagerService {
 
         return managerMapper.toDto(createdAccount);
     }
+
+    public ManagerEntity findEntityById(UUID userId) {
+    return managerRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found"));
+}
 
 }

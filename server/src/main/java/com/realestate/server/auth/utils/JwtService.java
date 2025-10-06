@@ -8,6 +8,8 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private String jwtSecretKey = "5d0d5848382a38380e5087061b33d1bd3739deb88c57056f1eb8e26394036419";
-    private long jwtExpirationTime = Duration.ofMinutes(2).toMillis();
-    private String refreshJwtSecretKey = "b5ad0bab615d627d901ae565359291f21e25276dcf9fa3b7b11a9ce7e19ad11a";
-    private long refreshJwtExpirationTime = Duration.ofMinutes(10).toMillis();
+    @Value("${jwt.secret}")
+    private String jwtSecretKey;
+
+    @Value("${refresh-jwt.secret}")
+    private String refreshJwtSecretKey;
+
+    @Value("${jwt.expiration-minutes}")
+    private long jwtExpirationTime;
+
+    @Value("${refresh-jwt.expiration-days}")
+    private long refreshJwtExpirationTime;
+
+    @PostConstruct
+    public void init(){
+        jwtExpirationTime =Duration.ofMinutes(jwtExpirationTime).toMillis();
+        refreshJwtExpirationTime = Duration.ofDays(refreshJwtExpirationTime).toMillis();
+    }
+
 
     private SecretKey generateKey(TokenType tokenType) {
         String secret;
