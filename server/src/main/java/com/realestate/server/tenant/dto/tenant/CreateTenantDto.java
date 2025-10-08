@@ -1,4 +1,4 @@
-package com.realestate.server.tenant.dto;
+package com.realestate.server.tenant.dto.tenant;
 
 import org.springframework.web.multipart.MultipartFile;
 

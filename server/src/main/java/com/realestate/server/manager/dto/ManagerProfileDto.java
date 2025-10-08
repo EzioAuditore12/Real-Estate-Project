@@ -1,6 +1,6 @@
 package com.realestate.server.manager.dto;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -8,19 +8,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ManagerDto {
+@NoArgsConstructor
+public class ManagerProfileDto {
 
-    private UUID id;
+    private String id;
 
     private String name;
 
     private String email;
 
-    private String password;
-
     private String avatar;
-
-    private Set<UUID> managedProperties;
+    
+    private List<UUID> managedProperties;
 }

@@ -6,8 +6,9 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.realestate.server.common.services.CloudinaryService;
-import com.realestate.server.tenant.dto.CreateTenantDto;
-import com.realestate.server.tenant.dto.TenantDto;
+import com.realestate.server.tenant.dto.tenant.CreateTenantDto;
+import com.realestate.server.tenant.dto.tenant.TenantDto;
+import com.realestate.server.tenant.dto.tenant.TenantSummaryDto;
 import com.realestate.server.tenant.entites.Tenant;
 import com.realestate.server.tenant.repositories.TenantRepository;
 
@@ -31,9 +32,9 @@ public class TenantService {
         return tenantRepository.findById(userId).map(tenantMapper::toDto).orElse(null);
     }
 
-    public TenantDto createTenantAccount(CreateTenantDto createTenantDto) {
+    public TenantSummaryDto createTenantAccount(CreateTenantDto createTenantDto) {
 
-        Tenant tenant = tenantMapper.fromCreateDto(createTenantDto);
+        Tenant tenant = tenantMapper.toCreateEntity(createTenantDto);
 
         if(Objects.nonNull(createTenantDto.getAvatar())){
             String uploadedAvatarUrl = cloudinaryService.uploadFile(createTenantDto.getAvatar());   
@@ -42,7 +43,7 @@ public class TenantService {
 
         Tenant createdAccount = tenantRepository.save(tenant);
 
-        return tenantMapper.toDto(createdAccount);
+        return tenantMapper.toSummaryDto(createdAccount);
     }
     
 }

@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.auth.guards.AuthenticatedTenant;
 import com.realestate.server.common.dto.BaseResponseDto;
-import com.realestate.server.tenant.dto.TenantResponseDto;
+import com.realestate.server.tenant.dto.tenant.TenantProfileDto;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,23 +30,23 @@ public class TenantController {
 
     @GetMapping
     @AuthenticatedTenant
-    public BaseResponseDto<TenantResponseDto> helloTenant(
+    public BaseResponseDto<TenantProfileDto> helloTenant(
             @Parameter(name = "Authorization", description = "Bearer token", required = true, example = "Bearer <token>") @org.springframework.web.bind.annotation.RequestHeader("Authorization") String authorizationHeader) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         var tenant = tenantService.findByUserId(java.util.UUID.fromString(userId));
 
-        return new BaseResponseDto<>(true, "User Verified successfully", tenantMapper.toResponseDto(tenant));
+        return new BaseResponseDto<>(true, "User Verified successfully", tenantMapper.toProfileDto(tenant));
     }
 
     @GetMapping("/{id}")
-    public BaseResponseDto<TenantResponseDto> getTenantProfile(@PathVariable("id") @UUID String id) {
+    public BaseResponseDto<TenantProfileDto> getTenantProfile(@PathVariable("id") @UUID String id) {
         var tenant = tenantService.findByUserId(java.util.UUID.fromString(id));
 
         if(Objects.isNull(tenant)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Not user with this id is there");
         }
 
-        return new BaseResponseDto<>(true, "Tenant profile fetched successfully", tenantMapper.toResponseDto(tenant));
+        return new BaseResponseDto<>(true, "Tenant profile fetched successfully", tenantMapper.toProfileDto(tenant));
     }
 }

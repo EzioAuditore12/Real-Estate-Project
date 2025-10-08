@@ -1,6 +1,6 @@
 package com.realestate.server.tenant.dto;
 
-import com.realestate.server.tenant.enums.PaymentStatus;
+import com.realestate.server.tenant.enums.PaymentStatusType;
 
 import java.util.Date;
 import java.util.UUID;
@@ -18,6 +18,6 @@ public class PaymentDto {
     private float amountPaid;
     private Date dueDate;
     private Date paymentDate;
-    private PaymentStatus paymentStatus;
+    private PaymentStatusType paymentStatus;
     private UUID leaseId;
 }

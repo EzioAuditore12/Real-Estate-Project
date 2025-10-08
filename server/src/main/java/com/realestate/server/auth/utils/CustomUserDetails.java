@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.realestate.server.auth.enums.Role;
 import com.realestate.server.manager.dto.ManagerDto;
-import com.realestate.server.tenant.dto.TenantDto;
+import com.realestate.server.tenant.dto.tenant.TenantDto;
 
 public class CustomUserDetails implements UserDetails{
     

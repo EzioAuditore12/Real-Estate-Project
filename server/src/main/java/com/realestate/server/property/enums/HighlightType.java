@@ -1,6 +1,6 @@
 package com.realestate.server.property.enums;
 
-public enum Highlight {
+public enum HighlightType {
     HIGH_SPEED_INTERNET_ACCESS,
     WASHER_DRYER,
     AIR_CONDITIONING,

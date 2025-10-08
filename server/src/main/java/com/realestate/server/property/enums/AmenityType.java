@@ -1,6 +1,6 @@
 package com.realestate.server.property.enums;
 
-public enum Amenity
+public enum AmenityType
 {
     WASHER_DRYER,
     AIR_CONDITIONING,

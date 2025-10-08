@@ -1,6 +1,6 @@
 package com.realestate.server.tenant.enums;
 
-public enum PaymentStatus {
+public enum PaymentStatusType {
     PENDING,
     PAID,
     PARTIALLY_PAID,

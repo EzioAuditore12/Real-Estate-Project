@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.realestate.server.common.services.CloudinaryService;
 import com.realestate.server.manager.dto.CreateManagerDto;
 import com.realestate.server.manager.dto.ManagerDto;
+import com.realestate.server.manager.dto.ManagerSummaryDto;
 import com.realestate.server.manager.entites.Manager;
 import com.realestate.server.manager.repositories.ManagerRepository;
 
@@ -33,7 +34,7 @@ public class ManagerService {
         return managerRepository.findById(userId).map(managerMapper::toDto).orElse(null);
     }
 
-    public ManagerDto createManagerAccount(CreateManagerDto createManagerDto) {
+    public ManagerSummaryDto createManagerAccount(CreateManagerDto createManagerDto) {
         Manager manager = managerMapper.fromCreateDto(createManagerDto);
 
         if(Objects.nonNull(createManagerDto.getAvatar())){
@@ -43,7 +44,7 @@ public class ManagerService {
 
         Manager createdAccount = managerRepository.save(manager);
 
-        return managerMapper.toDto(createdAccount);
+        return managerMapper.toSummaryDto(createdAccount);
     }
 
     public Manager findEntityById(UUID userId) {

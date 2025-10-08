@@ -1,6 +1,6 @@
 package com.realestate.server.tenant.enums;
 
-public enum ApplicationStatus {
+public enum ApplicationStatusType {
     PENDING,
     DENIED,
     APPROVED

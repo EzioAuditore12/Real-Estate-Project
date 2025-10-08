@@ -25,14 +25,14 @@ import com.realestate.server.auth.utils.JwtService;
 import com.realestate.server.auth.utils.TokenType;
 import com.realestate.server.manager.ManagerService;
 import com.realestate.server.manager.dto.ManagerDto;
-import com.realestate.server.manager.dto.ManagerResponseDto;
+import com.realestate.server.manager.dto.ManagerSummaryDto;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthManagerService {
-    
+
     private final ManagerService managerService;
     private final AuthMapper authMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -40,7 +40,6 @@ public class AuthManagerService {
     private final BlackListRefreshTokenRepository blackListRefreshTokenRepository;
     private final UserDetailsService userDetailsService;
 
-    
     public AuthManagerResponseDto registerManager(RegisterManagerDto registerManagerDto) {
         var existingManager = managerService.findByEmail(registerManagerDto.getEmail());
 
@@ -51,13 +50,11 @@ public class AuthManagerService {
 
         registerManagerDto.setPassword(hashedPassword);
 
-        ManagerDto createdManager = managerService.createManagerAccount(registerManagerDto);
+        ManagerSummaryDto createdManager = managerService.createManagerAccount(registerManagerDto);
 
         TokensDto tokens = jwtService.generateTokens(createdManager.getId().toString(), Role.MANAGER);
 
-        ManagerResponseDto managerResponseDto = authMapper.toManagerResponseDto(createdManager);
-
-        return authMapper.toAuthenticatedManagerResponseDto(managerResponseDto, tokens);
+        return authMapper.toAuthenticatedManagerResponseDto(createdManager, tokens);
     }
 
     public AuthManagerResponseDto validateManager(LoginManagerDto loginManagerDto) {
@@ -71,14 +68,14 @@ public class AuthManagerService {
         if (!isValidPassword)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Either entered email or password is wrong");
 
-        ManagerResponseDto managerResponseDto = authMapper.toManagerResponseDto(existingManager);
+        ManagerSummaryDto manager = authMapper.toManagerResponseDto(existingManager);
 
         TokensDto tokensDto = jwtService.generateTokens(existingManager.getId().toString(), Role.MANAGER);
 
-        return authMapper.toAuthenticatedManagerResponseDto(managerResponseDto, tokensDto);
+
+        return authMapper.toAuthenticatedManagerResponseDto(manager, tokensDto);
     }
 
-        
     private void insertBlackListedToken(BlackListRefreshTokenDto blackListRefreshTokenDto) {
         BlackListRefreshTokenEntity entity = authMapper.insertBlackListedToken(blackListRefreshTokenDto);
         blackListRefreshTokenRepository.save(entity);

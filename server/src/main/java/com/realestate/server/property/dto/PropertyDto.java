@@ -1,7 +1,7 @@
 package com.realestate.server.property.dto;
 
-import com.realestate.server.property.enums.Amenity;
-import com.realestate.server.property.enums.Highlight;
+import com.realestate.server.property.enums.AmenityType;
+import com.realestate.server.property.enums.HighlightType;
 import com.realestate.server.property.enums.PropertyType;
 
 import lombok.AllArgsConstructor;
@@ -22,8 +22,8 @@ public class PropertyDto {
     private Float pricePerMonth;
     private Float securityDeposit;
     private List<String> photoUrls;
-    private List<Amenity> amenities;
-    private List<Highlight> highlights;
+    private List<AmenityType> amenities;
+    private List<HighlightType> highlights;
     private boolean isPetsAllowed;
     private boolean isParkingIncluded;
     private int beds;

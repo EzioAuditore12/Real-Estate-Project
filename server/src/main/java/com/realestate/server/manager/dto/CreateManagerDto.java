@@ -18,8 +18,7 @@ import lombok.Data;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateManagerDto {
-    
-       
+
     @NotBlank
     @Size(max = 50)
     @Schema(example = "Saitama")
@@ -41,7 +40,7 @@ public class CreateManagerDto {
     private String password;
 
     public void setEmail(String email) {
-        this.email = (email!=null) ? email.toLowerCase() : null;
+        this.email = (email != null) ? email.toLowerCase() : null;
     }
-    
+
 }

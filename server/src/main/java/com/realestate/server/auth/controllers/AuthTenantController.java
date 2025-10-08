@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.realestate.server.auth.dto.AuthResponseDto;
+import com.realestate.server.auth.dto.AuthTenantResponseDto;
 import com.realestate.server.auth.dto.LoginTenantDto;
 import com.realestate.server.auth.dto.RefreshTokensDto;
 import com.realestate.server.auth.dto.RegisterTenantDto;
@@ -34,8 +34,8 @@ public class AuthTenantController {
     @PostMapping(value = "register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "Register a new tenant", description = "Creates a new tenant account with the provided details.")
-    public BaseResponseDto<AuthResponseDto> register(  @Valid @ModelAttribute RegisterTenantDto registerTenantDto) {
-        AuthResponseDto credentials = authTenantService.registerTenant(registerTenantDto);
+    public BaseResponseDto<AuthTenantResponseDto> register(  @Valid @ModelAttribute RegisterTenantDto registerTenantDto) {
+        AuthTenantResponseDto credentials = authTenantService.registerTenant(registerTenantDto);
 
         return new BaseResponseDto<>(true, "Tenant Registered Successully", credentials);
     }
@@ -43,8 +43,8 @@ public class AuthTenantController {
     @PostMapping("login")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Login tenant", description = "Validates tenant credentials and logs in the tenant.")
-    public BaseResponseDto<AuthResponseDto> login(@Valid @RequestBody LoginTenantDto loginTenantDto) {
-        AuthResponseDto credentials = authTenantService.validateTenant(loginTenantDto);
+    public BaseResponseDto<AuthTenantResponseDto> login(@Valid @RequestBody LoginTenantDto loginTenantDto) {
+        AuthTenantResponseDto credentials = authTenantService.validateTenant(loginTenantDto);
 
         return new BaseResponseDto<>(true, "User logged in successfully", credentials);
     }

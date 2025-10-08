@@ -6,7 +6,7 @@ import javax.swing.text.Highlighter.Highlight;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.realestate.server.property.enums.Amenity;
+import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.PropertyType;
 
 import jakarta.validation.constraints.Max;
@@ -39,7 +39,7 @@ public class CreatePropertyDto {
 
     private List<MultipartFile> photos;
 
-    private List<Amenity> amenities;
+    private List<AmenityType> amenities;
 
     private List<Highlight> highlights;
 

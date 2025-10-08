@@ -1,6 +1,5 @@
-package com.realestate.server.tenant.dto;
+package com.realestate.server.tenant.dto.tenant;
 
-import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -10,11 +9,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TenantResponseDto {
-    private String id;
+public class TenantSummaryDto {
+    
+    private UUID id;
+
     private String name;
+    
     private String email;
+    
     private String avatar;
-    private List<UUID> favourites;
-    private List<UUID> properties;
+
 }

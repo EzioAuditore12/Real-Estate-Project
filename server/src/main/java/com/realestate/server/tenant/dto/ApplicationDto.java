@@ -1,6 +1,6 @@
 package com.realestate.server.tenant.dto;
 
-import com.realestate.server.tenant.enums.ApplicationStatus;
+import com.realestate.server.tenant.enums.ApplicationStatusType;
 
 import java.util.Date;
 import java.util.UUID;
@@ -18,7 +18,7 @@ public class ApplicationDto {
     private String email;
     private String message;
     private Date startDate;
-    private ApplicationStatus status;
+    private ApplicationStatusType status;
     private UUID tenantId;
     private UUID leaseId;
 }

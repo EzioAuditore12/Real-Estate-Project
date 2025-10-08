@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.auth.AuthMapper;
-import com.realestate.server.auth.dto.AuthResponseDto;
+import com.realestate.server.auth.dto.AuthTenantResponseDto;
 import com.realestate.server.auth.dto.BlackListRefreshTokenDto;
 import com.realestate.server.auth.dto.LoginTenantDto;
 import com.realestate.server.auth.dto.RefreshTokensDto;
@@ -24,8 +24,8 @@ import com.realestate.server.auth.repositories.BlackListRefreshTokenRepository;
 import com.realestate.server.auth.utils.JwtService;
 import com.realestate.server.auth.utils.TokenType;
 import com.realestate.server.tenant.TenantService;
-import com.realestate.server.tenant.dto.TenantDto;
-import com.realestate.server.tenant.dto.TenantResponseDto;
+import com.realestate.server.tenant.dto.tenant.TenantDto;
+import com.realestate.server.tenant.dto.tenant.TenantSummaryDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +40,7 @@ public class AuthTenantService {
     private final BlackListRefreshTokenRepository blackListRefreshTokenRepository;
     private final UserDetailsService userDetailsService;
 
-      public AuthResponseDto registerTenant(RegisterTenantDto registerTenantDto) {
+      public AuthTenantResponseDto registerTenant(RegisterTenantDto registerTenantDto) {
         TenantDto existingTenant = tenantService.findByEmail(registerTenantDto.getEmail());
 
         if (!Objects.isNull(existingTenant))
@@ -51,16 +51,15 @@ public class AuthTenantService {
 
         registerTenantDto.setPassword(hashedPassword);
 
-        TenantDto createdTenant = tenantService.createTenantAccount(registerTenantDto);
+        TenantSummaryDto createdTenant = tenantService.createTenantAccount(registerTenantDto);
 
         TokensDto tokensDto = jwtService.generateTokens(createdTenant.getId().toString(), Role.TENANT);
 
-        TenantResponseDto tenantResponseDto = authMapper.toTenantResponseDto(createdTenant);
 
-        return authMapper.toAuthenticatedTenantResponseDto(tenantResponseDto, tokensDto);
+        return authMapper.toAuthenticatedTenantResponseDto(createdTenant, tokensDto);
     }
 
-    public AuthResponseDto validateTenant(LoginTenantDto loginTenantDto) {
+    public AuthTenantResponseDto validateTenant(LoginTenantDto loginTenantDto) {
         TenantDto existingTenant = tenantService.findByEmail(loginTenantDto.getEmail());
 
         if (Objects.isNull(existingTenant))
@@ -71,11 +70,11 @@ public class AuthTenantService {
         if (!isValidPassword)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Either entered email or password is wrong");
 
-        TenantResponseDto tenantResponseDto = authMapper.toTenantResponseDto(existingTenant);
+        TenantSummaryDto tenant = authMapper.toTenantResponseDto(existingTenant);
 
         TokensDto tokensDto = jwtService.generateTokens(existingTenant.getId().toString(), Role.TENANT);
 
-        return authMapper.toAuthenticatedTenantResponseDto(tenantResponseDto, tokensDto);
+        return authMapper.toAuthenticatedTenantResponseDto(tenant, tokensDto);
     }
 
     

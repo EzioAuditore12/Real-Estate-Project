@@ -1,6 +1,6 @@
 package com.realestate.server.property.dto;
 
-import com.realestate.server.tenant.enums.ApplicationStatus;
+import com.realestate.server.tenant.enums.ApplicationStatusType;
 
 import java.util.Date;
 import java.util.UUID;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class ApplicationDto {
     private UUID id;
     private Date startDate;
-    private ApplicationStatus status;
+    private ApplicationStatusType status;
     private UUID propertyId;
     private UUID tenantId;
     private String name;
