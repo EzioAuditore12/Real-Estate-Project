@@ -33,7 +33,7 @@ public class ApplicationEntity {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", nullable = false)
-    private TenantEntity tenantId;
+    private Tenant tenantId;
 
     @Column(length = 50, nullable = false)
     private String name;

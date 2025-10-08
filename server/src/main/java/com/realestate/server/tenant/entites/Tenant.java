@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class TenantEntity {
+public class Tenant {
    @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -26,8 +26,11 @@ public class TenantEntity {
     @Column(length = 240,nullable = false, unique = true)
     private String email;
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "text",nullable = false)
     private String password;
+
+    @Column(columnDefinition = "text",nullable = true)
+    private String avatar;
 
     @ManyToMany(mappedBy = "favouritedBy")
     private List<PropertyEntity> favourites;

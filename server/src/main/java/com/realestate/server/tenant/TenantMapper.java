@@ -7,7 +7,7 @@ import org.mapstruct.Named;
 import com.realestate.server.tenant.dto.CreateTenantDto;
 import com.realestate.server.tenant.dto.TenantDto;
 import com.realestate.server.tenant.dto.TenantResponseDto;
-import com.realestate.server.tenant.entites.TenantEntity;
+import com.realestate.server.tenant.entites.Tenant;
 import com.realestate.server.property.entities.PropertyEntity;
 
 import java.util.Collections;
@@ -18,19 +18,19 @@ import java.util.UUID;
 public interface TenantMapper {
     @Mapping(target = "favourites", source = "favourites", qualifiedByName = "propertyListToUuidList")
     @Mapping(target = "properties", source = "properties", qualifiedByName = "propertyListToUuidList")
-    TenantDto toDto(TenantEntity entity);
+    TenantDto toDto(Tenant entity);
 
-    // Remove the qualifiers since both source and target are List<UUID>
     TenantResponseDto toResponseDto(TenantDto dto);
 
     @Mapping(target = "favourites", source = "favourites", qualifiedByName = "uuidListToPropertyList")
     @Mapping(target = "properties", source = "properties", qualifiedByName = "uuidListToPropertyList")
-    TenantEntity toEntity(TenantDto dto);
+    Tenant toEntity(TenantDto dto);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "avatar", ignore = true)
     @Mapping(target = "favourites", ignore = true)
     @Mapping(target = "properties", ignore = true)
-    TenantEntity fromCreateDto(CreateTenantDto dto);
+    Tenant fromCreateDto(CreateTenantDto dto);
 
     @Named("propertyListToUuidList")
     default List<UUID> propertyListToUuidList(List<PropertyEntity> entities) {

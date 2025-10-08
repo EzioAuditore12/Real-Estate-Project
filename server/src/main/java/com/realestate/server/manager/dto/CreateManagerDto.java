@@ -1,5 +1,8 @@
 package com.realestate.server.manager.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.realestate.server.common.validators.ImageFile;
 import com.realestate.server.common.validators.StrongPassword;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,6 +30,9 @@ public class CreateManagerDto {
     @Size(max = 240)
     @Schema(example = "example@example.com")
     private String email;
+
+    @ImageFile
+    private MultipartFile avatar;
 
     @NotBlank
     @StrongPassword

@@ -11,20 +11,21 @@ import org.mapstruct.Named;
 import com.realestate.server.manager.dto.CreateManagerDto;
 import com.realestate.server.manager.dto.ManagerDto;
 import com.realestate.server.manager.dto.ManagerResponseDto;
-import com.realestate.server.manager.entites.ManagerEntity;
+import com.realestate.server.manager.entites.Manager;
 import com.realestate.server.property.entities.PropertyEntity;
 
 @Mapper(componentModel = "spring")
 public interface ManagerMapper {
 
     @Mapping(target = "managedProperties", source = "managedProperties", qualifiedByName = "propertyListToUuidList")
-    ManagerDto toDto(ManagerEntity entity);
+    ManagerDto toDto(Manager entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "avatar", ignore = true)
     @Mapping(target = "managedProperties", ignore = true)
-    ManagerEntity fromCreateDto(CreateManagerDto dto);
+    Manager fromCreateDto(CreateManagerDto dto);
 
-    ManagerResponseDto tResponseDto(ManagerDto dto);
+    ManagerResponseDto toResponseDto(ManagerDto dto);
 
     @Named("propertyListToUuidList")
     default List<UUID> propertyListToUuidList(List<PropertyEntity> entities) {

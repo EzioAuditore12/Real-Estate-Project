@@ -1,5 +1,8 @@
 package com.realestate.server.tenant.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.realestate.server.common.validators.ImageFile;
 import com.realestate.server.common.validators.StrongPassword;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,6 +34,9 @@ public class CreateTenantDto {
     @Size(max = 16)
     @Schema(example = "Example@123")
     private String password;
+
+    @ImageFile(message = "Avatar must be an image (png, jpg, gif, webp, bmp).", required = false)
+    private MultipartFile avatar;
 
     public void setEmail(String email) {
         this.email = (email!=null) ? email.toLowerCase() : null;

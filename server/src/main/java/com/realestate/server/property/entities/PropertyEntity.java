@@ -1,11 +1,11 @@
 package com.realestate.server.property.entities;
 
-import com.realestate.server.manager.entites.ManagerEntity;
+import com.realestate.server.manager.entites.Manager;
 import com.realestate.server.property.enums.Amenity;
 import com.realestate.server.property.enums.Highlight;
 import com.realestate.server.property.enums.PropertyType;
 import com.realestate.server.tenant.entites.ApplicationEntity;
-import com.realestate.server.tenant.entites.TenantEntity;
+import com.realestate.server.tenant.entites.Tenant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -79,7 +79,7 @@ public class PropertyEntity {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
-    private ManagerEntity managerId;
+    private Manager managerId;
 
     @OneToMany(mappedBy = "propertyId")
     private List<LeaseEntity> leases;
@@ -92,12 +92,12 @@ public class PropertyEntity {
         joinColumns = @JoinColumn(),
         inverseJoinColumns = @JoinColumn()
     )
-    private List<TenantEntity> favouritedBy;
+    private List<Tenant> favouritedBy;
 
     @ManyToMany
     @JoinTable(
         joinColumns = @JoinColumn(),
         inverseJoinColumns = @JoinColumn()
     )
-    private List<TenantEntity> tenants;
+    private List<Tenant> tenants;
 }

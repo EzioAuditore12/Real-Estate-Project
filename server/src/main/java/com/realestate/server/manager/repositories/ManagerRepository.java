@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.realestate.server.manager.entites.ManagerEntity;
+import com.realestate.server.manager.entites.Manager;
 
-public interface ManagerRepository extends JpaRepository<ManagerEntity,UUID> {
-    Optional<ManagerEntity> findByEmail(String email);
+public interface ManagerRepository extends JpaRepository<Manager,UUID> {
+    Optional<Manager> findByEmail(String email);
 }

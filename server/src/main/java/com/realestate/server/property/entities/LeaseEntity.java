@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import com.realestate.server.tenant.entites.ApplicationEntity;
 import com.realestate.server.tenant.entites.PaymentEntity;
-import com.realestate.server.tenant.entites.TenantEntity;
+import com.realestate.server.tenant.entites.Tenant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,7 +45,7 @@ public class LeaseEntity {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", nullable = false)
-    private TenantEntity tenantId;
+    private Tenant tenantId;
 
     @OneToOne(mappedBy = "leaseId")
     private ApplicationEntity application;

@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import com.realestate.server.manager.entites.ManagerEntity;
+import com.realestate.server.manager.entites.Manager;
 import com.realestate.server.property.dto.CreatePropertyDto;
 import com.realestate.server.property.dto.PropertyDto;
 import com.realestate.server.property.entities.PropertyEntity;
@@ -23,7 +23,7 @@ public interface PropertyMapper {
     }
 
     // Map ManagerEntity to UUID
-    default UUID map(ManagerEntity manager) {
+    default UUID map(Manager manager) {
         return manager != null ? manager.getId() : null;
     }
 

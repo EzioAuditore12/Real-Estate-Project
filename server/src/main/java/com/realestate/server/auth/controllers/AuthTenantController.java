@@ -1,6 +1,8 @@
 package com.realestate.server.auth.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +31,10 @@ public class AuthTenantController {
 
     private final AuthTenantService authTenantService;
 
-    @PostMapping("register")
+    @PostMapping(value = "register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "Register a new tenant", description = "Creates a new tenant account with the provided details.")
-    public BaseResponseDto<AuthResponseDto> register(@Valid @RequestBody RegisterTenantDto registerTenantDto) {
+    public BaseResponseDto<AuthResponseDto> register(  @Valid @ModelAttribute RegisterTenantDto registerTenantDto) {
         AuthResponseDto credentials = authTenantService.registerTenant(registerTenantDto);
 
         return new BaseResponseDto<>(true, "Tenant Registered Successully", credentials);

@@ -14,6 +14,7 @@ public class TenantResponseDto {
     private String id;
     private String name;
     private String email;
+    private String avatar;
     private List<UUID> favourites;
     private List<UUID> properties;
 }

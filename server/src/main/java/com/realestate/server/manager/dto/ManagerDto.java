@@ -15,5 +15,6 @@ public class ManagerDto {
     private String name;
     private String email;
     private String password;
+    private String avatar;
     private List<UUID> managedProperties;
 }

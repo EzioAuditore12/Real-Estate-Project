@@ -33,7 +33,7 @@ public class ManagerController {
 
         var manager = managerService.findById(java.util.UUID.fromString(userId));
 
-          return new BaseResponseDto<>(true,"User Verified successfully",managerMapper.tResponseDto(manager));
+          return new BaseResponseDto<>(true,"User Verified successfully",managerMapper.toResponseDto(manager));
     }
 
     @GetMapping("/{id}")
@@ -44,7 +44,7 @@ public class ManagerController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Unable to locate any user with this id");
         }
 
-        return new BaseResponseDto<>(true,"Manager Details fetched successfully",managerMapper.tResponseDto(manager));
+        return new BaseResponseDto<>(true,"Manager Details fetched successfully",managerMapper.toResponseDto(manager));
     }
 
 }

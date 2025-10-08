@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.common.services.CloudinaryService;
 import com.realestate.server.manager.ManagerService;
-import com.realestate.server.manager.entites.ManagerEntity;
+import com.realestate.server.manager.entites.Manager;
 import com.realestate.server.property.dto.CreatePropertyDto;
 import com.realestate.server.property.dto.location.InsertLocationDto;
 import com.realestate.server.property.dto.nomantim.NomantimApiResponseDto;
@@ -65,7 +65,7 @@ public class PropertyService {
         propertyEntity.setPhotoUrls(uploadedImageUrls);
         propertyEntity.setLocationId(locationEntity);
 
-        ManagerEntity managerEntity = managerService.findEntityById(managerId);
+        Manager managerEntity = managerService.findEntityById(managerId);
 
         propertyEntity.setManagerId(managerEntity);
 

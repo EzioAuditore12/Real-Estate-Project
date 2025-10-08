@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.realestate.server.tenant.entites.TenantEntity;
+import com.realestate.server.tenant.entites.Tenant;
 
-public interface TenantRepository extends JpaRepository<TenantEntity, UUID> {
-    Optional<TenantEntity> findByEmail(String email);
+public interface TenantRepository extends JpaRepository<Tenant, UUID> {
+    Optional<Tenant> findByEmail(String email);
 }

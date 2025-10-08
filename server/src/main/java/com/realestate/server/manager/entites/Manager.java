@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class ManagerEntity {
+public class Manager {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -26,7 +26,10 @@ public class ManagerEntity {
     @Column(length = 240,nullable = false, unique = true)
     private String email;
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "avatar", nullable = true)
+    private String avatar;
+
+    @Column(columnDefinition = "text", nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "managerId")

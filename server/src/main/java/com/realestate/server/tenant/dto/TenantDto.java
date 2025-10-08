@@ -15,6 +15,7 @@ public class TenantDto {
     private String name;
     private String email;
     private String password;
+    private String avatar;
     private List<UUID> favourites;
     private List<UUID> properties;
 }
