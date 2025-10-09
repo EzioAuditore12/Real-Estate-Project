@@ -80,6 +80,9 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.2.0(react@19.2.0)
+      react-geolocated:
+        specifier: ^4.3.0
+        version: 4.3.0(react@19.2.0)
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -2296,6 +2299,11 @@ packages:
     resolution: {integrity: sha512-UlbRu4cAiGaIewkPyiRGJk0imDN2T3JjieT6spoL2UeSf5od4n5LB/mQ4ejmxhCFT1tYe8IvaFulzynWovsEFQ==}
     peerDependencies:
       react: ^19.2.0
+
+  react-geolocated@4.3.0:
+    resolution: {integrity: sha512-jj3x45VACcHHvSNWqWHf0f60V12pQDPIH6HuFyJi+BmndQ/dlE+vR0R2Eis+BYnwZPTlaEQ/ANmJjuUPH3Lxsg==}
+    peerDependencies:
+      react: '>= 16.8.0 < 20.0.0'
 
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
@@ -4782,6 +4790,10 @@ snapshots:
     dependencies:
       react: 19.2.0
       scheduler: 0.27.0
+
+  react-geolocated@4.3.0(react@19.2.0):
+    dependencies:
+      react: 19.2.0
 
   react-is@18.3.1: {}
 

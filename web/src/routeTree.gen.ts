@@ -16,6 +16,8 @@ import { Route as PageRouteImport } from './app/page'
 import { Route as DashboardTenantLayoutRouteImport } from './app/dashboard/tenant/layout'
 import { Route as DashboardTenantPageRouteImport } from './app/dashboard/tenant/page'
 import { Route as DashboardManagerPageRouteImport } from './app/dashboard/manager/page'
+import { Route as nondashboardSearchPageRouteImport } from './app/(nondashboard)/search/page'
+import { Route as nondashboardMapPageRouteImport } from './app/(nondashboard)/map/page'
 import { Route as nondashboardLandingPageRouteImport } from './app/(nondashboard)/landing/page'
 import { Route as authRegisterTenantPageRouteImport } from './app/(auth)/register/tenant/page'
 import { Route as authRegisterManagerPageRouteImport } from './app/(auth)/register/manager/page'
@@ -61,6 +63,16 @@ const DashboardManagerPageRoute = DashboardManagerPageRouteImport.update({
   id: '/manager/',
   path: '/manager/',
   getParentRoute: () => DashboardLayoutRoute,
+} as any)
+const nondashboardSearchPageRoute = nondashboardSearchPageRouteImport.update({
+  id: '/search/',
+  path: '/search/',
+  getParentRoute: () => nondashboardLayoutRoute,
+} as any)
+const nondashboardMapPageRoute = nondashboardMapPageRouteImport.update({
+  id: '/map/',
+  path: '/map/',
+  getParentRoute: () => nondashboardLayoutRoute,
 } as any)
 const nondashboardLandingPageRoute = nondashboardLandingPageRouteImport.update({
   id: '/landing/',
@@ -135,6 +147,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/dashboard/tenant': typeof DashboardTenantLayoutRouteWithChildren
   '/landing': typeof nondashboardLandingPageRoute
+  '/map': typeof nondashboardMapPageRoute
+  '/search': typeof nondashboardSearchPageRoute
   '/dashboard/manager': typeof DashboardManagerPageRoute
   '/dashboard/tenant/': typeof DashboardTenantPageRoute
   '/login/manager': typeof authLoginManagerPageRoute
@@ -153,6 +167,8 @@ export interface FileRoutesByTo {
   '/': typeof nondashboardLayoutRouteWithChildren
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/landing': typeof nondashboardLandingPageRoute
+  '/map': typeof nondashboardMapPageRoute
+  '/search': typeof nondashboardSearchPageRoute
   '/dashboard/manager': typeof DashboardManagerPageRoute
   '/dashboard/tenant': typeof DashboardTenantPageRoute
   '/login/manager': typeof authLoginManagerPageRoute
@@ -175,6 +191,8 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/dashboard/tenant': typeof DashboardTenantLayoutRouteWithChildren
   '/(nondashboard)/landing/': typeof nondashboardLandingPageRoute
+  '/(nondashboard)/map/': typeof nondashboardMapPageRoute
+  '/(nondashboard)/search/': typeof nondashboardSearchPageRoute
   '/dashboard/manager/': typeof DashboardManagerPageRoute
   '/dashboard/tenant/': typeof DashboardTenantPageRoute
   '/(auth)/login/manager/': typeof authLoginManagerPageRoute
@@ -196,6 +214,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/tenant'
     | '/landing'
+    | '/map'
+    | '/search'
     | '/dashboard/manager'
     | '/dashboard/tenant/'
     | '/login/manager'
@@ -214,6 +234,8 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/landing'
+    | '/map'
+    | '/search'
     | '/dashboard/manager'
     | '/dashboard/tenant'
     | '/login/manager'
@@ -235,6 +257,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/tenant'
     | '/(nondashboard)/landing/'
+    | '/(nondashboard)/map/'
+    | '/(nondashboard)/search/'
     | '/dashboard/manager/'
     | '/dashboard/tenant/'
     | '/(auth)/login/manager/'
@@ -307,6 +331,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/manager'
       preLoaderRoute: typeof DashboardManagerPageRouteImport
       parentRoute: typeof DashboardLayoutRoute
+    }
+    '/(nondashboard)/search/': {
+      id: '/(nondashboard)/search/'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof nondashboardSearchPageRouteImport
+      parentRoute: typeof nondashboardLayoutRoute
+    }
+    '/(nondashboard)/map/': {
+      id: '/(nondashboard)/map/'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof nondashboardMapPageRouteImport
+      parentRoute: typeof nondashboardLayoutRoute
     }
     '/(nondashboard)/landing/': {
       id: '/(nondashboard)/landing/'
@@ -415,10 +453,14 @@ const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
 
 interface nondashboardLayoutRouteChildren {
   nondashboardLandingPageRoute: typeof nondashboardLandingPageRoute
+  nondashboardMapPageRoute: typeof nondashboardMapPageRoute
+  nondashboardSearchPageRoute: typeof nondashboardSearchPageRoute
 }
 
 const nondashboardLayoutRouteChildren: nondashboardLayoutRouteChildren = {
   nondashboardLandingPageRoute: nondashboardLandingPageRoute,
+  nondashboardMapPageRoute: nondashboardMapPageRoute,
+  nondashboardSearchPageRoute: nondashboardSearchPageRoute,
 }
 
 const nondashboardLayoutRouteWithChildren =
