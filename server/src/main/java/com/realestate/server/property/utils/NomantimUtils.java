@@ -23,7 +23,6 @@ public class NomantimUtils {
                 .scheme("https")
                 .host("nominatim.openstreetmap.org")
                 .path("/search")
-                .queryParam("street", nomantimSearchLocationDto.getStreet())
                 .queryParam("city", nomantimSearchLocationDto.getCity())
                 .queryParam("state", nomantimSearchLocationDto.getState())
                 .queryParam("country", nomantimSearchLocationDto.getCountry())

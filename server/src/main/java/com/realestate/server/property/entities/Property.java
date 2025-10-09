@@ -37,11 +37,14 @@ public class Property {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private double pricePerMonth;
+    @Column(length = 250, nullable = false)
+    private String description;
 
     @Column(nullable = false)
-    private float securityDeposit;
+    private Double pricePerMonth = 0.0;
+
+    @Column(nullable = false)
+    private Double securityDeposit = 0.0;
 
     @Column(nullable = false)
     private List<String> photoUrls = new ArrayList<>();
@@ -56,23 +59,26 @@ public class Property {
     private boolean isPetAllowed = false;
 
     @Column(nullable = false)
-    private boolean isParkingAllowed = false;
+    private boolean isParkingIncluded = false;
 
     @Column(nullable = false)
-    private int beds;
+    private Integer beds = 0;
 
     @Column(nullable = false)
-    private double squareFeet;
+    private Integer baths = 0;
+
+    @Column(nullable = false)
+    private Double squareFeet;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime postedDate;
 
     @Column(nullable = false)
-    private double averageRatings = 0;
+    private Double averageRatings = 0.0;
 
     @Column(nullable = false)
-    private double numberOfRatings = 0;
+    private Double numberOfRatings = 0.0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_manager_id")

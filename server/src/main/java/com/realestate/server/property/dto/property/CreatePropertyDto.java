@@ -1,4 +1,4 @@
-package com.realestate.server.property.dto;
+package com.realestate.server.property.dto.property;
 
 import java.util.List;
 
@@ -6,11 +6,11 @@ import javax.swing.text.Highlighter.Highlight;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.realestate.server.common.validators.StringDigit;
 import com.realestate.server.property.enums.AmenityType;
+import com.realestate.server.property.enums.HighlightType;
 import com.realestate.server.property.enums.PropertyType;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,33 +28,36 @@ public class CreatePropertyDto {
     private String name;
 
     @NotBlank
-    @Size(max = 240)
+    @Size(max = 250)
     private String description;
 
     @NotNull
-    private Float pricePerMonth;
+    private Double pricePerMonth = 0.0;
 
     @NotNull
-    private Float securityDeposit;
+    private Double securityDeposit = 0.0;
 
+    @NotNull
     private List<MultipartFile> photos;
 
+    @NotNull
     private List<AmenityType> amenities;
 
-    private List<Highlight> highlights;
+    @NotNull
+    private List<HighlightType> highlights;
 
-    private boolean isPetsAllowed = false;
+    private boolean isPetAllowed = false;
 
     private boolean isParkingIncluded = false;
 
     @NotNull
-    private Integer beds;
+    private Integer beds = 0;
 
     @NotNull
-    private Float baths;
+    private Integer baths = 0;
 
     @NotNull
-    private Integer squareFeet;
+    private Float squareFeet;
 
     @NotNull
     private PropertyType propertyType;
@@ -75,7 +78,8 @@ public class CreatePropertyDto {
     @Size(max = 50)
     private String country;
 
-    @Min(100000)
-    @Max(999999)
-    private Integer postalCode;
+    @NotBlank
+    @StringDigit
+    @Size(max = 6)
+    private String postalCode;
 }

@@ -10,10 +10,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Location {
 
     @Id
@@ -33,11 +39,11 @@ public class Location {
     @Column(length = 100)
     private String state;
 
-    @Column(length = 20)
-    private String postalCode;
-
     @Column(length = 100)
     private String country;
+
+    @Column(length = 20)
+    private String postalCode;
 
     @Column(nullable = false)
     private Point coordinates;
