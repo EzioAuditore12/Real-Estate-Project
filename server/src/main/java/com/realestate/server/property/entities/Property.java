@@ -17,6 +17,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Data
 public class Property {
-   
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -80,12 +82,17 @@ public class Property {
     @Column(nullable = false)
     private Double numberOfRatings = 0.0;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Location location;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_manager_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Manager manager;
-
-    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
-    private Location location;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Application> applications;

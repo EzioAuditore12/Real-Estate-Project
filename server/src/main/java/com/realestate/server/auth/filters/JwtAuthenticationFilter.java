@@ -76,8 +76,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             handleJwtException(response, "JWT token has expired", HttpServletResponse.SC_UNAUTHORIZED);
         } catch (JwtException e) {
             handleJwtException(response, "Invalid JWT token", HttpServletResponse.SC_UNAUTHORIZED);
-        } catch (Exception e) {
-            handleJwtException(response, "Authentication error", HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
 

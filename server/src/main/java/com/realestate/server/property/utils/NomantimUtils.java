@@ -58,9 +58,6 @@ public class NomantimUtils {
                 .scheme("https")
                 .host("nominatim.openstreetmap.org")
                 .path("/search")
-                //TODO: This will make nomantim search less accurate
-                // .queryParam("city", nomantimSearchLocationDto.getCity())
-                // .queryParam("state", nomantimSearchLocationDto.getState())
                 .queryParam("country", nomantimSearchLocationDto.getCountry())
                 .queryParam("postalcode", nomantimSearchLocationDto.getPostalCode())
                 .queryParam("format", "json")

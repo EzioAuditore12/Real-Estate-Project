@@ -37,7 +37,7 @@ public class ManagerService {
     public ManagerSummaryDto createManagerAccount(CreateManagerDto createManagerDto) {
         Manager manager = managerMapper.fromCreateDto(createManagerDto);
 
-        if(Objects.nonNull(createManagerDto.getAvatar())){
+        if (Objects.nonNull(createManagerDto.getAvatar())) {
             String uploadedAvatarUrl = cloudinaryService.uploadFile(createManagerDto.getAvatar());
             manager.setAvatar(uploadedAvatarUrl);
         }
@@ -48,7 +48,7 @@ public class ManagerService {
     }
 
     public Manager findEntityById(UUID userId) {
-    return managerRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found"));
-}
-
+        return managerRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found"));
+    }
 }

@@ -27,8 +27,8 @@ public class PropertyController {
 
     private final PropertyService propertyService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @AuthenticatedManager
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponseDto<PropertyDto> createProperty(@Valid @ModelAttribute CreatePropertyDto createPropertyDto) {
 
         String managerId = SecurityContextHolder.getContext().getAuthentication().getName();
