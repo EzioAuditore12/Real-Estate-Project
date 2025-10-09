@@ -45,6 +45,6 @@ public class Location {
     @Column(length = 20)
     private String postalCode;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Point coordinates;
 }

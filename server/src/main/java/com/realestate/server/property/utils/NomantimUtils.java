@@ -1,5 +1,7 @@
 package com.realestate.server.property.utils;
 
+import java.util.Objects;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,20 +17,65 @@ public class NomantimUtils {
     private NomantimUtils() {
     }
 
-  
     private static final String USER_AGENT = "RealEstateApp (realEstate@gmail.com)";
+
+    public static NomantimApiResponseDto getGeoLocationDetails(NomantimSearchLocationDto nomantimSearchLocationDto) {
+        String url = nomantimGeoCodingUrl(nomantimSearchLocationDto);
+        HttpEntity<String> entity = buildNominatimHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<NomantimApiResponseDto[]> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                NomantimApiResponseDto[].class);
+
+        NomantimApiResponseDto[] results = response.getBody();
+        if (results != null && results.length > 0) {
+            return results[0];
+        }
+        return null;
+    }
+
+    public static NomantimApiResponseDto getReverseGeoLocationDetails(Double latitude, Double longitude) {
+        String url = nomantimReverseGeocodingUrl(latitude, longitude);
+        HttpEntity<String> entity = buildNominatimHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<NomantimApiResponseDto> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                NomantimApiResponseDto.class);
+
+        if(Objects.isNull(response.getBody())) return null;
+            
+        return response.getBody();
+    }
 
     private static String nomantimGeoCodingUrl(NomantimSearchLocationDto nomantimSearchLocationDto) {
         return UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host("nominatim.openstreetmap.org")
                 .path("/search")
-                .queryParam("city", nomantimSearchLocationDto.getCity())
-                .queryParam("state", nomantimSearchLocationDto.getState())
+                //TODO: This will make nomantim search less accurate
+                // .queryParam("city", nomantimSearchLocationDto.getCity())
+                // .queryParam("state", nomantimSearchLocationDto.getState())
                 .queryParam("country", nomantimSearchLocationDto.getCountry())
                 .queryParam("postalcode", nomantimSearchLocationDto.getPostalCode())
                 .queryParam("format", "json")
                 .queryParam("limit", 1)
+                .toUriString();
+    }
+
+    private static String nomantimReverseGeocodingUrl(Double latitude, Double longitude) {
+        return UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("nominatim.openstreetmap.org")
+                .path("/reverse")
+                .queryParam("lat", latitude)
+                .queryParam("lon", longitude)
+                .queryParam("format", "json")
                 .toUriString();
     }
 
@@ -38,22 +85,4 @@ public class NomantimUtils {
         return new HttpEntity<>(headers);
     }
 
-    public static NomantimApiResponseDto getGeoLocationDetails(NomantimSearchLocationDto nomantimSearchLocationDto) {
-         String url = nomantimGeoCodingUrl(nomantimSearchLocationDto);
-         HttpEntity<String> entity = buildNominatimHeaders();
-        RestTemplate restTemplate = new RestTemplate();
-
-         ResponseEntity<NomantimApiResponseDto[]> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                NomantimApiResponseDto[].class
-        );
-
-        NomantimApiResponseDto[] results = response.getBody();
-        if (results != null && results.length > 0) {
-            return results[0];
-        }
-        return null;
-    }
 }

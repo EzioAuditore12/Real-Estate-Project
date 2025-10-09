@@ -2,8 +2,6 @@ package com.realestate.server.property.dto.property;
 
 import java.util.List;
 
-import javax.swing.text.Highlighter.Highlight;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.realestate.server.common.validators.StringDigit;

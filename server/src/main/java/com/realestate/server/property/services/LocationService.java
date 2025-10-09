@@ -1,5 +1,7 @@
 package com.realestate.server.property.services;
 
+import java.util.Objects;
+
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -7,8 +9,10 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Service;
 
 import com.realestate.server.property.dto.location.InsertLocationDto;
+import com.realestate.server.property.dto.location.LocationDto;
 import com.realestate.server.property.entities.Location;
 import com.realestate.server.property.entities.Property;
+import com.realestate.server.property.mappers.LocationMapper;
 import com.realestate.server.property.repositories.LocationRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,15 +22,12 @@ import lombok.RequiredArgsConstructor;
 public class LocationService {
 
     private final LocationRepository locationRepository;
+    private final LocationMapper locationMapper;
 
     public void insertSavedLocation(InsertLocationDto insertLocationDto, Property savedProperty) {
 
-        // Create Point geometry
-        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
-        Point coordinates = geometryFactory.createPoint(
-                new Coordinate(insertLocationDto.getLongitude(), insertLocationDto.getLatitude()));
+        Point coordinates = convertToCoordinates(insertLocationDto.getLongitude(), insertLocationDto.getLatitude());
 
-        // Build location with property reference
         Location location = Location.builder()
                 .address(insertLocationDto.getAddress())
                 .city(insertLocationDto.getCity())
@@ -34,9 +35,30 @@ public class LocationService {
                 .country(insertLocationDto.getCountry())
                 .postalCode(insertLocationDto.getPostalCode())
                 .coordinates(coordinates)
-                .property(savedProperty) // THIS WAS MISSING!
+                .property(savedProperty)
                 .build();
 
         locationRepository.save(location);
     }
+
+    public LocationDto findLocationByLongitudeAndLatitude(Double longitude, Double latitude) {
+
+        Point point = convertToCoordinates(longitude, latitude);
+
+        Location location = locationRepository.findByCoordinates(point).orElse(null);
+        
+        if(Objects.isNull(location)) return null;
+
+        return locationMapper.toDto(location);
+    }
+
+    private Point convertToCoordinates(Double longitude, Double latitude) {
+
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+
+        return geometryFactory.createPoint(
+                new Coordinate(longitude, latitude));
+
+    }
+
 }

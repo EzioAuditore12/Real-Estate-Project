@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.common.services.CloudinaryService;
 import com.realestate.server.property.dto.location.InsertLocationDto;
+import com.realestate.server.property.dto.location.LocationDto;
 import com.realestate.server.property.dto.nomantim.NomantimApiResponseDto;
 import com.realestate.server.property.dto.nomantim.NomantimSearchLocationDto;
 import com.realestate.server.property.dto.property.CreatePropertyDto;
@@ -36,7 +37,50 @@ public class PropertyService {
     @Transactional
     public PropertyDto initializeProperty(UUID managerId, CreatePropertyDto createPropertyDto) {
 
+        NomantimApiResponseDto nomantimApiResponseDto = buildLocationWithNomantim(createPropertyDto);
+
+        if (Objects.isNull(nomantimApiResponseDto))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find such location");
+
+        LocationDto locationDto = locationService.findLocationByLongitudeAndLatitude(
+                Double.parseDouble(nomantimApiResponseDto.getLon()),
+                Double.parseDouble(nomantimApiResponseDto.getLat()));
+
+        // TODO: This is only valid when only need to register property with no lon and lat, need to change to lon and lat
+        if (Objects.nonNull(locationDto))
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "A property with this location is already registered");
+
         List<String> uploadedImageUrls = cloudinaryService.uploadMultipleFiles(createPropertyDto.getPhotos());
+
+        Property property = propertyMapper.toCreateEntity(createPropertyDto);
+
+        property.setPhotoUrls(uploadedImageUrls);
+
+        Property savedProperty = propertyRespository.save(property);
+
+        InsertLocationDto insertLocationDto = buildLocation(createPropertyDto, nomantimApiResponseDto);
+
+        locationService.insertSavedLocation(insertLocationDto, savedProperty);
+
+        return propertyMapper.toDto(savedProperty);
+    }
+
+    private InsertLocationDto buildLocation(CreatePropertyDto createPropertyDto,
+            NomantimApiResponseDto nomantimApiResponseDto) {
+
+        return InsertLocationDto.builder()
+                .address(createPropertyDto.getAddress())
+                .city(createPropertyDto.getCity())
+                .state(createPropertyDto.getState())
+                .country(createPropertyDto.getCountry())
+                .postalCode(createPropertyDto.getPostalCode())
+                .longitude(Double.parseDouble(nomantimApiResponseDto.getLon()))
+                .latitude(Double.parseDouble(nomantimApiResponseDto.getLat()))
+                .build();
+    }
+
+    private NomantimApiResponseDto buildLocationWithNomantim(CreatePropertyDto createPropertyDto) {
 
         NomantimSearchLocationDto nomantimSearchLocationDto = NomantimSearchLocationDto.builder()
                 .city(createPropertyDto.getCity())
@@ -47,27 +91,11 @@ public class PropertyService {
 
         NomantimApiResponseDto nomantimApiResponseDto = NomantimUtils.getGeoLocationDetails(nomantimSearchLocationDto);
 
-        Property property = propertyMapper.toCreateEntity(createPropertyDto);
+        if (Objects.isNull(nomantimApiResponseDto)) {
+            return null;
+        }
 
-        property.setPhotoUrls(uploadedImageUrls);
-
-        Property savedProperty = propertyRespository.save(property);
-
-        if (Objects.isNull(nomantimApiResponseDto))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find such location");
-
-        InsertLocationDto insertLocationDto = InsertLocationDto.builder()
-                .address(createPropertyDto.getAddress())
-                .city(createPropertyDto.getCity())
-                .state(createPropertyDto.getState())
-                .country(createPropertyDto.getCountry())
-                .postalCode(createPropertyDto.getPostalCode())
-                .longitude(Double.parseDouble(nomantimApiResponseDto.getLon()))
-                .latitude(Double.parseDouble(nomantimApiResponseDto.getLat()))
-                .build();
-
-        locationService.insertSavedLocation(insertLocationDto,savedProperty);
-
-        return propertyMapper.toDto(savedProperty);
+        return nomantimApiResponseDto;
     }
+
 }
