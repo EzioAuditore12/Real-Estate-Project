@@ -2,6 +2,7 @@ import type { ComponentProps } from "react";
 
 import { useAppForm } from "@/lib/use-app-form";
 import { cn } from "@/lib/utils";
+import { useGetGeoLocation } from "@/hooks/use-get-location";
 
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +18,9 @@ interface CreatePropertyFormProps extends ComponentProps<"form"> {
 }
 
 export const CreatePropertyForm=({className, handleSubmit, isRequestPending, ...props}: CreatePropertyFormProps)=> {
+
+  const { coords , state, city, country , postalCode } = useGetGeoLocation()
+
     const appForm = useAppForm({
     validators: { onChange: PropertyParamSchema },
     defaultValues : defaultPropertyParamValues,
@@ -79,6 +83,20 @@ export const CreatePropertyForm=({className, handleSubmit, isRequestPending, ...
         </appForm.AppField>
 
         {/* Location */}
+        <div className="relative">
+              <Button className="absolute right-0"
+            onClick={()=> {
+              // Fix: use coords.lat and coords.lng (not latitude/longitude)
+              appForm.setFieldValue("latitude", coords?.lat != null ? String(coords.lat) : "")
+              appForm.setFieldValue("longitude", coords?.lng != null ? String(coords.lng) : "")
+              appForm.setFieldValue("city", city ?? "")
+              appForm.setFieldValue("state", state ?? "")
+              appForm.setFieldValue("country", country ?? "")
+              appForm.setFieldValue("postalCode", postalCode ?? "")
+            }}
+          >
+            Use My Location
+          </Button>
         <h2 className="text-lg font-semibold mt-6 mb-2">Location</h2>
         <appForm.AppField name="address">
           {(field) => <field.InputField />}
@@ -101,6 +119,7 @@ export const CreatePropertyForm=({className, handleSubmit, isRequestPending, ...
         <appForm.AppField name="postalCode">
           {(field) => <field.InputField />}
         </appForm.AppField>
+        </div>
 
         {/* Other */}
         <h2 className="text-lg font-semibold mt-6 mb-2">Other</h2>

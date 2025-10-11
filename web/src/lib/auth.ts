@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useAuthStore } from '@/store';
 import { env } from '@/env';
-import { regenerateTokensApi } from './regenerate-tokens.api';
+import { regenerateTokensApi } from './api/regenerate-tokens.api';
 
 const authenticatedAxiosInstance = axios.create({
   baseURL: env.VITE_PUBLIC_SERVER_URL,

@@ -4,13 +4,10 @@ import { Button } from '@/components/ui/button';
 import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
-import {
-  tenantLoginFormValidator,
-  type tenantLoginInputs,
-} from '../-validators';
+import { loginTenantFormParamsSchema, type LoginTenantFormParams } from '../-schemas/login-tenant-params.schema';
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
-  handleSubmit: (data: tenantLoginInputs) => void;
+  handleSubmit: (data: LoginTenantFormParams) => void;
   isRequestPending: boolean;
 }
 
@@ -21,7 +18,7 @@ export function TenantLoginForm({
   ...props
 }: Readonly<ManagerLoginFormProps>) {
   const LoginForm = useAppForm({
-    validators: { onChange: tenantLoginFormValidator },
+    validators: { onChange: loginTenantFormParamsSchema },
     defaultValues: {
       email: '',
       password: '',

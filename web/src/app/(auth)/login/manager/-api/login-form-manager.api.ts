@@ -1,28 +1,18 @@
 import axios from 'axios';
 import { env } from '@/env';
-import type {
-  user,
-  tokens,
-  role,
-  managerManagedProperties,
-} from '../../../-types';
 
-export type loginFormManagerProps = {
-  email: string;
-  password: string;
-};
-
-export type loginFormManagerResponse = {
-  success: boolean;
-  message: string;
-  user: user & managerManagedProperties;
-  tokens: tokens;
-  role: role;
-};
+import type { ManagerLoginFormParams } from '../-schemas/login-manager-params.schema';
+import { loginManagerResponseSchema, type LoginManagerResponse } from '../-schemas/login-manager-resposne.schema';
 
 const url = `${env.VITE_PUBLIC_SERVER_URL}/auth/manager/login`;
 
-export const loginFormManagerApi = async (data: loginFormManagerProps) => {
-  const response = await axios.post<loginFormManagerResponse>(url, data);
-  return response.data;
+export const loginFormManagerApi = async (data: ManagerLoginFormParams) => {
+  const response = await axios.post<LoginManagerResponse>(url, data);
+
+   const parsed = loginManagerResponseSchema.safeParse(response.data);
+    if (!parsed.success) {
+      throw new Error('Invalid response from server');
+    }
+
+    return parsed.data;
 };

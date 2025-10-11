@@ -1,12 +1,14 @@
-import type { user, role, tokens } from '@/app/(auth)/-types';
+import type { User } from '@/app/(auth)/-schemas/user.schema';
+import type { Tokens } from '@/app/(auth)/-schemas/tokens.schema';
+import type { Role } from '@/app/(auth)/-schemas/role.schema';
 
 export interface AuthStore {
-  user: user | null;
-  tokens: tokens | null;
-  role: role | null;
-  setUserDetails(data: user): void;
-  setUserTokens(data: tokens): void;
-  setUserRole(data: role): void;
+  user: User | null;
+  tokens: Tokens | null;
+  role: Role | null;
+  setUserDetails(data: User): void;
+  setUserTokens(data: Tokens): void;
+  setUserRole(data: Role): void;
   verifySession(): boolean;
   logout: () => void;
 }

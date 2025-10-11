@@ -4,14 +4,18 @@ import { Button } from '@/components/ui/button';
 import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
-import {
-  tenantRegisterationFormValidator,
-  type tenantRegisterationFromInputs,
-} from '../-validators/index';
+import { tenantRegisterationFormParamSchema, type TenantRegisterationFormParams } from '../-schemas/tenant-register-params.schema';
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
-  handleSubmit: (data: tenantRegisterationFromInputs) => void;
+  handleSubmit: (data: TenantRegisterationFormParams) => void;
   isRequestPending: boolean;
+}
+
+const defaulValues: TenantRegisterationFormParams ={
+  name: '',
+  email: '',
+  password: '',
+  avatar: undefined
 }
 
 export function TenantRegisterForm({
@@ -21,14 +25,12 @@ export function TenantRegisterForm({
   ...props
 }: Readonly<ManagerLoginFormProps>) {
   const LoginForm = useAppForm({
-    validators: { onChange: tenantRegisterationFormValidator },
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
+    validators: { onChange: tenantRegisterationFormParamSchema },
+    defaultValues: defaulValues,
     onSubmit: ({ value }) => {
-      handleSubmit(value);
+      const { avatar, ...rest } = value;
+      const submitValue = avatar === undefined ? rest : value;
+      handleSubmit(submitValue);
     },
   });
 
@@ -44,6 +46,11 @@ export function TenantRegisterForm({
       }}
       {...props}
     >
+
+       <LoginForm.AppField name="avatar">
+        {(field) => <field.AvatarUploadField />}
+      </LoginForm.AppField>
+
       <LoginForm.AppField name="name">
         {(field) => <field.TextField className="mt-2" placeholder="name" />}
       </LoginForm.AppField>

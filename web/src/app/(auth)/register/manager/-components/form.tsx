@@ -4,14 +4,18 @@ import { Button } from '@/components/ui/button';
 import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
-import {
-  managerRegisterationFormValidator,
-  type managerRegisterationFromInputs,
-} from '../-validators/index';
+import {managerRegisterationFormParamSchema, type ManagerRegisterationFormParams} from "../-schemas/register-manager-params.schema"
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
-  handleSubmit: (data: managerRegisterationFromInputs) => void;
+  handleSubmit: (data: ManagerRegisterationFormParams) => void;
   isRequestPending: boolean;
+}
+
+const defaulValues: ManagerRegisterationFormParams ={
+  name: '',
+  email: '',
+  password: '',
+  avatar: undefined
 }
 
 export function ManagerRegisterForm({
@@ -21,14 +25,12 @@ export function ManagerRegisterForm({
   ...props
 }: Readonly<ManagerLoginFormProps>) {
   const LoginForm = useAppForm({
-    validators: { onChange: managerRegisterationFormValidator },
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
+    validators: { onChange: managerRegisterationFormParamSchema },
+    defaultValues: defaulValues,
     onSubmit: ({ value }) => {
-      handleSubmit(value);
+      const { avatar, ...rest } = value;
+      const submitValue = avatar === undefined ? rest : value;
+      handleSubmit(submitValue);
     },
   });
 
@@ -44,6 +46,11 @@ export function ManagerRegisterForm({
       }}
       {...props}
     >
+
+      <LoginForm.AppField name="avatar">
+        {(field) => <field.AvatarUploadField />}
+      </LoginForm.AppField>
+
       <LoginForm.AppField name="name">
         {(field) => <field.TextField className="mt-2" placeholder="name" />}
       </LoginForm.AppField>
@@ -53,6 +60,8 @@ export function ManagerRegisterForm({
           <field.TextField className="mt-2" placeholder="name@example.com" />
         )}
       </LoginForm.AppField>
+
+ 
 
       <LoginForm.AppField name="password">
         {(field) => <field.TextField type="password" />}

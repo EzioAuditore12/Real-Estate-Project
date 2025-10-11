@@ -10,7 +10,10 @@ export const PropertyParamSchema = z.object({
 
     name: z.string().nonempty().max(50),
 
-    description: z.string().nonempty().max(250),
+     description: z
+      .string()
+      .max(250)
+      .refine((v) => v.trim().length > 0, { message: "Description cannot be empty" }),
 
      baths: z.string().refine((val)=> isInt(val,{
       min: 0,

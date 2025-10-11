@@ -2,7 +2,6 @@ import { env } from '@/env';
 import type { role } from '@/app/(auth)/-types';
 import axios from 'axios';
 
-// Create a separate axios instance for token refresh (no interceptors)
 const tokenRefreshAxios = axios.create({
   baseURL: env.VITE_PUBLIC_SERVER_URL,
 });

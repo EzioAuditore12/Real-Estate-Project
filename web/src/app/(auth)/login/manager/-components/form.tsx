@@ -4,13 +4,10 @@ import { Button } from '@/components/ui/button';
 import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
-import {
-  managerLoginFormValidator,
-  type managerLoginInputs,
-} from '../-validators/index';
+import { managerLoginFormParamsSchema, type ManagerLoginFormParams } from '../-schemas/login-manager-params.schema';
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
-  handleSubmit: (data: managerLoginInputs) => void;
+  handleSubmit: (data: ManagerLoginFormParams) => void;
   isRequestPending: boolean;
 }
 
@@ -21,7 +18,7 @@ export function ManagerLoginForm({
   ...props
 }: Readonly<ManagerLoginFormProps>) {
   const LoginForm = useAppForm({
-    validators: { onChange: managerLoginFormValidator },
+    validators: { onChange: managerLoginFormParamsSchema },
     defaultValues: {
       email: '',
       password: '',
