@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.realestate.server.property.dto.location.LocationDto;
 import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.HighlightType;
 
@@ -48,6 +49,8 @@ public class PropertyDto {
     private Double averageRatings;
 
     private Double numberOfRatings;
+
+    private LocationDto location;
 
     private UUID managerId; 
 

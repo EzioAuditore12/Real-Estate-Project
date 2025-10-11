@@ -24,7 +24,7 @@ public class LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
 
-    public void insertSavedLocation(InsertLocationDto insertLocationDto, Property savedProperty) {
+    public Location insertSavedLocation(InsertLocationDto insertLocationDto, Property savedProperty) {
 
         Point coordinates = convertToCoordinates(insertLocationDto.getLongitude(), insertLocationDto.getLatitude());
 
@@ -38,7 +38,7 @@ public class LocationService {
                 .property(savedProperty)
                 .build();
 
-        locationRepository.save(location);
+        return locationRepository.save(location);
     }
 
     public LocationDto findLocationByLongitudeAndLatitude(Double longitude, Double latitude) {

@@ -16,6 +16,8 @@ import com.realestate.server.property.dto.location.LocationDto;
 import com.realestate.server.property.dto.nomantim.NomantimApiResponseDto;
 import com.realestate.server.property.dto.property.CreatePropertyDto;
 import com.realestate.server.property.dto.property.PropertyDto;
+import com.realestate.server.property.dto.property.PropertySummaryDto;
+import com.realestate.server.property.entities.Location;
 import com.realestate.server.property.entities.Property;
 import com.realestate.server.property.mappers.PropertyMapper;
 import com.realestate.server.property.repositories.PropertyRespository;
@@ -69,9 +71,30 @@ public class PropertyService {
 
         InsertLocationDto insertLocationDto = buildLocation(createPropertyDto, nomantimApiResponseDto);
 
-        locationService.insertSavedLocation(insertLocationDto, savedProperty);
+        Location savedLocation = locationService.insertSavedLocation(insertLocationDto, savedProperty);
+
+        savedProperty.setLocation(savedLocation);
 
         return propertyMapper.toDto(savedProperty);
+    }
+
+    public PropertyDto getPropertyDetails(UUID id) {
+        Property property = propertyRespository.findById(id).orElse(null);
+
+        if (Objects.isNull(property))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find such property");
+
+        return propertyMapper.toDto(property);
+    }
+
+    public List<PropertySummaryDto> getAllManagerCreatedProperties(UUID id) {
+
+        List<Property> managedProperties = propertyRespository.findAllByManagerId(id);
+
+        return managedProperties.stream()
+                .map(propertyMapper::toSummaryDto)
+                .toList();
+
     }
 
     private InsertLocationDto buildLocation(CreatePropertyDto createPropertyDto,

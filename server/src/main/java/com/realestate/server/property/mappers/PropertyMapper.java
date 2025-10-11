@@ -8,12 +8,13 @@ import com.realestate.server.property.dto.property.PropertyDto;
 import com.realestate.server.property.dto.property.PropertySummaryDto;
 import com.realestate.server.property.entities.Property;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { LocationMapper.class })
 public interface PropertyMapper {
 
     @Mapping(target = "applicationIds", ignore = true)
     @Mapping(target = "managerId", source = "manager.id")
     @Mapping(target = "propertyTenantPaymentApplicationIds", ignore = true)
+    @Mapping(source = "location", target = "location") // Explicitly map the location field
     PropertyDto toDto(Property property);
 
     @Mapping(target = "photoUrls", ignore = true)
