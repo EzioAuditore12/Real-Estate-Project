@@ -17,6 +17,7 @@ export function useManagerLoginForm() {
         id: data.user.id,
         email: data.user.email,
         name: data.user.name,
+        avatar: data.user.avatar
       });
       setUserTokens(data.tokens);
       setUserRole(data.role);

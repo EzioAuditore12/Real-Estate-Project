@@ -8,6 +8,7 @@ import { User, Mail, Phone, Calendar, Edit, Home } from 'lucide-react';
 interface ManagerDetailsProps {
   manager: {
     id: string;
+    avatar: string | null
     firstName?: string;
     lastName?: string;
     name?: string;
@@ -56,7 +57,7 @@ export function ManagerDetails({
         {/* Avatar and Basic Info */}
         <div className="flex items-center space-x-4">
           <Avatar className="h-16 w-16">
-            <AvatarImage src="" alt={displayName} />
+            <AvatarImage src={manager.avatar ?? ""} alt={displayName} />
             <AvatarFallback className="text-lg font-semibold">
               {initials}
             </AvatarFallback>

@@ -58,10 +58,10 @@ public class Property {
     private List<HighlightType> highlights;
 
     @Column(nullable = false)
-    private boolean isPetAllowed = false;
+    private boolean petAllowed = false;
 
     @Column(nullable = false)
-    private boolean isParkingIncluded = false;
+    private boolean parkingIncluded = false;
 
     @Column(nullable = false)
     private Integer beds = 0;

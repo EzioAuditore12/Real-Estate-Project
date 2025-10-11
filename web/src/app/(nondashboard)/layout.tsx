@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import { Navbar } from '@/components/navbar';
+import { Navbar } from './-components/navbar';
 import { NAVBAR_HEIGHT } from '@/lib/constants';
 
 export const Route = createFileRoute('/(nondashboard)')({

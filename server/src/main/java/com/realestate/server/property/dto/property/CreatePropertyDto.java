@@ -46,9 +46,9 @@ public class CreatePropertyDto {
     @NotNull
     private List<HighlightType> highlights;
 
-    private boolean isPetAllowed = false;
+    private boolean petAllowed = false;
 
-    private boolean isParkingIncluded = false;
+    private boolean parkingIncluded = false;
 
     @NotNull
     private Integer beds = 0;

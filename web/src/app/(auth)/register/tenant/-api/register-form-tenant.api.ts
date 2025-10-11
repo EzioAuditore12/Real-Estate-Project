@@ -19,6 +19,10 @@ export type registerFormTenantResponse = {
 const url = `${env.VITE_PUBLIC_SERVER_URL}/auth/tenant/register`;
 
 export const registerFormTenantApi = async (data: registerFormTenantProps) => {
-  const response = await axios.post<registerFormTenantResponse>(url, data);
+  const response = await axios.post<registerFormTenantResponse>(url, data,{
+    headers :{
+      'Content-Type': 'multipart/form-data',
+    }
+  });
   return response.data;
 };

@@ -3,7 +3,7 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { NavbarLogo } from './logo';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/store';
-import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 export function Navbar() {
   const { user, logout } = useAuthStore((state) => state);
@@ -35,7 +35,7 @@ export function Navbar() {
                   navigate({ to: '/dashboard' });
                 }}
               >
-                <AvatarImage />
+                <AvatarImage src={user.avatar ?? ""} />
                 <AvatarFallback>RS</AvatarFallback>
               </Avatar>
 

@@ -28,9 +28,9 @@ public class PropertySummaryDto {
 
     private List<HighlightType> highlights;
 
-    private boolean isPetAllowed;
+    private boolean petAllowed;
 
-    private boolean isParkingIncluded;
+    private boolean parkingIncluded;
 
     private Integer beds;
 

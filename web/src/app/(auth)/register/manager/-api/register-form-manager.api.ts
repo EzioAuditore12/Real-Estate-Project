@@ -26,6 +26,13 @@ const url = `${env.VITE_PUBLIC_SERVER_URL}/auth/manager/register`;
 export const registerFormManagerApi = async (
   data: registerFormManagerProps,
 ) => {
-  const response = await axios.post<registerFormManagerResponse>(url, data);
+
+
+
+const response = await axios.post<registerFormManagerResponse>(url, data, {
+    headers: {
+      'Content-Type' : 'multipart/form-data'
+    }
+});
   return response.data;
 };
