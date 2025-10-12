@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,11 +18,12 @@ import com.realestate.server.property.dto.location.LocationDto;
 import com.realestate.server.property.dto.nomantim.NomantimApiResponseDto;
 import com.realestate.server.property.dto.property.CreatePropertyDto;
 import com.realestate.server.property.dto.property.PropertyDto;
-import com.realestate.server.property.dto.property.PropertySummaryDto;
+import com.realestate.server.property.dto.property.PropertySearchDto;
 import com.realestate.server.property.entities.Location;
 import com.realestate.server.property.entities.Property;
 import com.realestate.server.property.mappers.PropertyMapper;
 import com.realestate.server.property.repositories.PropertyRespository;
+import com.realestate.server.property.specifications.PropertySpecification;
 import com.realestate.server.property.utils.NomantimUtils;
 
 import jakarta.transaction.Transactional;
@@ -87,13 +90,23 @@ public class PropertyService {
         return propertyMapper.toDto(property);
     }
 
-    public List<PropertySummaryDto> getAllManagerCreatedProperties(UUID id) {
+    public List<PropertyDto> getAllManagerCreatedProperties(UUID id) {
 
         List<Property> managedProperties = propertyRespository.findAllByManagerId(id);
 
         return managedProperties.stream()
-                .map(propertyMapper::toSummaryDto)
+                .map(propertyMapper::toDto)
                 .toList();
+
+    }
+
+    public List<PropertyDto> searchProperties(Pageable pageable, PropertySearchDto propertySearchDto) {
+
+        Specification<Property> specification = PropertySpecification.withDynamicQuery(propertySearchDto);
+
+        List<Property> properties = propertyRespository.findAll(specification, pageable).getContent();
+
+        return properties.stream().map(propertyMapper::toDto).toList();
 
     }
 

@@ -6,7 +6,7 @@ import com.realestate.server.auth.dto.AuthManagerResponseDto;
 import com.realestate.server.auth.dto.AuthTenantResponseDto;
 import com.realestate.server.auth.dto.BlackListRefreshTokenDto;
 import com.realestate.server.auth.dto.TokensDto;
-import com.realestate.server.auth.entities.BlackListRefreshTokenEntity;
+import com.realestate.server.auth.entities.BlackListRefreshToken;
 import com.realestate.server.manager.dto.ManagerDto;
 import com.realestate.server.manager.dto.ManagerSummaryDto;
 import com.realestate.server.tenant.dto.tenant.TenantDto;
@@ -31,5 +31,5 @@ public interface AuthMapper {
     AuthManagerResponseDto toAuthenticatedManagerResponseDto(ManagerSummaryDto managerSummaryDto, TokensDto tokensDto);
 
     @Mapping(target = "id", ignore = true)
-    BlackListRefreshTokenEntity insertBlackListedToken(BlackListRefreshTokenDto dto);
+    BlackListRefreshToken insertBlackListedToken(BlackListRefreshTokenDto dto);
 }

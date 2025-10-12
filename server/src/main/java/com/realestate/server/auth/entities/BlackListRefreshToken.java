@@ -1,7 +1,6 @@
 package com.realestate.server.auth.entities;
 
 import java.util.Date;
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,12 +11,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class BlackListRefreshTokenEntity {
+public class BlackListRefreshToken {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "uuid", updatable = false, nullable = false )
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(columnDefinition = "text", nullable = false, unique = true)
     private String refreshToken;

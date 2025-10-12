@@ -18,7 +18,7 @@ import com.realestate.server.auth.dto.LoginTenantDto;
 import com.realestate.server.auth.dto.RefreshTokensDto;
 import com.realestate.server.auth.dto.RegisterTenantDto;
 import com.realestate.server.auth.dto.TokensDto;
-import com.realestate.server.auth.entities.BlackListRefreshTokenEntity;
+import com.realestate.server.auth.entities.BlackListRefreshToken;
 import com.realestate.server.auth.enums.Role;
 import com.realestate.server.auth.repositories.BlackListRefreshTokenRepository;
 import com.realestate.server.auth.utils.JwtService;
@@ -79,7 +79,7 @@ public class AuthTenantService {
 
     
     private void insertBlackListedToken(BlackListRefreshTokenDto blackListRefreshTokenDto) {
-        BlackListRefreshTokenEntity entity = authMapper.insertBlackListedToken(blackListRefreshTokenDto);
+        BlackListRefreshToken entity = authMapper.insertBlackListedToken(blackListRefreshTokenDto);
         blackListRefreshTokenRepository.save(entity);
     }
 

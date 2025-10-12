@@ -15,12 +15,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CreatePropertyDto {
 
     @NotBlank
@@ -32,9 +34,11 @@ public class CreatePropertyDto {
     private String description;
 
     @NotNull
+    @Builder.Default
     private Double pricePerMonth = 0.0;
 
     @NotNull
+    @Builder.Default
     private Double securityDeposit = 0.0;
 
     @NotNull
@@ -46,18 +50,22 @@ public class CreatePropertyDto {
     @NotNull
     private List<HighlightType> highlights;
 
+    @Builder.Default
     private boolean petAllowed = false;
 
+    @Builder.Default
     private boolean parkingIncluded = false;
 
     @NotNull
+    @Builder.Default
     private Integer beds = 0;
 
     @NotNull
+    @Builder.Default
     private Integer baths = 0;
 
     @NotNull
-    private Float squareFeet;
+    private Double squareFeet;
 
     @NotNull
     private PropertyType propertyType;

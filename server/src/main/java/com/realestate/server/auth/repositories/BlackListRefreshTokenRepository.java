@@ -1,12 +1,11 @@
 package com.realestate.server.auth.repositories;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.realestate.server.auth.entities.BlackListRefreshTokenEntity;
+import com.realestate.server.auth.entities.BlackListRefreshToken;
 
-public interface BlackListRefreshTokenRepository extends JpaRepository<BlackListRefreshTokenEntity, UUID> {
-    Optional<BlackListRefreshTokenEntity> findByRefreshToken(String refreshToken);
+public interface BlackListRefreshTokenRepository extends JpaRepository<BlackListRefreshToken, Long> {
+    Optional<BlackListRefreshToken> findByRefreshToken(String refreshToken);
 }
