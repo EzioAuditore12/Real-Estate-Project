@@ -3,6 +3,7 @@ package com.realestate.server.property.entities;
 import com.realestate.server.manager.entites.Manager;
 import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.HighlightType;
+import com.realestate.server.property.enums.PropertyType;
 import com.realestate.server.tenant.entites.Application;
 
 import jakarta.persistence.CascadeType;
@@ -62,6 +63,8 @@ public class Property {
 
     @Column(nullable = false)
     private List<HighlightType> highlights;
+
+    private PropertyType propertyType;
 
     @Column(nullable = false)
     private boolean petAllowed = false;

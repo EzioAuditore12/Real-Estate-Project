@@ -12,6 +12,9 @@ public interface ApplicationMapper {
     @Mapping(source = "property.id", target = "propertyId")
     @Mapping(source = "tenant.id", target = "tenantId")
     @Mapping(source = "lease.id", target = "leaseId")
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "message", ignore = true)
+    @Mapping(target = "name", ignore = true)
     ApplicationDto toDto(Application application);
 
 }

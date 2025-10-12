@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.HighlightType;
+import com.realestate.server.property.enums.PropertyType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class PropertySummaryDto {
     private Double pricePerMonth;
 
     private List<String> photoUrls;
+
+    private PropertyType propertyType;
 
     private List<AmenityType> amenities;
 

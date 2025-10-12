@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.realestate.server.property.dto.location.LocationDto;
 import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.HighlightType;
+import com.realestate.server.property.enums.PropertyType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,8 @@ public class PropertyDto {
     private List<AmenityType> amenities;
 
     private List<HighlightType> highlights;
+
+    private PropertyType propertyType;
 
     private boolean petAllowed;
 

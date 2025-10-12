@@ -60,8 +60,8 @@ public class TenantController {
         return new BaseResponseDto<>(true, "Tenant profile fetched successfully", tenantMapper.toProfileDto(tenant));
     }
 
-    @AuthenticatedTenant
     @PostMapping("application")
+    @AuthenticatedTenant
     public BaseResponseDto<ApplicationDto> createApplication(@Valid @RequestBody CreateApplicationDto createApplicationDto) {
 
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();

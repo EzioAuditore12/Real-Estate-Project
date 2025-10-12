@@ -12,10 +12,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lease {
 
     @Id
@@ -30,10 +38,12 @@ public class Lease {
     private LocalDateTime endDate;
 
     @Column(nullable = false)
+    @Builder.Default
     private double rent = 0;
 
     @Column(nullable = false)
-    private boolean deposit = false;
+    @Builder.Default
+    private Double deposit = 0.0;
 
     @OneToOne
     @JoinColumn(name = "application_id", referencedColumnName = "id")

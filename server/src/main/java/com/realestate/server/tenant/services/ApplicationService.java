@@ -1,6 +1,7 @@
 package com.realestate.server.tenant.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,18 @@ public class ApplicationService {
         Application savedApplication = applicationRepository.save(application);
 
         return applicationMapper.toDto(savedApplication);
+
+    }
+
+    public Application getApplicationById(UUID applicationId) {
+        return applicationRepository.findById(applicationId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No such application found")
+        );
+    }
+
+    public List<Application> getAllPropertyApplications(UUID propertyId) {
+
+        return applicationRepository.findByPropertyId(propertyId);
 
     }
 
