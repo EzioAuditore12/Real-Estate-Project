@@ -1,15 +1,18 @@
-package com.realestate.server.tenant;
+package com.realestate.server.tenant.services;
 
 import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.common.services.CloudinaryService;
 import com.realestate.server.tenant.dto.tenant.CreateTenantDto;
 import com.realestate.server.tenant.dto.tenant.TenantDto;
 import com.realestate.server.tenant.dto.tenant.TenantSummaryDto;
 import com.realestate.server.tenant.entites.Tenant;
+import com.realestate.server.tenant.mappers.TenantMapper;
 import com.realestate.server.tenant.repositories.TenantRepository;
 
 import jakarta.transaction.Transactional;
@@ -44,6 +47,11 @@ public class TenantService {
         Tenant createdAccount = tenantRepository.save(tenant);
 
         return tenantMapper.toSummaryDto(createdAccount);
+    }
+
+    public Tenant findEntityById(UUID userId) {
+        return tenantRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found"));
     }
     
 }

@@ -90,6 +90,12 @@ public class PropertyService {
         return propertyMapper.toDto(property);
     }
 
+    public Property findPropertyByEntity(UUID propertyId) {
+        return propertyRespository.findById(propertyId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Such Property Found")
+        );
+    }
+
     public List<PropertyDto> getAllManagerCreatedProperties(UUID id) {
 
         List<Property> managedProperties = propertyRespository.findAllByManagerId(id);

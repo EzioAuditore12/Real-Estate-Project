@@ -1,4 +1,4 @@
-package com.realestate.server.tenant;
+package com.realestate.server.tenant.mappers;
 
 import java.util.Collections;
 import java.util.Set;

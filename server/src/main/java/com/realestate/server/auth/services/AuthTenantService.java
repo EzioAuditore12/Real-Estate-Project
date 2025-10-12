@@ -23,9 +23,9 @@ import com.realestate.server.auth.enums.Role;
 import com.realestate.server.auth.repositories.BlackListRefreshTokenRepository;
 import com.realestate.server.auth.utils.JwtService;
 import com.realestate.server.auth.utils.TokenType;
-import com.realestate.server.tenant.TenantService;
 import com.realestate.server.tenant.dto.tenant.TenantDto;
 import com.realestate.server.tenant.dto.tenant.TenantSummaryDto;
+import com.realestate.server.tenant.services.TenantService;
 
 import lombok.RequiredArgsConstructor;
 

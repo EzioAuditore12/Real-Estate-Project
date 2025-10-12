@@ -12,8 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.manager.ManagerService;
 import com.realestate.server.manager.dto.ManagerDto;
-import com.realestate.server.tenant.TenantService;
 import com.realestate.server.tenant.dto.tenant.TenantDto;
+import com.realestate.server.tenant.services.TenantService;
 
 import lombok.RequiredArgsConstructor;
 
