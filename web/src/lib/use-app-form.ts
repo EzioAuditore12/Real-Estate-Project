@@ -21,7 +21,7 @@ export const { useAppForm } = createFormHook({
     ToggleField,
     ToggleGroupField,
     ImageUploadField,
-    AvatarUploadField
+    AvatarUploadField,
   },
   formComponents: {
     SubmitButton,

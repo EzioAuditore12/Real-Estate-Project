@@ -1,94 +1,110 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import { AmenityTypeEnum } from "../-enums/amenity.enum";
-import { HighlightTypeEnum } from "../-enums/highlights.enum";
-import { PropertyTypeEnum } from "../-enums/property-type.enum";
-import { imageSchema } from "./image.schema";
-import { isDecimal, isInt } from "validator";
+import { AmenityTypeEnum } from '@/app/-enums/amenity.enum';
+import { HighlightTypeEnum } from '@/app/-enums/highlights.enum';
+import { PropertyTypeEnum } from '@/app/-enums/property-type.enum';
+import { imageSchema } from './image.schema';
+import { isDecimal, isInt } from 'validator';
 
 export const PropertyParamSchema = z.object({
+  name: z.string().nonempty().max(50),
 
-    name: z.string().nonempty().max(50),
-
-     description: z
-      .string()
-      .max(250)
-      .refine((v) => v.trim().length > 0, { message: "Description cannot be empty" }),
-
-     baths: z.string().refine((val)=> isInt(val,{
-      min: 0,
-    }),{
-       error: "It should be a valid integer"
+  description: z
+    .string()
+    .max(250)
+    .refine((v) => v.trim().length > 0, {
+      message: 'Description cannot be empty',
     }),
 
-    beds: z.string().refine((val)=> isInt(val,{
-      min: 0,
-    }),{
-      error: "It should be a valid integer"
-    }),
+  baths: z.string().refine(
+    (val) =>
+      isInt(val, {
+        min: 0,
+      }),
+    {
+      error: 'It should be a valid integer',
+    },
+  ),
 
-    pricePerMonth: z.string().refine((val)=> isDecimal(val),{
-      error: "Should be a valid numeric value"
-    }),
+  beds: z.string().refine(
+    (val) =>
+      isInt(val, {
+        min: 0,
+      }),
+    {
+      error: 'It should be a valid integer',
+    },
+  ),
 
-    securityDeposit: z.string().refine((val)=> isDecimal(val),{
-      error:"Data should be in proper numeric form"
-    }),
+  pricePerMonth: z.string().refine((val) => isDecimal(val), {
+    error: 'Should be a valid numeric value',
+  }),
 
-    amenities: z.array(AmenityTypeEnum),
+  securityDeposit: z.string().refine((val) => isDecimal(val), {
+    error: 'Data should be in proper numeric form',
+  }),
 
-    highlights: z.array(HighlightTypeEnum),
+  amenities: z.array(AmenityTypeEnum),
 
-    petAllowed: z.boolean(),
-    
-    parkingIncluded: z.boolean(),
+  highlights: z.array(HighlightTypeEnum),
 
-    photos: z.array(imageSchema)
-      .max(10, { message: "Maximum 10 images allowed" })
-      .refine(
-        files => files.reduce((acc, file) => acc + file.size, 0) <= 50 * 1024 * 1024,
-        { message: "Total images size must not exceed 50MB" }
+  petAllowed: z.boolean(),
+
+  parkingIncluded: z.boolean(),
+
+  photos: z
+    .array(imageSchema)
+    .max(10, { message: 'Maximum 10 images allowed' })
+    .refine(
+      (files) =>
+        files.reduce((acc, file) => acc + file.size, 0) <= 50 * 1024 * 1024,
+      { message: 'Total images size must not exceed 50MB' },
     ),
 
-    squareFeet: z.string().refine((val)=> isDecimal(val),{
-      error: "Number should be greater than 0"
-    }),
+  squareFeet: z.string().refine((val) => isDecimal(val), {
+    error: 'Number should be greater than 0',
+  }),
 
-    propertyType: PropertyTypeEnum,
+  propertyType: PropertyTypeEnum,
 
+  address: z.string().nonempty().max(50),
 
-    address: z.string().nonempty().max(50),
+  city: z.string().nonempty().max(50),
 
-    city: z.string().nonempty().max(50),
+  state: z.string().nonempty().max(50),
 
-    state: z.string().nonempty().max(50),
+  country: z.string().nonempty().max(50),
 
-    country: z.string().nonempty().max(50),
+  postalCode: z
+    .string()
+    .max(6)
+    .refine(
+      (val) =>
+        isInt(val, {
+          min: 0,
+        }),
+      {
+        error: 'Data should be a valid integer',
+      },
+    ),
 
-    postalCode: z.string().max(6).refine((val)=> isInt(val,{
-        min:0
-      }),{
-          error: "Data should be a valid integer"
-      }),
+  longitude: z
+    .string()
+    .nonempty()
+    .transform((val) => Number(val))
+    .refine((val) => val >= -180 && val <= 180, {
+      error: 'Latitude must be between -180 and 180',
+    })
+    .transform((val) => val.toString()),
 
-          longitude: z.string().nonempty()
-      .transform(val => Number(val))
-      .refine(val => val >= -180 && val <= 180, {
-        error: "Latitude must be between -180 and 180",
-      })
-      .transform(val => val.toString()),
+  latitude: z
+    .string()
+    .nonempty()
+    .transform((val) => Number(val))
+    .refine((val) => val >= -90 && val <= 90, {
+      error: 'Latitude must be between -90 and 90',
+    })
+    .transform((val) => val.toString()),
+});
 
-
-    latitude: z.string().nonempty()
-      .transform(val => Number(val))
-      .refine(val => val >= -90 && val <= 90, {
-        error: "Latitude must be between -90 and 90",
-      })
-      .transform(val => val.toString()),
-
-
-      
-
-})
-
-export type PropertyParams = z.infer<typeof PropertyParamSchema>
+export type PropertyParams = z.infer<typeof PropertyParamSchema>;

@@ -20,7 +20,10 @@ export const registerFormManagerApi = async (
     }
   });
 
-  const response = await axios.post<ManagerRegisterationFormParams>(url, formData);
+  const response = await axios.post<ManagerRegisterationFormParams>(
+    url,
+    formData,
+  );
 
   const parsed = registerManagerResponseSchema.safeParse(response.data);
   if (!parsed.success) {

@@ -5,4 +5,4 @@ export const loginTenantFormParamsSchema = z.object({
   password: z.string().nonempty(),
 });
 
-export type  LoginTenantFormParams = z.infer<typeof loginTenantFormParamsSchema>;
+export type LoginTenantFormParams = z.infer<typeof loginTenantFormParamsSchema>;

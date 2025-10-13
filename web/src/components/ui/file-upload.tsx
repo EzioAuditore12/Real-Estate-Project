@@ -1,20 +1,20 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 import {
   UploadCloud,
   File as FileIcon,
   CheckCircle2,
   Trash2,
   Image as ImageIcon,
-} from "lucide-react";
-import * as React from "react";
-import { useDropzone, type DropzoneOptions } from "react-dropzone";
-import { Progress } from "@/components/ui/progress";
+} from 'lucide-react';
+import * as React from 'react';
+import { useDropzone, type DropzoneOptions } from 'react-dropzone';
+import { Progress } from '@/components/ui/progress';
 
 // Helper to format file size
 const formatFileSize = (bytes?: number) => {
-  if (!bytes) return "0 Bytes";
+  if (!bytes) return '0 Bytes';
   const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 };
@@ -30,7 +30,7 @@ type FileUploadProps = {
 const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
   (
     { value: fileList = [], onChange, disabled, dropzoneOptions, className },
-    ref
+    ref,
   ) => {
     const [uploadProgress, setUploadProgress] = React.useState<
       Record<string, number>
@@ -40,7 +40,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     React.useEffect(() => {
       const previewMap: Record<string, string> = {};
       fileList.forEach((file) => {
-        if (file.type.startsWith("image/")) {
+        if (file.type.startsWith('image/')) {
           previewMap[file.name] = URL.createObjectURL(file);
         }
       });
@@ -83,7 +83,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           }, 100);
         });
       },
-      [fileList, onChange, uploadProgress]
+      [fileList, onChange, uploadProgress],
     );
 
     const onRemove = (fileName: string) => {
@@ -118,16 +118,18 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         <div
           {...getRootProps()}
           className={cn(
-            "relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/30 px-6 py-8 text-center transition-colors hover:border-primary hover:bg-muted",
-            isDragActive && "border-primary bg-primary/10",
-            disabled && "cursor-not-allowed opacity-60",
-            className
+            'relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/30 px-6 py-8 text-center transition-colors hover:border-primary hover:bg-muted',
+            isDragActive && 'border-primary bg-primary/10',
+            disabled && 'cursor-not-allowed opacity-60',
+            className,
           )}
         >
           <input {...getInputProps()} />
           <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
           <div className="mt-3 text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">Click to upload</span>{" "}
+            <span className="font-semibold text-foreground">
+              Click to upload
+            </span>{' '}
             or drag and drop
           </div>
           <p className="mt-1 text-xs text-muted-foreground/80">
@@ -146,7 +148,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
               {fileList.map((file) => {
                 const progress = uploadProgress[file.name] ?? 0;
                 const isUploaded = progress === 100;
-                const isImage = file.type.startsWith("image/");
+                const isImage = file.type.startsWith('image/');
                 const previewUrl = previews[file.name];
 
                 return (
@@ -209,9 +211,9 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
-FileUpload.displayName = "FileUpload";
+FileUpload.displayName = 'FileUpload';
 
-export {FileUpload }
+export { FileUpload };

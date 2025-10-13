@@ -4,19 +4,22 @@ import { Button } from '@/components/ui/button';
 import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
-import { tenantRegisterationFormParamSchema, type TenantRegisterationFormParams } from '../-schemas/tenant-register-params.schema';
+import {
+  tenantRegisterationFormParamSchema,
+  type TenantRegisterationFormParams,
+} from '../-schemas/tenant-register-params.schema';
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
   handleSubmit: (data: TenantRegisterationFormParams) => void;
   isRequestPending: boolean;
 }
 
-const defaulValues: TenantRegisterationFormParams ={
+const defaulValues: TenantRegisterationFormParams = {
   name: '',
   email: '',
   password: '',
-  avatar: undefined
-}
+  avatar: undefined,
+};
 
 export function TenantRegisterForm({
   className,
@@ -46,8 +49,7 @@ export function TenantRegisterForm({
       }}
       {...props}
     >
-
-       <LoginForm.AppField name="avatar">
+      <LoginForm.AppField name="avatar">
         {(field) => <field.AvatarUploadField />}
       </LoginForm.AppField>
 

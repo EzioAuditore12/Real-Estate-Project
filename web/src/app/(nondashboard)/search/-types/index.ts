@@ -1,10 +1,10 @@
-export type Category = "electronics" | "clothing" | "books" | "toys"
+export type Category = 'electronics' | 'clothing' | 'books' | 'toys';
 
 export type ItemFilters = {
-    query: string
-    hasDiscount: boolean
-    categories: Category[]
-}
+  query: string;
+  hasDiscount: boolean;
+  categories: Category[];
+};
 
 export type NomentimApiResponse = {
   place_id: number;
@@ -13,14 +13,14 @@ export type NomentimApiResponse = {
   osm_id: number;
   lat: string;
   lon: string;
-  class: string; 
+  class: string;
   type: string;
   place_rank: number;
   importance: number;
-  address: NomantimAddress; 
+  address: NomantimAddress;
   display_name: string;
   boundingbox: string[];
-}
+};
 
 export type NomantimAddress = {
   city: string;

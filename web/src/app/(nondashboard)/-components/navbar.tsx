@@ -35,7 +35,7 @@ export function Navbar() {
                   navigate({ to: '/dashboard' });
                 }}
               >
-                <AvatarImage src={user.avatar ?? ""} />
+                <AvatarImage src={user.avatar ?? ''} />
                 <AvatarFallback>RS</AvatarFallback>
               </Avatar>
 

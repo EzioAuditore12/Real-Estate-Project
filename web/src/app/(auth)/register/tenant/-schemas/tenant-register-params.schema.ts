@@ -1,6 +1,6 @@
-import {z} from "zod";
-import { isStrongPassword } from "validator";
-import { imageSchema } from "@/lib/schemas";
+import { z } from 'zod';
+import { isStrongPassword } from 'validator';
+import { imageSchema } from '@/lib/schemas';
 
 export const tenantRegisterationFormParamSchema = z.object({
   name: z.string().nonempty().max(50),
@@ -19,9 +19,12 @@ export const tenantRegisterationFormParamSchema = z.object({
           minUppercase: 1,
         }),
       {
-        error: 'The password should be atleast in range of 8 to 16 and should contain atleast one uppercase,lowercase,symbol and number',
+        error:
+          'The password should be atleast in range of 8 to 16 and should contain atleast one uppercase,lowercase,symbol and number',
       },
     ),
 });
 
-export type TenantRegisterationFormParams = z.input<typeof tenantRegisterationFormParamSchema>
+export type TenantRegisterationFormParams = z.input<
+  typeof tenantRegisterationFormParamSchema
+>;

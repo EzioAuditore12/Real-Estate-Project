@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { managerProfileQuery } from './-queries/profile-query';
@@ -8,7 +8,7 @@ export const Route = createFileRoute('/dashboard/manager/(sections)/(index)/')({
   component: RouteComponent,
   loader: ({ context }) =>
     context.queryClient.ensureQueryData(managerProfileQuery),
-})
+});
 
 function RouteComponent() {
   const { data } = useSuspenseQuery(managerProfileQuery);

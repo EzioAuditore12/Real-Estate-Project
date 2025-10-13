@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Command, Map,User } from 'lucide-react';
+import { Building, Command, Map, User } from 'lucide-react';
 
-import {ManagerNavItems, type ManagerNavItem } from './nav-items';
+import { ManagerNavItems, type ManagerNavItem } from './nav-items';
 import { NavUser } from './nav-user';
 import {
   Sidebar,
@@ -26,6 +26,11 @@ const data = {
       name: 'Create Property',
       url: '/dashboard/manager/create-property',
       icon: Map,
+    },
+    {
+      name: 'Manage Properties',
+      url: '/dashboard/manager/managed-properties',
+      icon: Building,
     },
   ] as ManagerNavItem[],
 };

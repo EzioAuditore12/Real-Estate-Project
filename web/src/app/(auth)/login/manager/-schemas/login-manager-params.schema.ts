@@ -5,4 +5,6 @@ export const managerLoginFormParamsSchema = z.object({
   password: z.string().nonempty(),
 });
 
-export type ManagerLoginFormParams = z.infer<typeof managerLoginFormParamsSchema>;
+export type ManagerLoginFormParams = z.infer<
+  typeof managerLoginFormParamsSchema
+>;

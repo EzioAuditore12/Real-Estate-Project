@@ -4,7 +4,10 @@ import { Button } from '@/components/ui/button';
 import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
-import { loginTenantFormParamsSchema, type LoginTenantFormParams } from '../-schemas/login-tenant-params.schema';
+import {
+  loginTenantFormParamsSchema,
+  type LoginTenantFormParams,
+} from '../-schemas/login-tenant-params.schema';
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
   handleSubmit: (data: LoginTenantFormParams) => void;

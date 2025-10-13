@@ -32,7 +32,7 @@ const AvatarUpload = React.forwardRef<HTMLDivElement, AvatarUploadProps>(
         // We only care about the first file due to maxFiles: 1
         onChange?.(acceptedFiles[0]);
       },
-      [onChange]
+      [onChange],
     );
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -53,7 +53,7 @@ const AvatarUpload = React.forwardRef<HTMLDivElement, AvatarUploadProps>(
         ref={ref}
         className={cn(
           'group relative w-24 h-24 cursor-pointer rounded-full',
-          className
+          className,
         )}
       >
         <input {...getInputProps()} />
@@ -68,7 +68,7 @@ const AvatarUpload = React.forwardRef<HTMLDivElement, AvatarUploadProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 AvatarUpload.displayName = 'AvatarUpload';

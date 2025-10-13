@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from '@tanstack/react-router';
 
 export function HeroSearchBar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="flex justify-center">
@@ -13,12 +13,18 @@ export function HeroSearchBar() {
         className="w-full max-w-lg rounded-none rounded-l-xl border-none bg-white h-12"
       />
       <Button
-        onClick={() => navigate({ to: "/search", search: {
-          categories: ["books","clothing"],
-          hasDiscount: true,
-          query: "hello"
-        } })}
-        className="bg-red-500 text-white rounded-none rounded-r-xl border-none hover:bg-red-600 h-12">
+        onClick={() =>
+          navigate({
+            to: '/search',
+            search: {
+              categories: ['books', 'clothing'],
+              hasDiscount: true,
+              query: 'hello',
+            },
+          })
+        }
+        className="bg-red-500 text-white rounded-none rounded-r-xl border-none hover:bg-red-600 h-12"
+      >
         Search
       </Button>
     </div>

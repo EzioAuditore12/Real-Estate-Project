@@ -4,19 +4,22 @@ import { Button } from '@/components/ui/button';
 import { useAppForm } from '@/lib/use-app-form';
 import { cn } from '@/lib/utils';
 
-import {managerRegisterationFormParamSchema, type ManagerRegisterationFormParams} from "../-schemas/register-manager-params.schema"
+import {
+  managerRegisterationFormParamSchema,
+  type ManagerRegisterationFormParams,
+} from '../-schemas/register-manager-params.schema';
 
 interface ManagerLoginFormProps extends ComponentProps<'form'> {
   handleSubmit: (data: ManagerRegisterationFormParams) => void;
   isRequestPending: boolean;
 }
 
-const defaulValues: ManagerRegisterationFormParams ={
+const defaulValues: ManagerRegisterationFormParams = {
   name: '',
   email: '',
   password: '',
-  avatar: undefined
-}
+  avatar: undefined,
+};
 
 export function ManagerRegisterForm({
   className,
@@ -46,7 +49,6 @@ export function ManagerRegisterForm({
       }}
       {...props}
     >
-
       <LoginForm.AppField name="avatar">
         {(field) => <field.AvatarUploadField />}
       </LoginForm.AppField>
@@ -60,8 +62,6 @@ export function ManagerRegisterForm({
           <field.TextField className="mt-2" placeholder="name@example.com" />
         )}
       </LoginForm.AppField>
-
- 
 
       <LoginForm.AppField name="password">
         {(field) => <field.TextField type="password" />}

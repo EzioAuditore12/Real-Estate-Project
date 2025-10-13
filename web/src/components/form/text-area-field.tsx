@@ -21,7 +21,7 @@ export const TextAreaField = ({
       <Textarea
         className={cn(
           'mt-2',
-          hasError && 'border-red-500 focus:border-red-500'
+          hasError && 'border-red-500 focus:border-red-500',
         )}
         id={field.name}
         value={field.state.value}
