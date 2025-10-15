@@ -1,0 +1,11 @@
+type Manager {
+  id: ID!
+  name: String
+  email: String
+  avatar: String
+  managedProperties: [Property]
+}
+
+extend type Query {
+  getManager(id: ID!): Manager
+}

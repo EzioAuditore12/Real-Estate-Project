@@ -1,0 +1,11 @@
+type PropertyTenantPaymentApplication {
+  id: ID!
+  tenant: Tenant
+  property: Property
+  payment: Payment
+  application: Application
+}
+
+extend type Query {
+    getPropertyTenantPaymentApplication(id: ID!): PropertyTenantPaymentApplication
+}

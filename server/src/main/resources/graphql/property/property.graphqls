@@ -1,0 +1,70 @@
+enum Amenity {
+  WASHER_DRYER
+  AIR_CONDITIONING
+  DISHWASHER
+  HIGH_SPEED_INTERNET
+  HARDWOOD_FLOORS
+  WALK_IN_CLOSETS
+  MICROWAVE
+  REFRIGERATOR
+  POOL
+  GYM
+  PARKING
+  PETS_ALLOWED
+  WIFI
+}
+
+enum Highlight {
+  HIGH_SPEED_INTERNET_ACCESS
+  WASHER_DRYER
+  AIR_CONDITIONING
+  HEATING
+  SMOKE_FREE
+  CABLE_READY
+  SATELLITE_TV
+  DOUBLE_VANITIES
+  TUB_SHOWER
+  INTERCOM
+  SPRINKLER_SYSTEM
+  RECENTLY_RENOVATED
+  CLOSE_TO_TRANSIT
+  GREAT_VIEW
+  QUIET_NEIGHBORHOOD
+}
+
+enum PropertyType {
+  ROOMS
+  TINY_HOUSE
+  APARTMENT
+  VILLA
+  TOWNHOUSE
+  COTTAGE
+}
+
+type Property {
+  id: ID!
+  name: String
+  description: String
+  pricePerMonth: Float
+  securityDeposit: Float
+  photoUrls: [String!]
+  amenities: [Amenity!]
+  propertyType: PropertyType
+  petAllowed: Boolean
+  parkingIncluded: Boolean
+  beds: Int
+  baths: Int
+  squareFeet: Float
+  postedDate: LocalDateTime
+  averageRatings: Float
+  numberOfRatings: Float
+  location: Location
+  manager: Manager
+  applications: [Application]
+  propertyTenantPaymentApplications: [PropertyTenantPaymentApplication]
+}
+
+extend type Query {
+    getProperties: [Property]
+    getProperty(id: ID!): Property
+}
