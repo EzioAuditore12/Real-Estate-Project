@@ -10,6 +10,7 @@ type Application {
   status: ApplicationStatus
   tenant: Tenant
   lease: Lease
+  property: Property
   propertyTenantPaymentApplication: PropertyTenantPaymentApplication
 }
 

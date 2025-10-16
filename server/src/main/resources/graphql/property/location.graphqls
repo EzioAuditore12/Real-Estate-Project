@@ -4,15 +4,15 @@ type Point {
 }
 
 type Location {
-    id: ID!
-    address: String
-    city: String
-    state: String
-    country: String
-    postalCode: String
-    coordinates: Point
+  id: ID!
+  address: String
+  city: String
+  state: String
+  country: String
+  postalCode: String
+  coordinates: Point
 }
 
 extend type Query {
-    getLocation(id: ID!): Location
+  getLocation(id: ID!): Location
 }

@@ -10,4 +10,5 @@ type Tenant {
 
 extend type Query {
     getTenant(id: ID!): Tenant
+    getAuthenticatedTenant: Tenant
 }

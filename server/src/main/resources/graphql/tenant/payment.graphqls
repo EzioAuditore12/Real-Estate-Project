@@ -17,5 +17,5 @@ type Payment {
 }
 
 extend type Query {
-    getPayment(id: ID!): Payment
+  getPayment(id: ID!): Payment
 }

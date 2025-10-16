@@ -16,7 +16,7 @@ import com.realestate.server.tenant.entites.Application;
 import com.realestate.server.tenant.entites.Payment;
 import com.realestate.server.tenant.entites.Tenant;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { ApplicationMapper.class })
 public interface TenantMapper {
     TenantDto toDto(Tenant tenant);
 

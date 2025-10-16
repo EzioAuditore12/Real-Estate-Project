@@ -7,5 +7,5 @@ type PropertyTenantPaymentApplication {
 }
 
 extend type Query {
-    getPropertyTenantPaymentApplication(id: ID!): PropertyTenantPaymentApplication
+  getPropertyTenantPaymentApplication(id: ID!): PropertyTenantPaymentApplication
 }

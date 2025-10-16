@@ -65,6 +65,6 @@ type Property {
 }
 
 extend type Query {
-    getProperties: [Property]
-    getProperty(id: ID!): Property
+  getProperties: [Property]
+  getProperty(id: ID!): Property
 }
