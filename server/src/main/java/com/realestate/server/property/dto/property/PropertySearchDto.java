@@ -2,6 +2,7 @@ package com.realestate.server.property.dto.property;
 
 import java.util.List;
 
+import com.realestate.server.common.dto.NumericRangeDto;
 import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.HighlightType;
 
@@ -14,9 +15,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PropertySearchDto {
 
-    private Double pricePerMonth;
+    private NumericRangeDto pricePerMonth;
 
-    private Double securityDeposit;
+    private NumericRangeDto securityDeposit;
 
     private List<AmenityType> amenities;
 
@@ -26,15 +27,15 @@ public class PropertySearchDto {
 
     private boolean parkingIncluded;
 
-    private Integer beds;
+    private NumericRangeDto beds;
 
-    private Integer baths;
+    private NumericRangeDto baths;
 
-    private Double squareFeet;
+    private NumericRangeDto squareFeet;
 
-    private Double averageRatings;
+    private NumericRangeDto averageRatings;
 
-    private Double numberOfRatings;
+    private NumericRangeDto numberOfRatings;
 
     private String address;
 

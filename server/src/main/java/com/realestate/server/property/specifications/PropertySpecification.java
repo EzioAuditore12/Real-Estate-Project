@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.realestate.server.common.dto.NumericRangeDto;
 import com.realestate.server.property.dto.property.PropertySearchDto;
 import com.realestate.server.property.entities.Property;
 
@@ -63,35 +64,38 @@ public class PropertySpecification {
         }
     }
 
-    private static void addNumericPredicates(List<Predicate> predicates, Root<Property> root,
-            CriteriaBuilder criteriaBuilder, PropertySearchDto dto) {
+   private static void addNumericPredicates(List<Predicate> predicates, Root<Property> root,
+                                             CriteriaBuilder cb, PropertySearchDto dto) {
 
-        if (dto.getPricePerMonth() != null) {
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("pricePerMonth"), dto.getPricePerMonth()));
+        addRangePredicates(predicates, root, cb, "pricePerMonth", dto.getPricePerMonth());
+        addRangePredicates(predicates, root, cb, "securityDeposit", dto.getSecurityDeposit());
+        addRangePredicates(predicates, root, cb, "beds", dto.getBeds());
+        addRangePredicates(predicates, root, cb, "baths", dto.getBaths());
+        addRangePredicates(predicates, root, cb, "squareFeet", dto.getSquareFeet());
+        addRangePredicates(predicates, root, cb, "averageRatings", dto.getAverageRatings());
+        addRangePredicates(predicates, root, cb, "numberOfRatings", dto.getNumberOfRatings());
+    }
+    
+    private static void addRangePredicates(List<Predicate> predicates, Root<Property> root,
+                                           CriteriaBuilder cb, String fieldName, NumericRangeDto range) {
+        if (range == null) {
+            return;
         }
 
-        if (dto.getSecurityDeposit() != null) {
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("securityDeposit"), dto.getSecurityDeposit()));
+        if (range.getLt() != null) {
+            predicates.add(cb.lessThan(root.get(fieldName), range.getLt()));
         }
-
-        if (dto.getBeds() != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("beds"), dto.getBeds()));
+        if (range.getLte() != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get(fieldName), range.getLte()));
         }
-
-        if (dto.getBaths() != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("baths"), dto.getBaths()));
+        if (range.getGt() != null) {
+            predicates.add(cb.greaterThan(root.get(fieldName), range.getGt()));
         }
-
-        if (dto.getSquareFeet() != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("squareFeet"), dto.getSquareFeet()));
+        if (range.getGte() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get(fieldName), range.getGte()));
         }
-
-        if (dto.getAverageRatings() != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("averageRatings"), dto.getAverageRatings()));
-        }
-
-        if (dto.getNumberOfRatings() != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("numberOfRatings"), dto.getNumberOfRatings()));
+        if (range.getEq() != null) {
+            predicates.add(cb.equal(root.get(fieldName), range.getEq()));
         }
     }
 

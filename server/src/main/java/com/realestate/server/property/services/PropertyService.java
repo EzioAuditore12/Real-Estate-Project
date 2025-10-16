@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -81,6 +83,15 @@ public class PropertyService {
         return propertyMapper.toDto(savedProperty);
     }
 
+    public Page<Property> getAllPropertiesBySearch(PropertySearchDto propertySearchDto, int page, int size) {
+        Specification<Property> spec = PropertySpecification.withDynamicQuery(propertySearchDto);
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return propertyRespository.findAll(spec, pageable);
+
+    }
+
     public PropertyDto getPropertyDetails(UUID id) {
         Property property = propertyRespository.findById(id).orElse(null);
 
@@ -92,8 +103,7 @@ public class PropertyService {
 
     public Property findPropertyByEntity(UUID propertyId) {
         return propertyRespository.findById(propertyId).orElseThrow(
-            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Such Property Found")
-        );
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Such Property Found"));
     }
 
     public List<PropertyDto> getAllManagerCreatedProperties(UUID id) {
@@ -103,16 +113,6 @@ public class PropertyService {
         return managedProperties.stream()
                 .map(propertyMapper::toDto)
                 .toList();
-
-    }
-
-    public List<PropertyDto> searchProperties(Pageable pageable, PropertySearchDto propertySearchDto) {
-
-        Specification<Property> specification = PropertySpecification.withDynamicQuery(propertySearchDto);
-
-        List<Property> properties = propertyRespository.findAll(specification, pageable).getContent();
-
-        return properties.stream().map(propertyMapper::toDto).toList();
 
     }
 

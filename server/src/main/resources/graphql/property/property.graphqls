@@ -64,7 +64,35 @@ type Property {
   propertyTenantPaymentApplications: [PropertyTenantPaymentApplication]
 }
 
+input PropertySearchInput {
+  pricePerMonth: NumericRangeInput
+  securityDeposit: NumericRangeInput
+  amenities: [Amenity!]
+  highlights: [Highlight!]
+  petAllowed: Boolean
+  parkingIncluded: Boolean
+  beds: NumericRangeInput
+  baths: NumericRangeInput
+  squareFeet: NumericRangeInput
+  averageRatings: NumericRangeInput
+  numberOfRatings: NumericRangeInput
+  address: String
+  city: String
+  state: String
+  country: String
+  postalCode: String
+}
+
+type PropertyPage {
+  content: [Property]
+  pagination: Pagination
+}
+
 extend type Query {
-  getProperties: [Property]
+  getProperties(
+    search: PropertySearchInput
+    page: Int = 0
+    size: Int = 10
+  ): PropertyPage
   getProperty(id: ID!): Property
 }
