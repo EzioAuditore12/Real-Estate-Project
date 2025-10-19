@@ -1,9 +1,7 @@
 package com.realestate.server.auth.filters;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.lang.NonNull;
@@ -12,11 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.realestate.server.auth.utils.CustomUserDetailService;
-import com.realestate.server.auth.utils.JwtService;
-import com.realestate.server.auth.utils.TokenType;
+import com.realestate.server.auth.enums.TokenType;
+import com.realestate.server.auth.services.CustomUserDetailService;
+import com.realestate.server.auth.services.JwtService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -25,8 +25,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -57,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (userId != null && authentication == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUserIdAndRole(UUID.fromString(userId), userRole);
+                UserDetails userDetails = userDetailsService.loadByUserIdAndRole(UUID.fromString(userId), userRole);
 
                 if (jwtService.isTokenValid(jwt, userDetails, TokenType.ACCESS)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -91,4 +89,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jsonResponse = new ObjectMapper().writeValueAsString(errorResponse);
         response.getWriter().write(jsonResponse);
     }
+
 }

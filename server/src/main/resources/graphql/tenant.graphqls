@@ -1,0 +1,12 @@
+type Tenant {
+    id: ID!
+    name: String
+    email: String
+    avatar: String
+    createdAt: LocalDateTime
+}
+
+extend type Query {
+    getTenant(id: ID!): Tenant
+    getAuthenticatedTenant: Tenant
+}

@@ -1,20 +1,5 @@
 scalar LocalDateTime
 
-type Pagination {
-  totalElements: Int
-  totalPages: Int
-  currentPage: Int
-  pageSize: Int
-}
-
-input NumericRangeInput {
-    lt: Float  
-    lte: Float 
-    gt: Float  
-    gte: Float 
-    eq: Float  
-}
-
 type Query {
 
 }

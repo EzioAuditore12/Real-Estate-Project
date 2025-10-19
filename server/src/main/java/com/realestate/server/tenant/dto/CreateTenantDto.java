@@ -1,4 +1,4 @@
-package com.realestate.server.manager.dto;
+package com.realestate.server.tenant.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateManagerDto {
+public class CreateTenantDto {
 
     @NotBlank
     @Size(max = 50)

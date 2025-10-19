@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BlackListRefreshTokenDto {
+
     private String refreshToken;
+
     private Date iat;
+
     private Date exp;
 }

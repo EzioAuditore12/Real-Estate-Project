@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokensDto {
+public class RefershTokensDto {
 
-    private String accessToken;
-    
     private String refreshToken;
 
 }

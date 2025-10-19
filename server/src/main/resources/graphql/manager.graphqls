@@ -1,0 +1,12 @@
+type Manager {
+  id: ID!
+  name: String
+  email: String
+  avatar: String
+  createdAt: LocalDateTime
+}
+
+extend type Query {
+  getManager(id: ID!): Manager
+  getAuthenticatedManager: Manager
+}

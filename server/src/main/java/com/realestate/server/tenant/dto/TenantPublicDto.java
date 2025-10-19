@@ -1,4 +1,4 @@
-package com.realestate.server.manager.dto;
+package com.realestate.server.tenant.dto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManagerDto {
-    
+public class TenantPublicDto {
+
     private UUID id;
 
     private String name;
@@ -20,10 +20,6 @@ public class ManagerDto {
 
     private String avatar;
 
-    private String password;
-
     private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
 }

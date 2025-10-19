@@ -2,64 +2,62 @@ package com.realestate.server.auth.services;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.auth.AuthMapper;
-import com.realestate.server.auth.dto.AuthTenantResponseDto;
 import com.realestate.server.auth.dto.BlackListRefreshTokenDto;
-import com.realestate.server.auth.dto.LoginTenantDto;
-import com.realestate.server.auth.dto.RefreshTokensDto;
-import com.realestate.server.auth.dto.RegisterTenantDto;
+import com.realestate.server.auth.dto.RefershTokensDto;
 import com.realestate.server.auth.dto.TokensDto;
+import com.realestate.server.auth.dto.login.LoginTenantDto;
+import com.realestate.server.auth.dto.register.RegisterTenantDto;
+import com.realestate.server.auth.dto.responses.AuthTenantReponseDto;
 import com.realestate.server.auth.entities.BlackListRefreshToken;
-import com.realestate.server.auth.enums.Role;
+import com.realestate.server.auth.enums.RoleType;
+import com.realestate.server.auth.enums.TokenType;
 import com.realestate.server.auth.repositories.BlackListRefreshTokenRepository;
-import com.realestate.server.auth.utils.JwtService;
-import com.realestate.server.auth.utils.TokenType;
-import com.realestate.server.tenant.dto.tenant.TenantDto;
-import com.realestate.server.tenant.dto.tenant.TenantSummaryDto;
-import com.realestate.server.tenant.services.TenantService;
+import com.realestate.server.tenant.TenantMapper;
+import com.realestate.server.tenant.TenantService;
+import com.realestate.server.tenant.dto.TenantDto;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthTenantService {
-    
-    private final TenantService tenantService;
+
     private final AuthMapper authMapper;
+    private final TenantService tenantService;
+    private final TenantMapper tenantMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final JwtService jwtService;
     private final BlackListRefreshTokenRepository blackListRefreshTokenRepository;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailService userDetailService;
 
-      public AuthTenantResponseDto registerTenant(RegisterTenantDto registerTenantDto) {
+    public AuthTenantReponseDto registerTenant(RegisterTenantDto registerTenantDto) {
         TenantDto existingTenant = tenantService.findByEmail(registerTenantDto.getEmail());
 
         if (!Objects.isNull(existingTenant))
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Tenant with this email is already registered with us");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Tenant with this email is already registered");
 
         String hashedPassword = passwordEncoder.encode(registerTenantDto.getPassword());
 
         registerTenantDto.setPassword(hashedPassword);
 
-        TenantSummaryDto createdTenant = tenantService.createTenantAccount(registerTenantDto);
+        TenantDto createdTenant = tenantService.createAccount(registerTenantDto);
 
-        TokensDto tokensDto = jwtService.generateTokens(createdTenant.getId().toString(), Role.TENANT);
+        TokensDto tokens = jwtService.generateTokens(createdTenant.getId().toString(), RoleType.TENANT);
 
-
-        return authMapper.toAuthenticatedTenantResponseDto(createdTenant, tokensDto);
+        return AuthTenantReponseDto.builder().user(tenantMapper.toPublicDto(createdTenant)).tokens(tokens).build();
     }
 
-    public AuthTenantResponseDto validateTenant(LoginTenantDto loginTenantDto) {
+     public AuthTenantReponseDto validateTenant(LoginTenantDto loginTenantDto) {
         TenantDto existingTenant = tenantService.findByEmail(loginTenantDto.getEmail());
 
         if (Objects.isNull(existingTenant))
@@ -70,28 +68,15 @@ public class AuthTenantService {
         if (!isValidPassword)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Either entered email or password is wrong");
 
-        TenantSummaryDto tenant = authMapper.toTenantResponseDto(existingTenant);
+        TokensDto tokens = jwtService.generateTokens(existingTenant.getId().toString(), RoleType.TENANT);
 
-        TokensDto tokensDto = jwtService.generateTokens(existingTenant.getId().toString(), Role.TENANT);
-
-        return authMapper.toAuthenticatedTenantResponseDto(tenant, tokensDto);
+        return AuthTenantReponseDto.builder().user(tenantMapper.toPublicDto(existingTenant)).tokens(tokens).build();
     }
 
-    
-    private void insertBlackListedToken(BlackListRefreshTokenDto blackListRefreshTokenDto) {
-        BlackListRefreshToken entity = authMapper.insertBlackListedToken(blackListRefreshTokenDto);
-        blackListRefreshTokenRepository.save(entity);
-    }
-
-    private boolean isRefreshTokenBlackListed(String refreshToken) {
-        return blackListRefreshTokenRepository.findByRefreshToken(refreshToken).isPresent();
-    }
-
-    public TokensDto regenerateTokens(RefreshTokensDto refreshTokensDto, Role role) {
-
+    public TokensDto regenerateTokens(RefershTokensDto refreshTokensDto, RoleType role) {
         String userId = jwtService.extractUserId(refreshTokensDto.getRefreshToken(), TokenType.REFRESH);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+        UserDetails userDetails = userDetailService.loadByUserIdAndRole(UUID.fromString(userId), "TENANT" );
 
         boolean isTokenValid = jwtService.isTokenValid(refreshTokensDto.getRefreshToken(), userDetails,
                 TokenType.REFRESH);
@@ -113,5 +98,12 @@ public class AuthTenantService {
         return jwtService.generateTokens(userId, role);
     }
 
+    private void insertBlackListedToken(BlackListRefreshTokenDto blackListRefreshTokenDto) {
+        BlackListRefreshToken entity = authMapper.insertBlackListedToken(blackListRefreshTokenDto);
+        blackListRefreshTokenRepository.save(entity);
+    }
 
+    private boolean isRefreshTokenBlackListed(String refreshToken) {
+        return blackListRefreshTokenRepository.findByRefreshToken(refreshToken).isPresent();
+    }
 }

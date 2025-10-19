@@ -8,8 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.realestate.server.auth.guards.AuthenticatedTenant;
-import com.realestate.server.tenant.dto.tenant.TenantDto;
-import com.realestate.server.tenant.services.TenantService;
+import com.realestate.server.tenant.dto.TenantDto;
+import com.realestate.server.tenant.dto.TenantPublicDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,20 +18,26 @@ import lombok.RequiredArgsConstructor;
 public class TenantResolver {
 
     private final TenantService tenantService;
+    private final TenantMapper tenantMapper;
 
     @QueryMapping
-    public TenantDto getTenant(@Argument("id") UUID id) {
-        return tenantService.findByUserId(id);
+    public TenantPublicDto getTenant(@Argument UUID id) {
+
+        TenantDto tenant = tenantService.findById(id);
+
+        return tenantMapper.toPublicDto(tenant);
+
     }
 
     @AuthenticatedTenant
     @QueryMapping
-    public TenantDto getAuthenticatedTenant() {
+    public TenantPublicDto getAuthenticatedTenant() {
 
-        String tenantId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        return tenantService.findByUserId(UUID.fromString(tenantId));
+        TenantDto tenant = tenantService.findById(UUID.fromString(id));
+
+        return tenantMapper.toPublicDto(tenant);
 
     }
-
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManagerDto {
+public class ManagerPublicDto {
     
     private UUID id;
 
@@ -20,10 +20,7 @@ public class ManagerDto {
 
     private String avatar;
 
-    private String password;
 
     private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
 }

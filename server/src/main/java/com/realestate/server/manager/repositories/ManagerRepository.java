@@ -3,19 +3,18 @@ package com.realestate.server.manager.repositories;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.realestate.server.manager.entites.Manager;
-import com.realestate.server.property.entities.Property;
-import java.util.Set;
+import com.realestate.server.manager.dto.ManagerIdPasswordDto;
+import com.realestate.server.manager.entities.Manager;
 
+public interface ManagerRepository extends JpaRepository<Manager, UUID> {
 
-public interface ManagerRepository extends JpaRepository<Manager,UUID> {
+    @Query("SELECT new com.realestate.server.manager.dto.ManagerIdPasswordDto(t.id, t.password) FROM Manager t WHERE t.id = :id")
+    ManagerIdPasswordDto findIdAndPasswordById(@Param("id") UUID id);
+
     Optional<Manager> findByEmail(String email);
 
-    @EntityGraph(attributePaths = "managedProperties")
-    Optional<Manager> findWithPropertiesById(UUID id);
-
-    Optional<Manager> findByManagedProperties(Set<Property> managedProperties);
 }
