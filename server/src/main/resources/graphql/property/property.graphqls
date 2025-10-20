@@ -1,0 +1,55 @@
+type Property {
+  id: ID!
+  name: String
+  description: String
+  pricePerMonth: Float
+  securityDeposit: Float
+  photoUrls: [String!]
+  amenities: [Amenity!]
+  propertyType: PropertyType
+  petAllowed: Boolean
+  parkingIncluded: Boolean
+  beds: Int
+  baths: Int
+  squareFeet: Float
+  postedDate: LocalDateTime
+  averageRatings: Float
+  numberOfRatings: Float
+  location: Location
+  manager: Manager
+  applications: [Application]
+  propertyTenantPaymentApplications: [PropertyTenantPaymentApplication]
+}
+
+input PropertySearchInput {
+  pricePerMonth: NumericRangeInput
+  securityDeposit: NumericRangeInput
+  amenities: [Amenity!]
+  highlights: [Highlight!]
+  petAllowed: Boolean
+  parkingIncluded: Boolean
+  beds: NumericRangeInput
+  baths: NumericRangeInput
+  squareFeet: NumericRangeInput
+  averageRatings: NumericRangeInput
+  numberOfRatings: NumericRangeInput
+  address: String
+  city: String
+  state: String
+  country: String
+  postalCode: String
+}
+
+type PropertyPage {
+  content: [Property]
+  pagination: Pagination
+}
+
+extend type Query {
+  getProperties(
+    search: PropertySearchInput
+    page: Int = 0
+    size: Int = 10
+  ): PropertyPage
+  getProperty(id: ID!): Property
+}

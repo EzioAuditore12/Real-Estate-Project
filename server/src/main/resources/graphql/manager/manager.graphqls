@@ -4,6 +4,7 @@ type Manager {
   email: String
   avatar: String
   createdAt: LocalDateTime
+  managedProperties: [Property]
 }
 
 extend type Query {

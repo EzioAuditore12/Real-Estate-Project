@@ -1,6 +1,7 @@
 package com.realestate.server.manager.dto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -25,5 +26,7 @@ public class ManagerDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private Set<UUID> managedPropertyIds;
 
 }

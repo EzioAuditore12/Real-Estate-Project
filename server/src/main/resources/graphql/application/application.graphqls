@@ -1,0 +1,19 @@
+enum ApplicationStatus {
+  PENDING
+  DENIED
+  APPROVED
+}
+
+type Application {
+  id: ID!
+  startDate: LocalDateTime
+  status: ApplicationStatus
+  tenant: Tenant
+  lease: Lease
+  property: Property
+  propertyTenantPaymentApplication: PropertyTenantPaymentApplication
+}
+
+extend type Query {
+  getApplication(id: ID!): Application
+}
