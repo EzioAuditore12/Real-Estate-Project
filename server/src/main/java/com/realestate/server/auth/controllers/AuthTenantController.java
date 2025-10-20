@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("auth/tenant")
-@Tag(name = "Authentication", description = "Endpoints for validating tenant")
+@Tag(name = "Authentication Tenant", description = "Endpoints for validating tenant")
 @RequiredArgsConstructor
 public class AuthTenantController {
 

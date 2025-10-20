@@ -15,6 +15,9 @@ public interface ManagerRepository extends JpaRepository<Manager, UUID> {
     @Query("SELECT new com.realestate.server.manager.dto.ManagerIdPasswordDto(t.id, t.password) FROM Manager t WHERE t.id = :id")
     ManagerIdPasswordDto findIdAndPasswordById(@Param("id") UUID id);
 
+    @Query("SELECT t.id FROM Manager t WHERE t.id = :id")
+    UUID findIdById(@Param("id") UUID id);
+
     Optional<Manager> findByEmail(String email);
 
 }
