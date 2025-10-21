@@ -5,7 +5,6 @@ type Point {
   longitude: Float!
 }
 
-
 type Pagination {
   totalElements: Int
   totalPages: Int
@@ -24,4 +23,8 @@ input NumericRangeInput {
 
 type Query {
 
+}
+
+type Mutation {
+    
 }

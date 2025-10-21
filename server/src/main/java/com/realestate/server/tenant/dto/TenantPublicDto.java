@@ -1,6 +1,7 @@
 package com.realestate.server.tenant.dto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -21,5 +22,9 @@ public class TenantPublicDto {
     private String avatar;
 
     private LocalDateTime createdAt;
+
+    private Set<UUID> applicationIds;
+
+    private Set<UUID> paymentIds;
 
 }

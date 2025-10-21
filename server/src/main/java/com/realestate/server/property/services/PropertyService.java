@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,10 +19,12 @@ import com.realestate.server.property.dto.location.LocationDto;
 import com.realestate.server.property.dto.nominatim.NominatimApiResponseDto;
 import com.realestate.server.property.dto.property.CreatePropertyDto;
 import com.realestate.server.property.dto.property.PropertyDto;
+import com.realestate.server.property.dto.property.PropertySearchDto;
 import com.realestate.server.property.entities.Location;
 import com.realestate.server.property.entities.Property;
 import com.realestate.server.property.mappers.PropertyMapper;
 import com.realestate.server.property.repositories.PropertyRepository;
+import com.realestate.server.property.specifications.PropertySpecification;
 import com.realestate.server.property.utils.NominatimUtils;
 
 import jakarta.transaction.Transactional;
@@ -73,6 +79,21 @@ public class PropertyService {
         savedProperty.setLocation(savedLocation);
 
         return propertyMapper.toDto(savedProperty);
+    }
+
+    public PropertyDto getPropertyDetails(UUID propertyId) {
+
+        return propertyRepository.findById(propertyId).map(propertyMapper::toDto).orElse(null);
+
+    }
+
+    public Page<PropertyDto> getAllPropertiesBySearch(PropertySearchDto propertySearchDto, Integer page, Integer size) {
+        Specification<Property> spec = PropertySpecification.withDynamicQuery(propertySearchDto);
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return propertyRepository.findAll(spec, pageable).map(propertyMapper::toDto);
+
     }
 
     public Flux<PropertyDto> findPropertyWithIds(List<UUID> ids) {

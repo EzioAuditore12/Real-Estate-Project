@@ -10,7 +10,6 @@ import org.dataloader.DataLoader;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.graphql.execution.BatchLoaderRegistry;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
@@ -18,9 +17,7 @@ import com.realestate.server.auth.guards.AuthenticatedManager;
 import com.realestate.server.manager.dto.ManagerDto;
 import com.realestate.server.manager.dto.ManagerPublicDto;
 import com.realestate.server.property.dto.property.PropertyDto;
-import com.realestate.server.property.services.PropertyService;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,21 +28,6 @@ public class ManagerResolver {
 
     private final ManagerService managerService;
     private final ManagerMapper managerMapper;
-    private final BatchLoaderRegistry batchLoaderRegistry;
-
-    private final PropertyService propertyService;
-
-    @PostConstruct
-    public void registerBatchLoader() {
-        batchLoaderRegistry.forTypePair(UUID.class, PropertyDto.class)
-                .registerBatchLoader((keys, env) -> {
-
-                    log.debug("Loading orders with keys {}", keys);
-
-                    return propertyService.findPropertyWithIds(keys);
-
-                });
-    }
 
     @QueryMapping
     public ManagerPublicDto getManager(@Argument UUID id) {

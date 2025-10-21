@@ -37,7 +37,7 @@ public class Payment {
     private double amountDue = 0;
 
     @Column(nullable = false)
-    private double amountPaid = 0;
+    private Double amountPaid = 0.0;
 
     @Column(nullable = false)
     private LocalDateTime paymentDate;
