@@ -8,11 +8,15 @@ import java.util.concurrent.CompletableFuture;
 
 import org.dataloader.DataLoader;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
+import com.realestate.server.application.ApplicationService;
+import com.realestate.server.application.dto.ApplicationDto;
+import com.realestate.server.application.dto.RespondToApplicationDto;
 import com.realestate.server.auth.guards.AuthenticatedManager;
 import com.realestate.server.manager.dto.ManagerDto;
 import com.realestate.server.manager.dto.ManagerPublicDto;
@@ -28,6 +32,8 @@ public class ManagerResolver {
 
     private final ManagerService managerService;
     private final ManagerMapper managerMapper;
+
+    private final ApplicationService applicationService;
 
     @QueryMapping
     public ManagerPublicDto getManager(@Argument UUID id) {
@@ -46,6 +52,16 @@ public class ManagerResolver {
         ManagerDto manager = managerService.findById(UUID.fromString(id));
 
         return managerMapper.toPublicDto(manager);
+
+    }
+
+    @AuthenticatedManager
+    @MutationMapping
+    public ApplicationDto respondToApplication(@Argument("input") RespondToApplicationDto respondToApplicationDto) {
+
+        String managerId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return applicationService.respondToApplication(UUID.fromString(managerId), respondToApplicationDto);
 
     }
 

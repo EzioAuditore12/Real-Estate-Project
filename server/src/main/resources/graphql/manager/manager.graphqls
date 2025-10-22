@@ -11,3 +11,7 @@ extend type Query {
   getManager(id: ID!): Manager
   getAuthenticatedManager: Manager
 }
+
+extend type Mutation {
+  respondToApplication(input: RespondToApplicationDto): Application
+}

@@ -49,7 +49,7 @@ public class ManagerService {
 
     }
 
-    public void SaveProperty(UUID id, Property property) {
+    public void saveProperty(UUID id, Property property) {
 
         UUID managerId = managerRepository.findIdById(id);
 

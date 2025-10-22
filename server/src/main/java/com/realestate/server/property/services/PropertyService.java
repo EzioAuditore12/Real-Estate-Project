@@ -68,7 +68,7 @@ public class PropertyService {
 
         property.setPhotoUrls(uploadedImageUrls);
 
-        managerService.SaveProperty(managerId, property);
+        managerService.saveProperty(managerId, property);
 
         Property savedProperty = propertyRepository.save(property);
 
