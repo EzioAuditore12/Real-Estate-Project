@@ -18,6 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.application.dto.ApplicationDto;
 import com.realestate.server.common.dto.PaginationDto;
+import com.realestate.server.manager.ManagerService;
+import com.realestate.server.manager.dto.ManagerDto;
 import com.realestate.server.property.dto.property.PropertyDto;
 import com.realestate.server.property.dto.property.PropertyPageDto;
 import com.realestate.server.property.dto.property.PropertySearchDto;
@@ -32,6 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 public class PropertyResolver {
 
     private final PropertyService propertyService;
+
+    private final ManagerService managerService;
 
     @QueryMapping
     public PropertyDto getProperty(@Argument UUID id) {
@@ -63,6 +67,15 @@ public class PropertyResolver {
                 .content(propertyPage.getContent())
                 .pagination(paginationDto)
                 .build();
+    }
+
+    @SchemaMapping(typeName = "Property", field = "manager") 
+    public ManagerDto getManager(PropertyDto propertyDto) {
+
+        UUID managerId = propertyDto.getManagerId();
+
+        return managerService.findById(managerId);
+
     }
 
     @SchemaMapping(typeName = "Property", field = "applications")

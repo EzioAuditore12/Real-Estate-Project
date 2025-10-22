@@ -15,7 +15,6 @@ import { Route as authLayoutRouteImport } from './app/(auth)/layout'
 import { Route as PageRouteImport } from './app/page'
 import { Route as DashboardTenantLayoutRouteImport } from './app/dashboard/tenant/layout'
 import { Route as DashboardManagerLayoutRouteImport } from './app/dashboard/manager/layout'
-import { Route as DashboardTenantPageRouteImport } from './app/dashboard/tenant/page'
 import { Route as nondashboardSearchPageRouteImport } from './app/(nondashboard)/search/page'
 import { Route as nondashboardMapPageRouteImport } from './app/(nondashboard)/map/page'
 import { Route as nondashboardLandingPageRouteImport } from './app/(nondashboard)/landing/page'
@@ -27,6 +26,7 @@ import { Route as DashboardTenantsectionsSettingsPageRouteImport } from './app/d
 import { Route as DashboardTenantsectionsResidencesPageRouteImport } from './app/dashboard/tenant/(sections)/residences/page'
 import { Route as DashboardTenantsectionsFavouritesPageRouteImport } from './app/dashboard/tenant/(sections)/favourites/page'
 import { Route as DashboardTenantsectionsApplicationsPageRouteImport } from './app/dashboard/tenant/(sections)/applications/page'
+import { Route as DashboardTenantsectionsindexPageRouteImport } from './app/dashboard/tenant/(sections)/(index)/page'
 import { Route as DashboardManagersectionsManagedPropertiesPageRouteImport } from './app/dashboard/manager/(sections)/managed-properties/page'
 import { Route as DashboardManagersectionsCreatePropertyPageRouteImport } from './app/dashboard/manager/(sections)/create-property/page'
 import { Route as DashboardManagersectionsindexPageRouteImport } from './app/dashboard/manager/(sections)/(index)/page'
@@ -62,11 +62,6 @@ const DashboardManagerLayoutRoute = DashboardManagerLayoutRouteImport.update({
   id: '/manager',
   path: '/manager',
   getParentRoute: () => DashboardLayoutRoute,
-} as any)
-const DashboardTenantPageRoute = DashboardTenantPageRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardTenantLayoutRoute,
 } as any)
 const nondashboardSearchPageRoute = nondashboardSearchPageRouteImport.update({
   id: '/search/',
@@ -127,6 +122,12 @@ const DashboardTenantsectionsApplicationsPageRoute =
     path: '/applications/',
     getParentRoute: () => DashboardTenantLayoutRoute,
   } as any)
+const DashboardTenantsectionsindexPageRoute =
+  DashboardTenantsectionsindexPageRouteImport.update({
+    id: '/(sections)/(index)/',
+    path: '/',
+    getParentRoute: () => DashboardTenantLayoutRoute,
+  } as any)
 const DashboardManagersectionsManagedPropertiesPageRoute =
   DashboardManagersectionsManagedPropertiesPageRouteImport.update({
     id: '/(sections)/managed-properties/',
@@ -178,7 +179,6 @@ export interface FileRoutesByFullPath {
   '/landing': typeof nondashboardLandingPageRoute
   '/map': typeof nondashboardMapPageRoute
   '/search': typeof nondashboardSearchPageRoute
-  '/dashboard/tenant/': typeof DashboardTenantPageRoute
   '/login/manager': typeof authLoginManagerPageRoute
   '/login/tenant': typeof authLoginTenantPageRoute
   '/register/manager': typeof authRegisterManagerPageRoute
@@ -190,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/manager/': typeof DashboardManagersectionsindexPageRoute
   '/dashboard/manager/create-property': typeof DashboardManagersectionsCreatePropertyPageRoute
   '/dashboard/manager/managed-properties': typeof DashboardManagersectionsManagedPropertiesPageRoute
+  '/dashboard/tenant/': typeof DashboardTenantsectionsindexPageRoute
   '/dashboard/tenant/applications': typeof DashboardTenantsectionsApplicationsPageRoute
   '/dashboard/tenant/favourites': typeof DashboardTenantsectionsFavouritesPageRoute
   '/dashboard/tenant/residences': typeof DashboardTenantsectionsResidencesPageRoute
@@ -201,7 +202,6 @@ export interface FileRoutesByTo {
   '/landing': typeof nondashboardLandingPageRoute
   '/map': typeof nondashboardMapPageRoute
   '/search': typeof nondashboardSearchPageRoute
-  '/dashboard/tenant': typeof DashboardTenantPageRoute
   '/login/manager': typeof authLoginManagerPageRoute
   '/login/tenant': typeof authLoginTenantPageRoute
   '/register/manager': typeof authRegisterManagerPageRoute
@@ -213,6 +213,7 @@ export interface FileRoutesByTo {
   '/dashboard/manager': typeof DashboardManagersectionsindexPageRoute
   '/dashboard/manager/create-property': typeof DashboardManagersectionsCreatePropertyPageRoute
   '/dashboard/manager/managed-properties': typeof DashboardManagersectionsManagedPropertiesPageRoute
+  '/dashboard/tenant': typeof DashboardTenantsectionsindexPageRoute
   '/dashboard/tenant/applications': typeof DashboardTenantsectionsApplicationsPageRoute
   '/dashboard/tenant/favourites': typeof DashboardTenantsectionsFavouritesPageRoute
   '/dashboard/tenant/residences': typeof DashboardTenantsectionsResidencesPageRoute
@@ -229,7 +230,6 @@ export interface FileRoutesById {
   '/(nondashboard)/landing/': typeof nondashboardLandingPageRoute
   '/(nondashboard)/map/': typeof nondashboardMapPageRoute
   '/(nondashboard)/search/': typeof nondashboardSearchPageRoute
-  '/dashboard/tenant/': typeof DashboardTenantPageRoute
   '/(auth)/login/manager/': typeof authLoginManagerPageRoute
   '/(auth)/login/tenant/': typeof authLoginTenantPageRoute
   '/(auth)/register/manager/': typeof authRegisterManagerPageRoute
@@ -241,6 +241,7 @@ export interface FileRoutesById {
   '/dashboard/manager/(sections)/(index)/': typeof DashboardManagersectionsindexPageRoute
   '/dashboard/manager/(sections)/create-property/': typeof DashboardManagersectionsCreatePropertyPageRoute
   '/dashboard/manager/(sections)/managed-properties/': typeof DashboardManagersectionsManagedPropertiesPageRoute
+  '/dashboard/tenant/(sections)/(index)/': typeof DashboardTenantsectionsindexPageRoute
   '/dashboard/tenant/(sections)/applications/': typeof DashboardTenantsectionsApplicationsPageRoute
   '/dashboard/tenant/(sections)/favourites/': typeof DashboardTenantsectionsFavouritesPageRoute
   '/dashboard/tenant/(sections)/residences/': typeof DashboardTenantsectionsResidencesPageRoute
@@ -256,7 +257,6 @@ export interface FileRouteTypes {
     | '/landing'
     | '/map'
     | '/search'
-    | '/dashboard/tenant/'
     | '/login/manager'
     | '/login/tenant'
     | '/register/manager'
@@ -268,6 +268,7 @@ export interface FileRouteTypes {
     | '/dashboard/manager/'
     | '/dashboard/manager/create-property'
     | '/dashboard/manager/managed-properties'
+    | '/dashboard/tenant/'
     | '/dashboard/tenant/applications'
     | '/dashboard/tenant/favourites'
     | '/dashboard/tenant/residences'
@@ -279,7 +280,6 @@ export interface FileRouteTypes {
     | '/landing'
     | '/map'
     | '/search'
-    | '/dashboard/tenant'
     | '/login/manager'
     | '/login/tenant'
     | '/register/manager'
@@ -291,6 +291,7 @@ export interface FileRouteTypes {
     | '/dashboard/manager'
     | '/dashboard/manager/create-property'
     | '/dashboard/manager/managed-properties'
+    | '/dashboard/tenant'
     | '/dashboard/tenant/applications'
     | '/dashboard/tenant/favourites'
     | '/dashboard/tenant/residences'
@@ -306,7 +307,6 @@ export interface FileRouteTypes {
     | '/(nondashboard)/landing/'
     | '/(nondashboard)/map/'
     | '/(nondashboard)/search/'
-    | '/dashboard/tenant/'
     | '/(auth)/login/manager/'
     | '/(auth)/login/tenant/'
     | '/(auth)/register/manager/'
@@ -318,6 +318,7 @@ export interface FileRouteTypes {
     | '/dashboard/manager/(sections)/(index)/'
     | '/dashboard/manager/(sections)/create-property/'
     | '/dashboard/manager/(sections)/managed-properties/'
+    | '/dashboard/tenant/(sections)/(index)/'
     | '/dashboard/tenant/(sections)/applications/'
     | '/dashboard/tenant/(sections)/favourites/'
     | '/dashboard/tenant/(sections)/residences/'
@@ -374,13 +375,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/manager'
       preLoaderRoute: typeof DashboardManagerLayoutRouteImport
       parentRoute: typeof DashboardLayoutRoute
-    }
-    '/dashboard/tenant/': {
-      id: '/dashboard/tenant/'
-      path: '/'
-      fullPath: '/dashboard/tenant/'
-      preLoaderRoute: typeof DashboardTenantPageRouteImport
-      parentRoute: typeof DashboardTenantLayoutRoute
     }
     '/(nondashboard)/search/': {
       id: '/(nondashboard)/search/'
@@ -457,6 +451,13 @@ declare module '@tanstack/react-router' {
       path: '/applications'
       fullPath: '/dashboard/tenant/applications'
       preLoaderRoute: typeof DashboardTenantsectionsApplicationsPageRouteImport
+      parentRoute: typeof DashboardTenantLayoutRoute
+    }
+    '/dashboard/tenant/(sections)/(index)/': {
+      id: '/dashboard/tenant/(sections)/(index)/'
+      path: '/'
+      fullPath: '/dashboard/tenant/'
+      preLoaderRoute: typeof DashboardTenantsectionsindexPageRouteImport
       parentRoute: typeof DashboardTenantLayoutRoute
     }
     '/dashboard/manager/(sections)/managed-properties/': {
@@ -569,10 +570,10 @@ const DashboardManagerLayoutRouteWithChildren =
   )
 
 interface DashboardTenantLayoutRouteChildren {
-  DashboardTenantPageRoute: typeof DashboardTenantPageRoute
   DashboardTenantsectionsApplicationsIdRoute: typeof DashboardTenantsectionsApplicationsIdRoute
   DashboardTenantsectionsFavouritesIdRoute: typeof DashboardTenantsectionsFavouritesIdRoute
   DashboardTenantsectionsResidencesIdRoute: typeof DashboardTenantsectionsResidencesIdRoute
+  DashboardTenantsectionsindexPageRoute: typeof DashboardTenantsectionsindexPageRoute
   DashboardTenantsectionsApplicationsPageRoute: typeof DashboardTenantsectionsApplicationsPageRoute
   DashboardTenantsectionsFavouritesPageRoute: typeof DashboardTenantsectionsFavouritesPageRoute
   DashboardTenantsectionsResidencesPageRoute: typeof DashboardTenantsectionsResidencesPageRoute
@@ -580,13 +581,13 @@ interface DashboardTenantLayoutRouteChildren {
 }
 
 const DashboardTenantLayoutRouteChildren: DashboardTenantLayoutRouteChildren = {
-  DashboardTenantPageRoute: DashboardTenantPageRoute,
   DashboardTenantsectionsApplicationsIdRoute:
     DashboardTenantsectionsApplicationsIdRoute,
   DashboardTenantsectionsFavouritesIdRoute:
     DashboardTenantsectionsFavouritesIdRoute,
   DashboardTenantsectionsResidencesIdRoute:
     DashboardTenantsectionsResidencesIdRoute,
+  DashboardTenantsectionsindexPageRoute: DashboardTenantsectionsindexPageRoute,
   DashboardTenantsectionsApplicationsPageRoute:
     DashboardTenantsectionsApplicationsPageRoute,
   DashboardTenantsectionsFavouritesPageRoute:

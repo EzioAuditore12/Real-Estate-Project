@@ -7,6 +7,8 @@ export const locationSchema = z.object({
 
   city: z.string(),
 
+  state: z.string(),
+
   country: z.string(),
 
   postalCode: z.string(),

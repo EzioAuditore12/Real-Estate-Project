@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.realestate.server.application.dto.LeaseDto;
 import com.realestate.server.application.dto.StartLeaseDto;
 import com.realestate.server.application.entities.Lease;
+import com.realestate.server.application.mapppers.LeaseMapper;
 import com.realestate.server.application.repositories.LeaseRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class LeaseService {
 
     private final LeaseRepository leaseRepository;
+    private final LeaseMapper leaseMapper;
 
     public Lease createLease(UUID applicationId, StartLeaseDto startLeaseDto) {
 
@@ -32,6 +35,10 @@ public class LeaseService {
                 .deposit(startLeaseDto.getDeposit())
                 .build();
 
+    }
+
+    public LeaseDto findById(UUID leaseId) {
+        return leaseRepository.findById(leaseId).map(leaseMapper::toDto).orElse(null);
     }
 
 }

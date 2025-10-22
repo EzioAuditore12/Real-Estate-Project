@@ -103,6 +103,14 @@ public class ApplicationService {
 
         }
 
+        public ApplicationDto getApplicationDetails (UUID applicationId) {
+        
+         return applicationRepository.findById(applicationId).map(applicationMapper::toDto).orElseThrow(() -> 
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "No Such application exists")
+         );
+
+        }
+
         public Flux<ApplicationDto> findApplicationWithIds(List<UUID> ids) {
 
                 List<Application> applications = applicationRepository.findAllById(ids);

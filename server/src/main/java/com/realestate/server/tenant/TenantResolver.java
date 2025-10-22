@@ -26,16 +26,17 @@ import com.realestate.server.tenant.dto.TenantDto;
 import com.realestate.server.tenant.dto.TenantPublicDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class TenantResolver {
 
     private final TenantService tenantService;
     private final TenantMapper tenantMapper;
 
     private final ApplicationService applicationService;
-
 
     @QueryMapping
     public TenantPublicDto getTenant(@Argument UUID id) {
@@ -68,6 +69,18 @@ public class TenantResolver {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
 
         return applicationService.createApplication(UUID.fromString(id), createApplicationDto);
+
+    }
+
+    @AuthenticatedTenant
+    @QueryMapping
+    public List<ApplicationDto> getCreatedApplications() {
+        
+        String tenantId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        log.info("Fetching applications for tenantId: {}", tenantId);
+
+        return tenantService.createdApplications(UUID.fromString(tenantId));
 
     }
 

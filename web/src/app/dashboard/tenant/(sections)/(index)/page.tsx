@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { tenantProfileQuery } from './-queries/profile-query';
 import { TenantDetails } from './-components/tenant-details';
 
-export const Route = createFileRoute('/dashboard/tenant/')({
+export const Route = createFileRoute('/dashboard/tenant/(sections)/(index)/')({
   component: RouteComponent,
   loader: ({ context }) =>
     context.queryClient.ensureQueryData(tenantProfileQuery),

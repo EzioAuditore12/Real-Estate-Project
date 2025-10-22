@@ -11,6 +11,7 @@ type Tenant {
 extend type Query {
   getTenant(id: ID!): Tenant
   getAuthenticatedTenant: Tenant
+  getCreatedApplications: [Application]
 }
 
 extend type Mutation {
