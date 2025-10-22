@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PropertyDto {
-
+    
     private UUID id;
 
     private String name;
@@ -59,5 +59,6 @@ public class PropertyDto {
 
     private Set<UUID> applicationIds; 
 
-    private Set<UUID> propertyTenantPaymentApplicationIds; 
+    private Set<Long> propertyTenantPaymentApplicationIds; 
+
 }

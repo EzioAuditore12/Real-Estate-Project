@@ -3,9 +3,15 @@ type Manager {
   name: String
   email: String
   avatar: String
+  createdAt: LocalDateTime
   managedProperties: [Property]
 }
 
 extend type Query {
   getManager(id: ID!): Manager
+  getAuthenticatedManager: Manager
+}
+
+extend type Mutation {
+  respondToApplication(input: RespondToApplicationDto): Application
 }

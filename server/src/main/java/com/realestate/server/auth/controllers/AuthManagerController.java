@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.realestate.server.auth.dto.AuthManagerResponseDto;
-import com.realestate.server.auth.dto.LoginManagerDto;
-import com.realestate.server.auth.dto.RefreshTokensDto;
-import com.realestate.server.auth.dto.RegisterManagerDto;
+import com.realestate.server.auth.dto.RefershTokensDto;
 import com.realestate.server.auth.dto.TokensDto;
-import com.realestate.server.auth.enums.Role;
+import com.realestate.server.auth.dto.login.LoginManagerDto;
+import com.realestate.server.auth.dto.register.RegisterManagerDto;
+import com.realestate.server.auth.dto.responses.AuthManagerResponseDto;
+import com.realestate.server.auth.enums.RoleType;
 import com.realestate.server.auth.services.AuthManagerService;
 import com.realestate.server.common.dto.BaseResponseDto;
 
@@ -25,15 +25,15 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("auth/manager")
+@Tag(name = "Authentication Manager", description = "Endpoints for validating manager")
 @RequiredArgsConstructor
-@Tag(name = "Authentication", description = "Endpoints for validating manager")
 public class AuthManagerController {
 
     private final AuthManagerService authManagerService;
 
     @PostMapping(value = "register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    @Operation(summary = "Register a new manager", description = "Creates a new tenant account with the provided details.")
+    @Operation(summary = "Register a new manager", description = "Creates a new manager account with the provided details.")
     public BaseResponseDto<AuthManagerResponseDto> register(
             @Valid @ModelAttribute RegisterManagerDto registerManagerDto) {
         AuthManagerResponseDto credentials = authManagerService.registerManager(registerManagerDto);
@@ -43,7 +43,7 @@ public class AuthManagerController {
 
     @PostMapping("login")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    @Operation(summary = "Login manager", description = "Validates tenant credentials and logs in the tenant.")
+    @Operation(summary = "Login manager", description = "Validates tenant credentials and logs in the manager.")
     public BaseResponseDto<AuthManagerResponseDto> login(@Valid @RequestBody LoginManagerDto loginManagerDto) {
         AuthManagerResponseDto credentials = authManagerService.validateManager(loginManagerDto);
 
@@ -53,7 +53,8 @@ public class AuthManagerController {
     @PostMapping("refresh")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Refresh Tokens Manager", description = "Validates refresh token and regenerates new access and refresh tokens")
-    public TokensDto refreshTenantTokens(@RequestBody RefreshTokensDto refreshTokensDto) {
-        return authManagerService.regenerateTokens(refreshTokensDto, Role.MANAGER);
+    public TokensDto refreshTenantTokens(@RequestBody RefershTokensDto refreshTokensDto) {
+        return authManagerService.regenerateTokens(refreshTokensDto, RoleType.MANAGER);
     }
+
 }

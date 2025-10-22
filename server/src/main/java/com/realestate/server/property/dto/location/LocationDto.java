@@ -24,6 +24,7 @@ public class LocationDto {
     private String postalCode;
 
     private Double longitude;
-    
+
     private Double latitude;
+
 }

@@ -9,11 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseResponseDto<T> {
+public class BaseResponseDto <T> {
+    
     private boolean success;
 
     private String message;
-    
+
     @JsonUnwrapped
     private T data;
+
 }

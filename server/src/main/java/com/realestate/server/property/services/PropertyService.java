@@ -14,49 +14,49 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.realestate.server.common.services.CloudinaryService;
 import com.realestate.server.manager.ManagerService;
-import com.realestate.server.manager.entites.Manager;
 import com.realestate.server.property.dto.location.InsertLocationDto;
 import com.realestate.server.property.dto.location.LocationDto;
-import com.realestate.server.property.dto.nomantim.NomantimApiResponseDto;
+import com.realestate.server.property.dto.nominatim.NominatimApiResponseDto;
 import com.realestate.server.property.dto.property.CreatePropertyDto;
 import com.realestate.server.property.dto.property.PropertyDto;
 import com.realestate.server.property.dto.property.PropertySearchDto;
 import com.realestate.server.property.entities.Location;
 import com.realestate.server.property.entities.Property;
 import com.realestate.server.property.mappers.PropertyMapper;
-import com.realestate.server.property.repositories.PropertyRespository;
+import com.realestate.server.property.repositories.PropertyRepository;
 import com.realestate.server.property.specifications.PropertySpecification;
-import com.realestate.server.property.utils.NomantimUtils;
+import com.realestate.server.property.utils.NominatimUtils;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
 public class PropertyService {
 
-    private final PropertyRespository propertyRespository;
+    private final PropertyRepository propertyRepository;
     private final PropertyMapper propertyMapper;
-
-    private final CloudinaryService cloudinaryService;
 
     private final ManagerService managerService;
 
     private final LocationService locationService;
 
+    private final CloudinaryService cloudinaryService;
+
     @Transactional
     public PropertyDto initializeProperty(UUID managerId, CreatePropertyDto createPropertyDto) {
 
-        NomantimApiResponseDto nomantimApiResponseDto = buildLocationWithNomantim(
-                Double.parseDouble(createPropertyDto.getLatitude()),
-                Double.parseDouble(createPropertyDto.getLongitude()));
+        NominatimApiResponseDto nominatimApiResponseDto = buildLocationWithNominatim(
+                createPropertyDto.getLatitude(),
+                createPropertyDto.getLongitude());
 
-        if (Objects.isNull(nomantimApiResponseDto))
+        if (Objects.isNull(nominatimApiResponseDto))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find such location");
 
         LocationDto locationDto = locationService.findLocationByLongitudeAndLatitude(
-                Double.parseDouble(nomantimApiResponseDto.getLon()),
-                Double.parseDouble(nomantimApiResponseDto.getLat()));
+                Double.parseDouble(nominatimApiResponseDto.getLon()),
+                Double.parseDouble(nominatimApiResponseDto.getLat()));
 
         if (Objects.nonNull(locationDto))
             throw new ResponseStatusException(HttpStatus.CONFLICT,
@@ -68,13 +68,11 @@ public class PropertyService {
 
         property.setPhotoUrls(uploadedImageUrls);
 
-        Manager manager = managerService.findEntityById(managerId);
+        managerService.saveProperty(managerId, property);
 
-        property.setManager(manager);
+        Property savedProperty = propertyRepository.save(property);
 
-        Property savedProperty = propertyRespository.save(property);
-
-        InsertLocationDto insertLocationDto = buildLocation(createPropertyDto, nomantimApiResponseDto);
+        InsertLocationDto insertLocationDto = buildLocation(createPropertyDto, nominatimApiResponseDto);
 
         Location savedLocation = locationService.insertSavedLocation(insertLocationDto, savedProperty);
 
@@ -83,41 +81,32 @@ public class PropertyService {
         return propertyMapper.toDto(savedProperty);
     }
 
-    public Page<Property> getAllPropertiesBySearch(PropertySearchDto propertySearchDto, int page, int size) {
+    public PropertyDto getPropertyDetails(UUID propertyId) {
+
+        return propertyRepository.findById(propertyId).map(propertyMapper::toDto).orElse(null);
+
+    }
+
+    public Page<PropertyDto> getAllPropertiesBySearch(PropertySearchDto propertySearchDto, Integer page, Integer size) {
         Specification<Property> spec = PropertySpecification.withDynamicQuery(propertySearchDto);
 
         Pageable pageable = PageRequest.of(page, size);
 
-        return propertyRespository.findAll(spec, pageable);
+        return propertyRepository.findAll(spec, pageable).map(propertyMapper::toDto);
 
     }
 
-    public PropertyDto getPropertyDetails(UUID id) {
-        Property property = propertyRespository.findById(id).orElse(null);
+    public Flux<PropertyDto> findPropertyWithIds(List<UUID> ids) {
 
-        if (Objects.isNull(property))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find such property");
+        List<Property> properties = propertyRepository.findAllById(ids);
 
-        return propertyMapper.toDto(property);
-    }
-
-    public Property findPropertyByEntity(UUID propertyId) {
-        return propertyRespository.findById(propertyId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Such Property Found"));
-    }
-
-    public List<PropertyDto> getAllManagerCreatedProperties(UUID id) {
-
-        List<Property> managedProperties = propertyRespository.findAllByManagerId(id);
-
-        return managedProperties.stream()
-                .map(propertyMapper::toDto)
-                .toList();
+        return Flux.fromIterable(
+                properties.stream().map(propertyMapper::toDto).toList());
 
     }
 
     private InsertLocationDto buildLocation(CreatePropertyDto createPropertyDto,
-            NomantimApiResponseDto nomantimApiResponseDto) {
+            NominatimApiResponseDto nominatimApiResponseDto) {
 
         return InsertLocationDto.builder()
                 .address(createPropertyDto.getAddress())
@@ -125,14 +114,15 @@ public class PropertyService {
                 .state(createPropertyDto.getState())
                 .country(createPropertyDto.getCountry())
                 .postalCode(createPropertyDto.getPostalCode())
-                .longitude(Double.parseDouble(nomantimApiResponseDto.getLon()))
-                .latitude(Double.parseDouble(nomantimApiResponseDto.getLat()))
+                .longitude(Double.parseDouble(nominatimApiResponseDto.getLon()))
+                .latitude(Double.parseDouble(nominatimApiResponseDto.getLat()))
                 .build();
     }
 
-    private NomantimApiResponseDto buildLocationWithNomantim(Double latitude, Double longitude) {
+    private NominatimApiResponseDto buildLocationWithNominatim(Double latitude, Double longitude) {
 
-        NomantimApiResponseDto nomantimApiResponseDto = NomantimUtils.getReverseGeoLocationDetails(latitude, longitude);
+        NominatimApiResponseDto nomantimApiResponseDto = NominatimUtils.getReverseGeoLocationDetails(latitude,
+                longitude);
 
         if (Objects.isNull(nomantimApiResponseDto))
             return null;

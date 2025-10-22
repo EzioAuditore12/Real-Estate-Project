@@ -1,5 +1,10 @@
 scalar LocalDateTime
 
+type Point {
+  latitude: Float!
+  longitude: Float!
+}
+
 type Pagination {
   totalElements: Int
   totalPages: Int
@@ -15,6 +20,11 @@ input NumericRangeInput {
     eq: Float  
 }
 
+
 type Query {
 
+}
+
+type Mutation {
+    
 }

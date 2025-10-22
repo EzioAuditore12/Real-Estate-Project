@@ -10,10 +10,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveLocationDto {
+
     private String address;
+
     private String city;
+    
     private String state;
+    
     private String country;
+    
     private String postalCode;
+    
     private Point coordinates;
 }

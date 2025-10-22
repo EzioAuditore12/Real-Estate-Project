@@ -24,4 +24,5 @@ public class InsertLocationDto {
     private Double longitude;
 
     private Double latitude;
+
 }

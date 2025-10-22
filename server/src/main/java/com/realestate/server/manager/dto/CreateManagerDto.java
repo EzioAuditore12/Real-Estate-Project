@@ -10,9 +10,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -30,17 +29,16 @@ public class CreateManagerDto {
     @Schema(example = "example@example.com")
     private String email;
 
-    @ImageFile
-    private MultipartFile avatar;
-
     @NotBlank
     @StrongPassword
     @Size(max = 16)
     @Schema(example = "Example@123")
     private String password;
 
+    @ImageFile(message = "Avatar must be an image (png, jpg, gif, webp, bmp).", required = false)
+    private MultipartFile avatar;
+
     public void setEmail(String email) {
         this.email = (email != null) ? email.toLowerCase() : null;
     }
-
 }

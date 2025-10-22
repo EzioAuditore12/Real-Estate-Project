@@ -1,10 +1,18 @@
 package com.realestate.server.property.entities;
 
-import com.realestate.server.manager.entites.Manager;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.realestate.server.application.entities.Application;
+import com.realestate.server.manager.entities.Manager;
 import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.HighlightType;
 import com.realestate.server.property.enums.PropertyType;
-import com.realestate.server.tenant.entites.Application;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,25 +26,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Property {
 
     @Id
@@ -79,10 +77,10 @@ public class Property {
     private Integer baths = 0;
 
     @Column(nullable = false)
-    private Double squareFeet;
+    private Double squareFeet = 0.0;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private LocalDateTime postedDate;
 
     @Column(nullable = false)
@@ -93,14 +91,10 @@ public class Property {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Location location;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_manager_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Manager manager;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)

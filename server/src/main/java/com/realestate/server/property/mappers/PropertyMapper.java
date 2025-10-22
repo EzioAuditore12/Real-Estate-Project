@@ -1,26 +1,26 @@
 package com.realestate.server.property.mappers;
 
-import com.realestate.server.property.dto.property.CreatePropertyDto;
-import com.realestate.server.property.dto.property.PropertyDto;
-import com.realestate.server.property.dto.property.PropertySummaryDto;
-import com.realestate.server.property.entities.Property;
-import com.realestate.server.tenant.entites.Application;
+import java.util.Set;
+import java.util.UUID;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import com.realestate.server.application.entities.Application;
+import com.realestate.server.common.utils.MapUtils;
+import com.realestate.server.property.dto.property.CreatePropertyDto;
+import com.realestate.server.property.dto.property.PropertyDto;
+import com.realestate.server.property.entities.Property;
+import com.realestate.server.property.entities.PropertyTenantPaymentApplication;
 
 @Mapper(componentModel = "spring", uses = { LocationMapper.class })
 public interface PropertyMapper {
 
-    @Mapping(source = "location", target = "location") // FIX 1: Map to 'location' object, not 'locationId'
+    @Mapping(source = "location", target = "location")
     @Mapping(source = "manager.id", target = "managerId")
-    @Mapping(source = "applications", target = "applicationIds", qualifiedByName = "applicationsToIds")
-    @Mapping(source = "propertyTenantPaymentApplications", target = "propertyTenantPaymentApplicationIds", qualifiedByName = "tenantPaymentApplicationsToIds")
+    @Mapping(source = "applications", target = "applicationIds", qualifiedByName = "applicationToUuids")
+    @Mapping(source = "propertyTenantPaymentApplications", target = "propertyTenantPaymentApplicationIds", qualifiedByName = "propertyTenantPaymentApplicationsToIds")
     PropertyDto toDto(Property property);
 
     @Mapping(target = "photoUrls", ignore = true)
@@ -34,32 +34,17 @@ public interface PropertyMapper {
     @Mapping(target = "propertyTenantPaymentApplications", ignore = true)
     Property toCreateEntity(CreatePropertyDto createPropertyDto);
 
-    @Mapping(target = "managerId", source = "manager.id")
-    PropertySummaryDto toSummaryDto(Property property);
-    @Named("applicationsToIds")
-    default Set<UUID> applicationsToIds(Set<Application> applications) { // FIX 2: Change return type to Set<UUID>
-        if (applications == null || applications.isEmpty()) {
-            return Collections.emptySet(); // FIX 3: Return an empty set
-        }
-        return applications.stream()
-                .map(Application::getId)
-                .collect(Collectors.toSet()); // FIX 4: Collect to a Set
+    @Named("applicationToUuids")
+    default Set<UUID> mapApplicationToIds(Set<Application> applications) {
+        return MapUtils.extractKeysFromSet(applications, Application::getId);
     }
 
-    @Named("tenantPaymentApplicationsToIds")
-    default Set<UUID> tenantPaymentApplicationsToIds(Set<?> tenantPaymentApplications) {
-        if (tenantPaymentApplications == null || tenantPaymentApplications.isEmpty()) {
-            return Collections.emptySet();
-        }
-        return tenantPaymentApplications.stream()
-                .map(app -> {
-                    try {
-                        return (UUID) app.getClass().getMethod("getId").invoke(app);
-                    } catch (Exception e) {
-                        throw new RuntimeException("Failed to get ID from tenant payment application", e);
-                    }
-                })
-                .collect(Collectors.toSet());
+    @Named("propertyTenantPaymentApplicationsToIds")
+    default Set<Long> mappropertyTenantPaymentApplicationsToIds(
+            Set<PropertyTenantPaymentApplication> propertyTenantPaymentApplications) {
+
+        return MapUtils.extractKeysFromSet(propertyTenantPaymentApplications, PropertyTenantPaymentApplication::getId);
+
     }
+
 }
-

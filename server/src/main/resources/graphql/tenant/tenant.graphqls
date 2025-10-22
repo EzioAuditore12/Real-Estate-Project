@@ -1,14 +1,18 @@
 type Tenant {
-    id: ID!
-    name: String
-    email: String
-    avatar: String
-    applications: [Application]
-    payments: [Payment]
-    propertyTenantPaymentApplications: [PropertyTenantPaymentApplication]
+  id: ID!
+  name: String
+  email: String
+  avatar: String
+  createdAt: LocalDateTime
+  applications: [Application]
+  payments: [Payment]
 }
 
 extend type Query {
-    getTenant(id: ID!): Tenant
-    getAuthenticatedTenant: Tenant
+  getTenant(id: ID!): Tenant
+  getAuthenticatedTenant: Tenant
+}
+
+extend type Mutation {
+    createApplication(input: CreateApplicationDto) : Application
 }

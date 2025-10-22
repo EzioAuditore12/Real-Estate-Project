@@ -1,8 +1,8 @@
 package com.realestate.server.property.entities;
 
-import com.realestate.server.tenant.entites.Application;
-import com.realestate.server.tenant.entites.Payment;
-import com.realestate.server.tenant.entites.Tenant;
+import com.realestate.server.application.entities.Application;
+import com.realestate.server.payment.entities.Payment;
+import com.realestate.server.tenant.entities.Tenant;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,10 +25,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class PropertyTenantPaymentApplication {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id", nullable = false)
@@ -45,4 +45,5 @@ public class PropertyTenantPaymentApplication {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_id", unique = true)
     private Application application;
+
 }

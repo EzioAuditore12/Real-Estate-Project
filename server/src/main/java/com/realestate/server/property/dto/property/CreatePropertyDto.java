@@ -2,10 +2,9 @@ package com.realestate.server.property.dto.property;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.realestate.server.common.validators.StringDecimal;
-import com.realestate.server.common.validators.StringDecimalRange;
 import com.realestate.server.common.validators.StringDigit;
 import com.realestate.server.property.enums.AmenityType;
 import com.realestate.server.property.enums.HighlightType;
@@ -91,14 +90,12 @@ public class CreatePropertyDto {
     @Size(max = 6)
     private String postalCode;
 
-    @NotBlank
-    @StringDecimal
-    @StringDecimalRange(max = 180, min = -180)
-    private String longitude;
+    @NotNull
+    @Range(min = -180, max = 180)
+    private Double longitude;
 
-    @NotBlank
-    @StringDecimal
-    @StringDecimalRange(max = 90, min = -90)
-    private String latitude;
+    @NotNull
+    @Range(min = -180, max = 180)
+    private Double latitude;
 
 }

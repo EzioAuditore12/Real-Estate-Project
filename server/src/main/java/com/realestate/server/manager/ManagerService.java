@@ -10,11 +10,10 @@ import org.springframework.web.server.ResponseStatusException;
 import com.realestate.server.common.services.CloudinaryService;
 import com.realestate.server.manager.dto.CreateManagerDto;
 import com.realestate.server.manager.dto.ManagerDto;
-import com.realestate.server.manager.dto.ManagerSummaryDto;
-import com.realestate.server.manager.entites.Manager;
+import com.realestate.server.manager.entities.Manager;
 import com.realestate.server.manager.repositories.ManagerRepository;
+import com.realestate.server.property.entities.Property;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,18 +22,20 @@ public class ManagerService {
 
     private final ManagerRepository managerRepository;
     private final ManagerMapper managerMapper;
+
     private final CloudinaryService cloudinaryService;
 
+    public ManagerDto findById(UUID id) {
+        return managerRepository.findById(id).map(managerMapper::toDto).orElse(null);
+    }
+
     public ManagerDto findByEmail(String email) {
-        return managerRepository.findByEmail(email).map(managerMapper::toDto).orElse(null);
+        return managerRepository.findByEmail(email).map(managerMapper::toDto)
+                .orElse(null);
     }
 
-    @Transactional
-    public ManagerDto findById(UUID userId) {
-        return managerRepository.findById(userId).map(managerMapper::toDto).orElse(null);
-    }
+    public ManagerDto createAccount(CreateManagerDto createManagerDto) {
 
-    public ManagerSummaryDto createManagerAccount(CreateManagerDto createManagerDto) {
         Manager manager = managerMapper.fromCreateDto(createManagerDto);
 
         if (Objects.nonNull(createManagerDto.getAvatar())) {
@@ -44,11 +45,23 @@ public class ManagerService {
 
         Manager createdAccount = managerRepository.save(manager);
 
-        return managerMapper.toSummaryDto(createdAccount);
+        return managerMapper.toDto(createdAccount);
+
     }
 
-    public Manager findEntityById(UUID userId) {
-        return managerRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found"));
+    public void saveProperty(UUID id, Property property) {
+
+        UUID managerId = managerRepository.findIdById(id);
+
+        if (Objects.isNull(managerId))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No manager found with this id");
+
+        Manager manager = new Manager();
+
+        manager.setId(managerId);
+
+        property.setManager(manager);
+        
     }
+
 }

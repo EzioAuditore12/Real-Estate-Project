@@ -8,8 +8,9 @@ import com.realestate.server.property.entities.Location;
 
 @Mapper(componentModel = "spring")
 public interface LocationMapper {
-    
+
     @Mapping(target = "longitude", source = "coordinates.x")
     @Mapping(target = "latitude", source = "coordinates.y")
     LocationDto toDto(Location location);
+
 }

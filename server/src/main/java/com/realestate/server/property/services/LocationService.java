@@ -41,7 +41,7 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
-    public LocationDto findLocationByLongitudeAndLatitude(Double longitude, Double latitude) {
+     public LocationDto findLocationByLongitudeAndLatitude(Double longitude, Double latitude) {
 
         Point point = convertToCoordinates(longitude, latitude);
 
@@ -52,6 +52,7 @@ public class LocationService {
         return locationMapper.toDto(location);
     }
 
+
     private Point convertToCoordinates(Double longitude, Double latitude) {
 
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
@@ -60,5 +61,4 @@ public class LocationService {
                 new Coordinate(longitude, latitude));
 
     }
-
 }

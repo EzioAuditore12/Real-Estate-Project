@@ -3,7 +3,6 @@ package com.realestate.server.property.dto.property;
 import java.util.List;
 
 import com.realestate.server.common.dto.PaginationDto;
-import com.realestate.server.property.entities.Property;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PropertyPageDto {
 
-    List<Property> content;
-    
+    List<PropertyDto> content;
+
     PaginationDto pagination;
 
 }

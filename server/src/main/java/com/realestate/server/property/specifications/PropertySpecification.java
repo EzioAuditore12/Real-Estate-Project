@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.realestate.server.common.dto.NumericRangeDto;
+import com.realestate.server.common.dto.NumericRangesDto;
 import com.realestate.server.property.dto.property.PropertySearchDto;
 import com.realestate.server.property.entities.Property;
 
@@ -16,9 +16,6 @@ import jakarta.persistence.criteria.Root;
 public class PropertySpecification {
 
     private static final String LOCATION = "location";
-
-    private PropertySpecification() {
-    }
 
     public static Specification<Property> withDynamicQuery(
             PropertySearchDto propertySearchDto) {
@@ -64,8 +61,8 @@ public class PropertySpecification {
         }
     }
 
-   private static void addNumericPredicates(List<Predicate> predicates, Root<Property> root,
-                                             CriteriaBuilder cb, PropertySearchDto dto) {
+    private static void addNumericPredicates(List<Predicate> predicates, Root<Property> root,
+            CriteriaBuilder cb, PropertySearchDto dto) {
 
         addRangePredicates(predicates, root, cb, "pricePerMonth", dto.getPricePerMonth());
         addRangePredicates(predicates, root, cb, "securityDeposit", dto.getSecurityDeposit());
@@ -75,9 +72,9 @@ public class PropertySpecification {
         addRangePredicates(predicates, root, cb, "averageRatings", dto.getAverageRatings());
         addRangePredicates(predicates, root, cb, "numberOfRatings", dto.getNumberOfRatings());
     }
-    
+
     private static void addRangePredicates(List<Predicate> predicates, Root<Property> root,
-                                           CriteriaBuilder cb, String fieldName, NumericRangeDto range) {
+            CriteriaBuilder cb, String fieldName, NumericRangesDto range) {
         if (range == null) {
             return;
         }

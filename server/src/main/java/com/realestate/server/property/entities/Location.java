@@ -12,11 +12,13 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -30,21 +32,22 @@ public class Location {
     @JoinColumn(name = "id")
     private Property property;
 
-    @Column(length = 200)
+    @Column(length = 200, nullable = false)
     private String address;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String city;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String state;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String country;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String postalCode;
 
     @Column(nullable = false, unique = true)
     private Point coordinates;
+
 }
