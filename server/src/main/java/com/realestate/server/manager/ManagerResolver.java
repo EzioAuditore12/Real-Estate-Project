@@ -11,13 +11,13 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.realestate.server.application.ApplicationService;
 import com.realestate.server.application.dto.ApplicationDto;
 import com.realestate.server.application.dto.RespondToApplicationDto;
 import com.realestate.server.auth.guards.AuthenticatedManager;
+import com.realestate.server.auth.utils.AuthUtils;
 import com.realestate.server.manager.dto.ManagerDto;
 import com.realestate.server.manager.dto.ManagerPublicDto;
 import com.realestate.server.property.dto.property.PropertyDto;
@@ -47,11 +47,23 @@ public class ManagerResolver {
     @QueryMapping
     public ManagerPublicDto getAuthenticatedManager() {
 
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        UUID managerId = AuthUtils.getAuthenticatedUserId();
 
-        ManagerDto manager = managerService.findById(UUID.fromString(id));
+        ManagerDto manager = managerService.findById(managerId);
 
         return managerMapper.toPublicDto(manager);
+
+    }
+
+    @AuthenticatedManager
+    @QueryMapping
+    public CompletableFuture<List<PropertyDto>> getManagedProperties(DataLoader<UUID, PropertyDto> dataLoader) {
+
+        UUID managerId = AuthUtils.getAuthenticatedUserId();
+
+        Set<UUID> propertyIds = managerService.getManagedPropertyIds(managerId);
+
+        return dataLoader.loadMany(new ArrayList<>(propertyIds));
 
     }
 
@@ -59,9 +71,9 @@ public class ManagerResolver {
     @MutationMapping
     public ApplicationDto respondToApplication(@Argument("input") RespondToApplicationDto respondToApplicationDto) {
 
-        String managerId = SecurityContextHolder.getContext().getAuthentication().getName();
+        UUID managerId = AuthUtils.getAuthenticatedUserId();
 
-        return applicationService.respondToApplication(UUID.fromString(managerId), respondToApplicationDto);
+        return applicationService.respondToApplication(managerId, respondToApplicationDto);
 
     }
 

@@ -12,5 +12,4 @@ public interface ApplicationRepository extends JpaRepository<Application, UUID> 
     boolean existsByTenantIdAndPropertyId(UUID tenantId, UUID propertyId);
 
     List<Application> findByTenantId(UUID tenantId);
-
 }

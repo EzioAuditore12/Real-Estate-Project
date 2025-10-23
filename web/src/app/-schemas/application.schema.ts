@@ -13,7 +13,9 @@ export const applicationSchema = z.object({
 
     tenant: tenantSchema,
 
-    property: propertySchema
+    get property(){
+        return propertySchema;
+    }
 
 })
 

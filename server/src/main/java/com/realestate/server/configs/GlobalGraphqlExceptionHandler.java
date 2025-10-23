@@ -26,5 +26,4 @@ public class GlobalGraphqlExceptionHandler extends DataFetcherExceptionResolverA
 
         return null;
     }
-
 }

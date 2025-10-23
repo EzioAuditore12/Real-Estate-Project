@@ -1,6 +1,7 @@
 package com.realestate.server.manager.repositories;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,6 @@ public interface ManagerRepository extends JpaRepository<Manager, UUID> {
 
     Optional<Manager> findByEmail(String email);
 
+    @Query("SELECT p.id FROM Property p WHERE p.manager.id = :managerId")
+    Set<UUID> findManagedPropertyIdsByManagerId(@Param("managerId") UUID managerId);
 }

@@ -15,8 +15,8 @@ export function useCreatePropertyForm() {
 
       if (data?.id) {
         navigate({
-          to: '/dashboard/manager/create-property/$createPropertyId',
-          params: { createPropertyId: data.id },
+          to: '/dashboard/manager/managed-properties/$id',
+          params: { id: data.id },
         });
       } else {
         toast('Error: Property ID is missing.');

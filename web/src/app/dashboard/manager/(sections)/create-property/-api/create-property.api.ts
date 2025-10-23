@@ -6,7 +6,7 @@ import {
   type PropertyResponse,
 } from '../-schemas/property-response.schema';
 
-const url = '/property';
+const url = '/manager/create-property';
 
 export const createPropertyFormApi = async (data: PropertyParams) => {
   const formData = new FormData();

@@ -1,28 +1,30 @@
-import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { getPropertyDetailsQuery } from './-queries/get-property-details';
-import type { PropertySchema } from '@/app/-schemas/property.schema';
+import { managedPropertyDetailsQuery } from './-queries/property-details.query';
+import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute(
-  '/dashboard/manager/(sections)/create-property/$createPropertyId',
+  '/dashboard/manager/(sections)/managed-properties/$id',
 )({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { createPropertyId } = Route.useParams();
-  const { data, isLoading, error } = useQuery(
-    getPropertyDetailsQuery(createPropertyId),
-  );
+  const { id } = Route.useParams();
+
+  const {
+    data: property,
+    isLoading,
+    error,
+  } = useQuery(managedPropertyDetailsQuery(id));
+
+  console.log(property);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading property details.</div>;
-  if (!data) return <div>No property found.</div>;
-
-  const property = data as PropertySchema;
+  if (!property) return <div>No property found.</div>;
 
   return (
-    <div className="max-w-xl mx-auto my-8 p-6 bg-white rounded-lg shadow">
+    <div className="w-full max-w-4xl mx-auto my-8 p-6 bg-white rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-4">{property.name}</h2>
       <img
         src={
@@ -68,10 +70,12 @@ function RouteComponent() {
         {property.parkingIncluded ? 'Yes' : 'No'}
       </div>
       <div className="mb-2">
-        <strong>Amenities:</strong> {property.amenities.join(', ') || 'None'}
+        <strong>Amenities:</strong>{' '}
+        {(property.amenities ?? []).join(', ') || 'None'}
       </div>
       <div className="mb-2">
-        <strong>Highlights:</strong> {property.highlights.join(', ') || 'None'}
+        <strong>Highlights:</strong>{' '}
+        {(property.highlights ?? []).join(', ') || 'None'}
       </div>
       <div className="mb-2">
         <strong>Average Ratings:</strong> {property.averageRatings}
@@ -79,11 +83,9 @@ function RouteComponent() {
       <div className="mb-2">
         <strong>Number of Ratings:</strong> {property.numberOfRatings}
       </div>
+      <div className="mb-2"></div>
       <div className="mb-2">
-        <strong>Manager ID:</strong> {property.managerId}
-      </div>
-      <div className="mb-2">
-        <strong>Applications:</strong> {property.applicationIds?.length ?? 0}
+        <strong>Applications:</strong> {property.applications?.length ?? 0}
       </div>
       <div className="mb-2">
         <strong>Property Tenant Payment Application IDs:</strong>{' '}

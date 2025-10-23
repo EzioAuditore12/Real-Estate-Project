@@ -22,19 +22,19 @@ function RouteComponent() {
     <div className="p-2 w-full grid place-content-start grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2">
       <H1 className="col-span-full mb-3"> Here are the managed properties</H1>
 
-      {data.data.length === 0 ? (
+      {data.length === 0 ? (
         <div className="text-center text-muted-foreground py-8">
           No managed properties found.
         </div>
       ) : (
-        data.data.map((property) => (
+        data.map((property) => (
           <PropertyCard
             key={property.id}
             propertyDetails={property}
             onClick={() =>
               naviage({
-                to: '/dashboard/manager/create-property/$createPropertyId',
-                params: { createPropertyId: property.id },
+                to: '/dashboard/manager/managed-properties/$id',
+                params: { id: property.id },
               })
             }
           />

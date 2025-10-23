@@ -10,6 +10,7 @@ type Manager {
 extend type Query {
   getManager(id: ID!): Manager
   getAuthenticatedManager: Manager
+  getManagedProperties: [Property]
 }
 
 extend type Mutation {

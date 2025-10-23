@@ -6,6 +6,7 @@ import { PropertyTypeEnum } from '../-enums/property-type.enum';
 
 import { locationSchema } from './location.schema';
 import { managerSchema } from './manager.schema';
+import { applicationSchema } from './application.schema';
 
 export const propertySchema = z.object({
   id: z.uuid(),
@@ -46,7 +47,9 @@ export const propertySchema = z.object({
 
   manager: managerSchema,
 
-  applicationIds: z.array(z.uuid()).nullable(),
+  get applications(){
+    return z.array(applicationSchema);
+  },
 
   propertyTenantPaymentApplicationIds: z.array(z.uuid()).nullable().optional(),
 });

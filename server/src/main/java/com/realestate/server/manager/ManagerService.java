@@ -1,6 +1,7 @@
 package com.realestate.server.manager;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -61,7 +62,11 @@ public class ManagerService {
         manager.setId(managerId);
 
         property.setManager(manager);
-        
+
+    }
+
+    public Set<UUID> getManagedPropertyIds(UUID managerId) {
+        return managerRepository.findManagedPropertyIdsByManagerId(managerId);
     }
 
 }

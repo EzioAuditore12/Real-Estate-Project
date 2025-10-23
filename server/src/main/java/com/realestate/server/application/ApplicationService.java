@@ -103,12 +103,24 @@ public class ApplicationService {
 
         }
 
-        public ApplicationDto getApplicationDetails (UUID applicationId) {
-        
-         return applicationRepository.findById(applicationId).map(applicationMapper::toDto).orElseThrow(() -> 
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "No Such application exists")
-         );
+        public ApplicationDto getApplicationDetails(UUID applicationId) {
 
+                return applicationRepository.findById(applicationId).map(applicationMapper::toDto).orElseThrow(
+                                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Such application exists"));
+
+        }
+
+        public boolean isAssociatedWithApplication(UUID userId, UUID applicationId) {
+                Application application = applicationRepository.findById(applicationId)
+                                .orElse(null);
+
+                if (Objects.isNull(application))
+                        return false;
+
+                UUID tenantId = application.getTenant().getId();
+                UUID managerId = application.getProperty().getManager().getId();
+
+                return userId.equals(tenantId) || userId.equals(managerId);
         }
 
         public Flux<ApplicationDto> findApplicationWithIds(List<UUID> ids) {

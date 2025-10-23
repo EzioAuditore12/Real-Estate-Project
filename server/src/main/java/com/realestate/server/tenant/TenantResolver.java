@@ -13,7 +13,6 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,6 +20,7 @@ import com.realestate.server.application.ApplicationService;
 import com.realestate.server.application.dto.ApplicationDto;
 import com.realestate.server.application.dto.CreateApplicationDto;
 import com.realestate.server.auth.guards.AuthenticatedTenant;
+import com.realestate.server.auth.utils.AuthUtils;
 import com.realestate.server.payment.dto.PaymentDto;
 import com.realestate.server.tenant.dto.TenantDto;
 import com.realestate.server.tenant.dto.TenantPublicDto;
@@ -54,9 +54,9 @@ public class TenantResolver {
     @QueryMapping
     public TenantPublicDto getAuthenticatedTenant() {
 
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        UUID userId = AuthUtils.getAuthenticatedUserId();
 
-        TenantDto tenant = tenantService.findById(UUID.fromString(id));
+        TenantDto tenant = tenantService.findById(userId);
 
         return tenantMapper.toPublicDto(tenant);
 
@@ -66,21 +66,21 @@ public class TenantResolver {
     @MutationMapping
     public ApplicationDto createApplication(@Argument("input") CreateApplicationDto createApplicationDto) {
 
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        UUID userId = AuthUtils.getAuthenticatedUserId();
 
-        return applicationService.createApplication(UUID.fromString(id), createApplicationDto);
+        return applicationService.createApplication(userId, createApplicationDto);
 
     }
 
     @AuthenticatedTenant
     @QueryMapping
     public List<ApplicationDto> getCreatedApplications() {
-        
-        String tenantId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        UUID tenantId =  AuthUtils.getAuthenticatedUserId();
 
         log.info("Fetching applications for tenantId: {}", tenantId);
 
-        return tenantService.createdApplications(UUID.fromString(tenantId));
+        return tenantService.createdApplications(tenantId);
 
     }
 
