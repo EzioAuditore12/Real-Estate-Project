@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
-
-import { tenantApplicationDetailsQuery } from './-queries/application-details.query';
 import { useQuery } from '@tanstack/react-query';
-import { ApplicationDetails } from './-components/application-details';
+
+import { tenantApplicationDetailsQuery } from '@/features/app/dashboard/tenant/sections/applications/queries/application-details.query';
+import { ApplicationDetails } from '@/features/app/dashboard/tenant/sections/applications/components/application-details';
 
 export const Route = createFileRoute(
   '/dashboard/tenant/(sections)/applications/$id',
@@ -18,8 +18,8 @@ function RouteComponent() {
   console.log(data);
 
   return (
-    <div className='p-2 flex flex-1 justify-center items-start'>
-      {data && <ApplicationDetails className='w-full' data={data} />}
+    <div className="flex flex-1 items-start justify-center p-2">
+      {data && <ApplicationDetails className="w-full" data={data} />}
     </div>
-  )
+  );
 }

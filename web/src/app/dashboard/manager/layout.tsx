@@ -6,7 +6,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { ManagerDahboardSidebar } from './-components/sidebar';
+import { ManagerDahboardSidebar } from '@/features/app/dashboard/manager/components/sidebar';
 
 export const Route = createFileRoute('/dashboard/manager')({
   component: RouteComponent,
@@ -26,7 +26,7 @@ function RouteComponent() {
             />
           </div>
         </header>
-        <div className="min-h-screen flex flex-1">
+        <div className="flex min-h-screen flex-1">
           <Outlet />
         </div>
       </SidebarInset>

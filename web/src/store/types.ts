@@ -1,6 +1,6 @@
-import type { User } from '@/app/(auth)/-schemas/user.schema';
-import type { Tokens } from '@/app/(auth)/-schemas/tokens.schema';
-import type { Role } from '@/app/(auth)/-schemas/role.schema';
+import type { User } from '@/features/auth/-schemas/user.schema';
+import type { Tokens } from '@/features/auth/-schemas/tokens.schema';
+import type { Role } from '@/features/auth/-schemas/role.schema';
 
 export interface AuthStore {
   user: User | null;

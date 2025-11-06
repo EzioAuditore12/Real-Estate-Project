@@ -31,7 +31,7 @@ export function ToggleField({
         type="single"
         value={field.state.value ?? ''}
         onValueChange={field.handleChange}
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-full"
+        className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3"
       >
         {options.map((option) => (
           <ToggleGroupItem key={option} value={option} className="w-full">
@@ -39,7 +39,7 @@ export function ToggleField({
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-      <div className="text-sm text-red-500 min-h-5">
+      <div className="min-h-5 text-sm text-red-500">
         {hasError && <FieldError meta={field.state.meta} />}
       </div>
     </div>

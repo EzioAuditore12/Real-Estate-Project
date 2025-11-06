@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { managedPropertyDetailsQuery } from './-queries/property-details.query';
 import { useQuery } from '@tanstack/react-query';
+
+import { managedPropertyDetailsQuery } from '@/features/app/dashboard/manager/sections/managed-properties/queries/property-details.query';
 
 export const Route = createFileRoute(
   '/dashboard/manager/(sections)/managed-properties/$id',
@@ -24,15 +25,15 @@ function RouteComponent() {
   if (!property) return <div>No property found.</div>;
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-8 p-6 bg-white rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-4">{property.name}</h2>
+    <div className="mx-auto my-8 w-full max-w-4xl rounded-lg bg-white p-6 shadow">
+      <h2 className="mb-4 text-2xl font-bold">{property.name}</h2>
       <img
         src={
           property.photoUrls?.[0] ??
           'https://unpic.imgix.net/sample-images/house.jpg'
         }
         alt="Property"
-        className="w-full h-56 object-cover rounded mb-4"
+        className="mb-4 h-56 w-full rounded object-cover"
       />
       <div className="mb-2">
         <strong>Address:</strong> {property.location?.address ?? 'No Address'}
@@ -91,7 +92,7 @@ function RouteComponent() {
         <strong>Property Tenant Payment Application IDs:</strong>{' '}
         {property.propertyTenantPaymentApplicationIds?.length ?? 0}
       </div>
-      <div className="mt-4 text-xs text-muted-foreground">
+      <div className="text-muted-foreground mt-4 text-xs">
         Property ID: {property.id}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { env } from '@/env';
-import type { role } from '@/app/(auth)/-types';
+import type { Role } from '@/features/auth/-schemas/role.schema';
 import axios from 'axios';
 
 const tokenRefreshAxios = axios.create({
@@ -8,7 +8,7 @@ const tokenRefreshAxios = axios.create({
 
 type regenerateTokenApiParams = {
   oldRefreshToken: string;
-  role: role;
+  role: Role;
 };
 
 type regenerateTokenResponse = {

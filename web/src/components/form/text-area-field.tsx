@@ -29,7 +29,7 @@ export const TextAreaField = ({
         onBlur={field.handleBlur}
         {...inputProps}
       />
-      <div className="text-sm text-red-500 min-h-5">
+      <div className="min-h-5 text-sm text-red-500">
         {hasError && <FieldError meta={field.state.meta} />}
       </div>
     </div>

@@ -1,9 +1,10 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { managerManagedPropertiesQuery } from './-queries/managed-properties.query';
-import { PropertyCard } from './-components/card';
 import { H1 } from '@/components/ui/typography';
+
+import { managerManagedPropertiesQuery } from '@/features/app/dashboard/manager/sections/managed-properties/queries/managed-properties.query';
+import { PropertyCard } from '@/features/app/dashboard/manager/sections/managed-properties/components/card';
 
 export const Route = createFileRoute(
   '/dashboard/manager/(sections)/managed-properties/',
@@ -19,11 +20,11 @@ function RouteComponent() {
   const { data } = useSuspenseQuery(managerManagedPropertiesQuery);
 
   return (
-    <div className="p-2 w-full grid place-content-start grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2">
+    <div className="grid w-full grid-cols-1 place-content-start gap-x-2 p-2 md:grid-cols-2 lg:grid-cols-3">
       <H1 className="col-span-full mb-3"> Here are the managed properties</H1>
 
       {data.length === 0 ? (
-        <div className="text-center text-muted-foreground py-8">
+        <div className="text-muted-foreground py-8 text-center">
           No managed properties found.
         </div>
       ) : (

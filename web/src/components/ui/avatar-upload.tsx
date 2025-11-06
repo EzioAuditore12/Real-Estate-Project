@@ -52,7 +52,7 @@ const AvatarUpload = React.forwardRef<HTMLDivElement, AvatarUploadProps>(
         {...getRootProps()}
         ref={ref}
         className={cn(
-          'group relative w-24 h-24 cursor-pointer rounded-full',
+          'group relative h-24 w-24 cursor-pointer rounded-full',
           className,
         )}
       >
@@ -60,11 +60,11 @@ const AvatarUpload = React.forwardRef<HTMLDivElement, AvatarUploadProps>(
         <Avatar className="h-full w-full">
           <AvatarImage src={preview} alt="Avatar preview" />
           <AvatarFallback>
-            <User2 className="h-10 w-10 text-muted-foreground" />
+            <User2 className="text-muted-foreground h-10 w-10" />
           </AvatarFallback>
         </Avatar>
-        <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all">
-          <Edit className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="bg-opacity-0 group-hover:bg-opacity-40 absolute inset-0 flex items-center justify-center rounded-full bg-black transition-all">
+          <Edit className="h-6 w-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
       </div>
     );

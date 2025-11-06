@@ -118,28 +118,28 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         <div
           {...getRootProps()}
           className={cn(
-            'relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/30 px-6 py-8 text-center transition-colors hover:border-primary hover:bg-muted',
+            'border-muted-foreground/30 bg-muted/30 hover:border-primary hover:bg-muted relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed px-6 py-8 text-center transition-colors',
             isDragActive && 'border-primary bg-primary/10',
             disabled && 'cursor-not-allowed opacity-60',
             className,
           )}
         >
           <input {...getInputProps()} />
-          <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-          <div className="mt-3 text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">
+          <UploadCloud className="text-muted-foreground mx-auto h-12 w-12" />
+          <div className="text-muted-foreground mt-3 text-sm">
+            <span className="text-foreground font-semibold">
               Click to upload
             </span>{' '}
             or drag and drop
           </div>
-          <p className="mt-1 text-xs text-muted-foreground/80">
+          <p className="text-muted-foreground/80 mt-1 text-xs">
             PNG, JPG, WEBP (max 50MB total, 10 files)
           </p>
         </div>
 
         {fileList.length > 0 && (
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
               <ImageIcon className="h-4 w-4" />
               Uploaded ({fileList.length})
             </div>
@@ -154,7 +154,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
                 return (
                   <div
                     key={file.name}
-                    className="group relative overflow-hidden rounded-lg border bg-background shadow-sm"
+                    className="group bg-background relative overflow-hidden rounded-lg border shadow-sm"
                   >
                     {isImage && previewUrl ? (
                       <div className="relative h-40 w-full">
@@ -167,23 +167,23 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
                           type="button"
                           onClick={() => onRemove(file.name)}
                           disabled={disabled}
-                          className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-background/90 text-foreground shadow transition hover:bg-destructive hover:text-destructive-foreground"
+                          className="bg-background/90 text-foreground hover:bg-destructive hover:text-destructive-foreground absolute top-2 right-2 inline-flex h-7 w-7 items-center justify-center rounded-full shadow transition"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
                     ) : (
-                      <div className="flex h-40 items-center justify-center bg-muted">
+                      <div className="bg-muted flex h-40 items-center justify-center">
                         {isUploaded ? (
                           <CheckCircle2 className="h-10 w-10 text-green-500" />
                         ) : (
-                          <FileIcon className="h-10 w-10 text-muted-foreground" />
+                          <FileIcon className="text-muted-foreground h-10 w-10" />
                         )}
                         <button
                           type="button"
                           onClick={() => onRemove(file.name)}
                           disabled={disabled}
-                          className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-background/90 text-foreground shadow transition hover:bg-destructive hover:text-destructive-foreground"
+                          className="bg-background/90 text-foreground hover:bg-destructive hover:text-destructive-foreground absolute top-2 right-2 inline-flex h-7 w-7 items-center justify-center rounded-full shadow transition"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -195,7 +195,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
                         <p className="truncate text-sm font-medium">
                           {file.name}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {formatFileSize(file.size)}
                         </p>
                       </div>

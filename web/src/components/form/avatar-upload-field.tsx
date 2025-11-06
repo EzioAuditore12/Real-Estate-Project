@@ -66,7 +66,7 @@ export const AvatarUploadField: React.FC<AvatarUploadProps> = ({
     labelName || field.name.charAt(0).toUpperCase() + field.name.slice(1);
 
   return (
-    <div className={cn('w-full flex flex-col items-center', className)}>
+    <div className={cn('flex w-full flex-col items-center', className)}>
       {labelName && (
         <Label htmlFor={field.name} className="mb-4 text-center">
           {displayName}
@@ -88,7 +88,7 @@ export const AvatarUploadField: React.FC<AvatarUploadProps> = ({
             type="button"
             onClick={handleRemove}
             className={cn(
-              'absolute top-1 right-1 z-10 bg-white rounded-full p-1 shadow hover:bg-red-100 transition-colors',
+              'absolute top-1 right-1 z-10 rounded-full bg-white p-1 shadow transition-colors hover:bg-red-100',
               iconSizes[size],
             )}
             aria-label="Remove avatar"
@@ -119,7 +119,7 @@ export const AvatarUploadField: React.FC<AvatarUploadProps> = ({
         {/* Hover Overlay */}
         <div
           className={cn(
-            'absolute inset-0 rounded-full bg-black bg-opacity-0 flex items-center justify-center transition-all duration-200',
+            'bg-opacity-0 absolute inset-0 flex items-center justify-center rounded-full bg-black transition-all duration-200',
             isHovered && 'bg-opacity-40',
           )}
         >
@@ -143,7 +143,7 @@ export const AvatarUploadField: React.FC<AvatarUploadProps> = ({
       </div>
 
       {/* Error display */}
-      <div className="text-sm text-red-500 min-h-5 text-center mt-2">
+      <div className="mt-2 min-h-5 text-center text-sm text-red-500">
         {hasError && <FieldError meta={field.state.meta} />}
       </div>
     </div>

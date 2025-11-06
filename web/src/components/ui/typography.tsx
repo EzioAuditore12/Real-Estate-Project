@@ -52,7 +52,7 @@ export const P = ({ className, ...props }: ComponentProps<'p'>) => {
   return (
     <p
       className={cn(
-        'leading-7 [&:not(:first-child)]:mt-6 text-black dark:text-white',
+        'leading-7 text-black dark:text-white [&:not(:first-child)]:mt-6',
         className,
       )}
       {...props}
@@ -67,7 +67,7 @@ export const Blockquote = ({
   return (
     <blockquote
       className={cn(
-        'mt-6 border-l-2 pl-6 italic text-black dark:text-white',
+        'mt-6 border-l-2 pl-6 text-black italic dark:text-white',
         className,
       )}
       {...props}
@@ -79,7 +79,7 @@ export const List = ({ className, ...props }: ComponentProps<'ul'>) => {
   return (
     <ul
       className={cn(
-        'my-6 ml-6 list-disc [&>li]:mt-2 text-black dark:text-white',
+        'my-6 ml-6 list-disc text-black dark:text-white [&>li]:mt-2',
         className,
       )}
       {...props}

@@ -48,7 +48,7 @@ const cardVariants = {
 
 function RouteComponent() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
       <motion.div
         className="container mx-auto px-4 py-16"
         variants={containerVariants}
@@ -56,29 +56,29 @@ function RouteComponent() {
         animate="visible"
       >
         <motion.div
-          className="text-center space-y-6 mb-16"
+          className="mb-16 space-y-6 text-center"
           variants={itemVariants}
         >
           <motion.div
-            className="flex items-center justify-center gap-2 mb-4"
+            className="mb-4 flex items-center justify-center gap-2"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
-            <Building2 className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            <Building2 className="text-primary h-12 w-12" />
+            <h1 className="from-primary to-primary/60 bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
               Real Estate
             </h1>
           </motion.div>
 
           <motion.div variants={itemVariants}>
             <Badge variant="secondary" className="mb-4 px-4 py-2">
-              <Sparkles className="h-4 w-4 mr-2" />
+              <Sparkles className="mr-2 h-4 w-4" />
               Student Project - Work in Progress
             </Badge>
           </motion.div>
 
           <motion.p
-            className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            className="text-muted-foreground mx-auto max-w-3xl text-xl leading-relaxed md:text-2xl"
             variants={itemVariants}
           >
             A modern real estate management platform built by a student using
@@ -87,14 +87,14 @@ function RouteComponent() {
         </motion.div>
 
         <motion.div
-          className="grid md:grid-cols-3 gap-8 mb-16"
+          className="mb-16 grid gap-8 md:grid-cols-3"
           variants={containerVariants}
         >
           <motion.div variants={cardVariants} whileHover="hover">
-            <Card className="border-0 shadow-lg bg-card/50 backdrop-blur">
+            <Card className="bg-card/50 border-0 shadow-lg backdrop-blur">
               <CardContent className="p-8 text-center">
-                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">User Management</h3>
+                <Users className="text-primary mx-auto mb-4 h-12 w-12" />
+                <h3 className="mb-2 text-xl font-semibold">User Management</h3>
                 <p className="text-muted-foreground">
                   Dashboards tailored for tenants and managers.
                 </p>
@@ -103,10 +103,10 @@ function RouteComponent() {
           </motion.div>
 
           <motion.div variants={cardVariants} whileHover="hover">
-            <Card className="border-0 shadow-lg bg-card/50 backdrop-blur">
+            <Card className="bg-card/50 border-0 shadow-lg backdrop-blur">
               <CardContent className="p-8 text-center">
-                <HomeIcon className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">
+                <HomeIcon className="text-primary mx-auto mb-4 h-12 w-12" />
+                <h3 className="mb-2 text-xl font-semibold">
                   Property Listings
                 </h3>
                 <p className="text-muted-foreground">
@@ -117,10 +117,10 @@ function RouteComponent() {
           </motion.div>
 
           <motion.div variants={cardVariants} whileHover="hover">
-            <Card className="border-0 shadow-lg bg-card/50 backdrop-blur">
+            <Card className="bg-card/50 border-0 shadow-lg backdrop-blur">
               <CardContent className="p-8 text-center">
-                <Key className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Secure Access</h3>
+                <Key className="text-primary mx-auto mb-4 h-12 w-12" />
+                <h3 className="mb-2 text-xl font-semibold">Secure Access</h3>
                 <p className="text-muted-foreground">
                   JWT authentication with role-based permissions.
                 </p>
@@ -129,8 +129,8 @@ function RouteComponent() {
           </motion.div>
         </motion.div>
 
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <h2 className="text-3xl font-bold mb-8">Technologies Used</h2>
+        <motion.div className="mb-16 text-center" variants={itemVariants}>
+          <h2 className="mb-8 text-3xl font-bold">Technologies Used</h2>
           <div className="flex flex-wrap justify-center gap-3">
             {[
               'Vite + TanStack',
@@ -150,7 +150,7 @@ function RouteComponent() {
                 whileHover={{ scale: 1.08 }}
               >
                 <Badge variant="outline" className="px-3 py-1">
-                  <Code className="h-3 w-3 mr-1" />
+                  <Code className="mr-1 h-3 w-3" />
                   {tech}
                 </Badge>
               </motion.div>
@@ -159,7 +159,7 @@ function RouteComponent() {
         </motion.div>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+          className="flex flex-col items-center justify-center gap-6 sm:flex-row"
           variants={itemVariants}
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -193,7 +193,7 @@ function RouteComponent() {
         </motion.div>
 
         <motion.div
-          className="text-center mt-16 pt-8 border-t border-border/50 space-y-3"
+          className="border-border/50 mt-16 space-y-3 border-t pt-8 text-center"
           variants={itemVariants}
         >
           <p className="text-muted-foreground">
@@ -205,7 +205,7 @@ function RouteComponent() {
             whileHover={{ scale: 1.05 }}
           >
             <Badge variant="secondary" className="px-4 py-2">
-              <Github className="h-4 w-4 mr-2" />
+              <Github className="mr-2 h-4 w-4" />
               Open Source Initiative
             </Badge>
           </motion.div>

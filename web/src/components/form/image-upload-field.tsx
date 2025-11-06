@@ -21,7 +21,7 @@ export function ImageUploadField({ label, className }: FormFileUploadProps) {
         onChange={field.handleChange}
       />
       {hasError && (
-        <div className="text-sm text-red-500 mt-1">
+        <div className="mt-1 text-sm text-red-500">
           <FieldError meta={field.state.meta} />
         </div>
       )}

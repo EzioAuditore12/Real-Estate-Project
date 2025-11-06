@@ -88,6 +88,7 @@ public class PropertyService {
     }
 
     public Page<PropertyDto> getAllPropertiesBySearch(PropertySearchDto propertySearchDto, Integer page, Integer size) {
+
         Specification<Property> spec = PropertySpecification.withDynamicQuery(propertySearchDto);
 
         Pageable pageable = PageRequest.of(page, size);
