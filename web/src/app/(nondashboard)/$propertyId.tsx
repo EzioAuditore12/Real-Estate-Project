@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { propertyDetailsQuery } from '@/features/app/-queries/property-details.query';
+import { useCreateApplication } from '@/features/app/property/hooks/use-create-application';
 import { useAuthStore } from '@/store';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
@@ -16,6 +17,8 @@ function RouteComponent() {
     isLoading,
     error,
   } = useQuery(propertyDetailsQuery(propertyId));
+
+  const { mutate, isPending } = useCreateApplication();
 
   const role = useAuthStore((state) => state.role);
 
@@ -96,7 +99,13 @@ function RouteComponent() {
       </div>
 
       {role === 'TENANT' && (
-        <Button variant={'destructive'}>Apply for property</Button>
+        <Button
+          onClick={() => mutate(property.id)}
+          disabled={isPending}
+          variant={'destructive'}
+        >
+          {isPending ? 'Applying' : 'Apply For Property'}
+        </Button>
       )}
     </div>
   );

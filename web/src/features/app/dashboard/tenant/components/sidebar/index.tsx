@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useAuthStore } from '@/store';
 
 const data = {
@@ -51,19 +51,20 @@ export function TenantDahboardSidebar({
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
+  const navigate = useNavigate();
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link to="/dashboard">
+              <Link to="/landing">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-medium">Rentiful</span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -78,7 +79,10 @@ export function TenantDahboardSidebar({
           name={user?.name ?? ''}
           email={user?.email ?? ''}
           avatar=""
-          logout={logout}
+          logout={() => {
+            logout();
+            navigate({ to: '/landing', replace: true });
+          }}
         />
       </SidebarFooter>
     </Sidebar>

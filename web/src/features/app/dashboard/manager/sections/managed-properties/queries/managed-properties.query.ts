@@ -21,6 +21,13 @@ export const GET_MANAGED_PROPERTIES = gql`
         city
         state
       }
+      applications {
+        id
+        tenant {
+          name
+          avatar
+        }
+      }
     }
   }
 `;

@@ -31,6 +31,14 @@ export const GET_MANAGED_PROPERTY_DETAILS = gql`
       propertyType
       securityDeposit
       squareFeet
+      applications {
+        id
+        tenant {
+          id
+          name
+          avatar
+        }
+      }
     }
   }
 `;
