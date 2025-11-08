@@ -96,3 +96,7 @@ class AuthenticatedGraphQLClient {
 const authenticatedGraphQLClient = new AuthenticatedGraphQLClient();
 
 export { authenticatedGraphQLClient as graphQLClient };
+
+export const pulicGraphQlClient = new GraphQLClient(
+  env.VITE_PUBLIC_GRAPHQL_SERVER,
+);

@@ -13,8 +13,9 @@ import { Route as DashboardLayoutRouteImport } from './app/dashboard/layout'
 import { Route as nondashboardLayoutRouteImport } from './app/(nondashboard)/layout'
 import { Route as authLayoutRouteImport } from './app/(auth)/layout'
 import { Route as PageRouteImport } from './app/page'
-import { Route as nondashboardMapRouteImport } from './app/(nondashboard)/map'
+import { Route as nondashboardSearchRouteImport } from './app/(nondashboard)/search'
 import { Route as nondashboardLandingRouteImport } from './app/(nondashboard)/landing'
+import { Route as nondashboardPropertyIdRouteImport } from './app/(nondashboard)/$propertyId'
 import { Route as DashboardTenantLayoutRouteImport } from './app/dashboard/tenant/layout'
 import { Route as DashboardManagerLayoutRouteImport } from './app/dashboard/manager/layout'
 import { Route as authRegisterTenantRouteImport } from './app/(auth)/register/tenant'
@@ -52,14 +53,19 @@ const PageRoute = PageRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const nondashboardMapRoute = nondashboardMapRouteImport.update({
-  id: '/map',
-  path: '/map',
+const nondashboardSearchRoute = nondashboardSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => nondashboardLayoutRoute,
 } as any)
 const nondashboardLandingRoute = nondashboardLandingRouteImport.update({
   id: '/landing',
   path: '/landing',
+  getParentRoute: () => nondashboardLayoutRoute,
+} as any)
+const nondashboardPropertyIdRoute = nondashboardPropertyIdRouteImport.update({
+  id: '/$propertyId',
+  path: '/$propertyId',
   getParentRoute: () => nondashboardLayoutRoute,
 } as any)
 const DashboardTenantLayoutRoute = DashboardTenantLayoutRouteImport.update({
@@ -170,8 +176,9 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/dashboard/manager': typeof DashboardManagerLayoutRouteWithChildren
   '/dashboard/tenant': typeof DashboardTenantLayoutRouteWithChildren
+  '/$propertyId': typeof nondashboardPropertyIdRoute
   '/landing': typeof nondashboardLandingRoute
-  '/map': typeof nondashboardMapRoute
+  '/search': typeof nondashboardSearchRoute
   '/login/manager': typeof authLoginManagerRoute
   '/login/tenant': typeof authLoginTenantRoute
   '/register/manager': typeof authRegisterManagerRoute
@@ -192,8 +199,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof nondashboardLayoutRouteWithChildren
   '/dashboard': typeof DashboardLayoutRouteWithChildren
+  '/$propertyId': typeof nondashboardPropertyIdRoute
   '/landing': typeof nondashboardLandingRoute
-  '/map': typeof nondashboardMapRoute
+  '/search': typeof nondashboardSearchRoute
   '/login/manager': typeof authLoginManagerRoute
   '/login/tenant': typeof authLoginTenantRoute
   '/register/manager': typeof authRegisterManagerRoute
@@ -219,8 +227,9 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/dashboard/manager': typeof DashboardManagerLayoutRouteWithChildren
   '/dashboard/tenant': typeof DashboardTenantLayoutRouteWithChildren
+  '/(nondashboard)/$propertyId': typeof nondashboardPropertyIdRoute
   '/(nondashboard)/landing': typeof nondashboardLandingRoute
-  '/(nondashboard)/map': typeof nondashboardMapRoute
+  '/(nondashboard)/search': typeof nondashboardSearchRoute
   '/(auth)/login/manager': typeof authLoginManagerRoute
   '/(auth)/login/tenant': typeof authLoginTenantRoute
   '/(auth)/register/manager': typeof authRegisterManagerRoute
@@ -245,8 +254,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/manager'
     | '/dashboard/tenant'
+    | '/$propertyId'
     | '/landing'
-    | '/map'
+    | '/search'
     | '/login/manager'
     | '/login/tenant'
     | '/register/manager'
@@ -267,8 +277,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/$propertyId'
     | '/landing'
-    | '/map'
+    | '/search'
     | '/login/manager'
     | '/login/tenant'
     | '/register/manager'
@@ -293,8 +304,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/manager'
     | '/dashboard/tenant'
+    | '/(nondashboard)/$propertyId'
     | '/(nondashboard)/landing'
-    | '/(nondashboard)/map'
+    | '/(nondashboard)/search'
     | '/(auth)/login/manager'
     | '/(auth)/login/tenant'
     | '/(auth)/register/manager'
@@ -350,11 +362,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(nondashboard)/map': {
-      id: '/(nondashboard)/map'
-      path: '/map'
-      fullPath: '/map'
-      preLoaderRoute: typeof nondashboardMapRouteImport
+    '/(nondashboard)/search': {
+      id: '/(nondashboard)/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof nondashboardSearchRouteImport
       parentRoute: typeof nondashboardLayoutRoute
     }
     '/(nondashboard)/landing': {
@@ -362,6 +374,13 @@ declare module '@tanstack/react-router' {
       path: '/landing'
       fullPath: '/landing'
       preLoaderRoute: typeof nondashboardLandingRouteImport
+      parentRoute: typeof nondashboardLayoutRoute
+    }
+    '/(nondashboard)/$propertyId': {
+      id: '/(nondashboard)/$propertyId'
+      path: '/$propertyId'
+      fullPath: '/$propertyId'
+      preLoaderRoute: typeof nondashboardPropertyIdRouteImport
       parentRoute: typeof nondashboardLayoutRoute
     }
     '/dashboard/tenant': {
@@ -512,13 +531,15 @@ const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
 )
 
 interface nondashboardLayoutRouteChildren {
+  nondashboardPropertyIdRoute: typeof nondashboardPropertyIdRoute
   nondashboardLandingRoute: typeof nondashboardLandingRoute
-  nondashboardMapRoute: typeof nondashboardMapRoute
+  nondashboardSearchRoute: typeof nondashboardSearchRoute
 }
 
 const nondashboardLayoutRouteChildren: nondashboardLayoutRouteChildren = {
+  nondashboardPropertyIdRoute: nondashboardPropertyIdRoute,
   nondashboardLandingRoute: nondashboardLandingRoute,
-  nondashboardMapRoute: nondashboardMapRoute,
+  nondashboardSearchRoute: nondashboardSearchRoute,
 }
 
 const nondashboardLayoutRouteWithChildren =

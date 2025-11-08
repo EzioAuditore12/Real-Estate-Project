@@ -2,7 +2,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 export function HeroSearchBar() {
-
   return (
     <div className="flex justify-center">
       <Input

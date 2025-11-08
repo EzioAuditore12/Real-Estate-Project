@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
-
 import type { PropertySchema } from '@/features/app/-schemas/property.schema';
 
 interface PropertyCardProps extends ComponentProps<typeof Card> {
