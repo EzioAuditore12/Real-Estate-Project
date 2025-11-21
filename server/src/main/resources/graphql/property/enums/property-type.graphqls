@@ -1,8 +1,0 @@
-enum PropertyType {
-  ROOMS
-  TINY_HOUSE
-  APARTMENT
-  VILLA
-  TOWNHOUSE
-  COTTAGE
-}

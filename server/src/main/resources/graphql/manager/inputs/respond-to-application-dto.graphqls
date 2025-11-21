@@ -1,8 +1,0 @@
-input RespondToApplicationDto {
-  applicationId: ID!
-  status: ApplicationStatus!
-  startDate: LocalDateTime!
-  endDate: LocalDateTime!
-  rent: Float
-  deposit: Float
-}
