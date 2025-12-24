@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './app/__root'
 import { Route as DashboardLayoutRouteImport } from './app/dashboard/layout'
 import { Route as nondashboardLayoutRouteImport } from './app/(nondashboard)/layout'
@@ -18,10 +20,6 @@ import { Route as nondashboardLandingRouteImport } from './app/(nondashboard)/la
 import { Route as nondashboardPropertyIdRouteImport } from './app/(nondashboard)/$propertyId'
 import { Route as DashboardTenantLayoutRouteImport } from './app/dashboard/tenant/layout'
 import { Route as DashboardManagerLayoutRouteImport } from './app/dashboard/manager/layout'
-import { Route as authRegisterTenantRouteImport } from './app/(auth)/register/tenant'
-import { Route as authRegisterManagerRouteImport } from './app/(auth)/register/manager'
-import { Route as authLoginTenantRouteImport } from './app/(auth)/login/tenant'
-import { Route as authLoginManagerRouteImport } from './app/(auth)/login/manager'
 import { Route as DashboardTenantsectionsPageRouteImport } from './app/dashboard/tenant/(sections)/page'
 import { Route as DashboardManagersectionsPageRouteImport } from './app/dashboard/manager/(sections)/page'
 import { Route as DashboardTenantsectionsSettingsRouteImport } from './app/dashboard/tenant/(sections)/settings'
@@ -35,6 +33,17 @@ import { Route as DashboardTenantsectionsFavouritesIdRouteImport } from './app/d
 import { Route as DashboardTenantsectionsApplicationsIdRouteImport } from './app/dashboard/tenant/(sections)/applications/$id'
 import { Route as DashboardManagersectionsManagedPropertiesIdRouteImport } from './app/dashboard/manager/(sections)/managed-properties/$id'
 import { Route as DashboardManagersectionsManagedPropertiesApplicationIdRouteImport } from './app/dashboard/manager/(sections)/managed-properties/application/$id'
+
+const authRegisterTenantLazyRouteImport = createFileRoute(
+  '/(auth)/register/tenant',
+)()
+const authRegisterManagerLazyRouteImport = createFileRoute(
+  '/(auth)/register/manager',
+)()
+const authLoginTenantLazyRouteImport = createFileRoute('/(auth)/login/tenant')()
+const authLoginManagerLazyRouteImport = createFileRoute(
+  '/(auth)/login/manager',
+)()
 
 const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
   id: '/dashboard',
@@ -79,26 +88,34 @@ const DashboardManagerLayoutRoute = DashboardManagerLayoutRouteImport.update({
   path: '/manager',
   getParentRoute: () => DashboardLayoutRoute,
 } as any)
-const authRegisterTenantRoute = authRegisterTenantRouteImport.update({
-  id: '/register/tenant',
-  path: '/register/tenant',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authRegisterManagerRoute = authRegisterManagerRouteImport.update({
-  id: '/register/manager',
-  path: '/register/manager',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authLoginTenantRoute = authLoginTenantRouteImport.update({
-  id: '/login/tenant',
-  path: '/login/tenant',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authLoginManagerRoute = authLoginManagerRouteImport.update({
-  id: '/login/manager',
-  path: '/login/manager',
-  getParentRoute: () => authLayoutRoute,
-} as any)
+const authRegisterTenantLazyRoute = authRegisterTenantLazyRouteImport
+  .update({
+    id: '/register/tenant',
+    path: '/register/tenant',
+    getParentRoute: () => authLayoutRoute,
+  } as any)
+  .lazy(() => import('./app/(auth)/register/tenant.lazy').then((d) => d.Route))
+const authRegisterManagerLazyRoute = authRegisterManagerLazyRouteImport
+  .update({
+    id: '/register/manager',
+    path: '/register/manager',
+    getParentRoute: () => authLayoutRoute,
+  } as any)
+  .lazy(() => import('./app/(auth)/register/manager.lazy').then((d) => d.Route))
+const authLoginTenantLazyRoute = authLoginTenantLazyRouteImport
+  .update({
+    id: '/login/tenant',
+    path: '/login/tenant',
+    getParentRoute: () => authLayoutRoute,
+  } as any)
+  .lazy(() => import('./app/(auth)/login/tenant.lazy').then((d) => d.Route))
+const authLoginManagerLazyRoute = authLoginManagerLazyRouteImport
+  .update({
+    id: '/login/manager',
+    path: '/login/manager',
+    getParentRoute: () => authLayoutRoute,
+  } as any)
+  .lazy(() => import('./app/(auth)/login/manager.lazy').then((d) => d.Route))
 const DashboardTenantsectionsPageRoute =
   DashboardTenantsectionsPageRouteImport.update({
     id: '/(sections)/',
@@ -179,17 +196,17 @@ const DashboardManagersectionsManagedPropertiesApplicationIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof nondashboardLayoutRouteWithChildren
+  '/': typeof PageRoute
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/dashboard/manager': typeof DashboardManagerLayoutRouteWithChildren
   '/dashboard/tenant': typeof DashboardTenantLayoutRouteWithChildren
   '/$propertyId': typeof nondashboardPropertyIdRoute
   '/landing': typeof nondashboardLandingRoute
   '/search': typeof nondashboardSearchRoute
-  '/login/manager': typeof authLoginManagerRoute
-  '/login/tenant': typeof authLoginTenantRoute
-  '/register/manager': typeof authRegisterManagerRoute
-  '/register/tenant': typeof authRegisterTenantRoute
+  '/login/manager': typeof authLoginManagerLazyRoute
+  '/login/tenant': typeof authLoginTenantLazyRoute
+  '/register/manager': typeof authRegisterManagerLazyRoute
+  '/register/tenant': typeof authRegisterTenantLazyRoute
   '/dashboard/manager/create-property': typeof DashboardManagersectionsCreatePropertyRoute
   '/dashboard/tenant/settings': typeof DashboardTenantsectionsSettingsRoute
   '/dashboard/manager/': typeof DashboardManagersectionsPageRoute
@@ -205,15 +222,15 @@ export interface FileRoutesByFullPath {
   '/dashboard/manager/managed-properties/application/$id': typeof DashboardManagersectionsManagedPropertiesApplicationIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof nondashboardLayoutRouteWithChildren
+  '/': typeof PageRoute
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/$propertyId': typeof nondashboardPropertyIdRoute
   '/landing': typeof nondashboardLandingRoute
   '/search': typeof nondashboardSearchRoute
-  '/login/manager': typeof authLoginManagerRoute
-  '/login/tenant': typeof authLoginTenantRoute
-  '/register/manager': typeof authRegisterManagerRoute
-  '/register/tenant': typeof authRegisterTenantRoute
+  '/login/manager': typeof authLoginManagerLazyRoute
+  '/login/tenant': typeof authLoginTenantLazyRoute
+  '/register/manager': typeof authRegisterManagerLazyRoute
+  '/register/tenant': typeof authRegisterTenantLazyRoute
   '/dashboard/manager/create-property': typeof DashboardManagersectionsCreatePropertyRoute
   '/dashboard/tenant/settings': typeof DashboardTenantsectionsSettingsRoute
   '/dashboard/manager': typeof DashboardManagersectionsPageRoute
@@ -239,10 +256,10 @@ export interface FileRoutesById {
   '/(nondashboard)/$propertyId': typeof nondashboardPropertyIdRoute
   '/(nondashboard)/landing': typeof nondashboardLandingRoute
   '/(nondashboard)/search': typeof nondashboardSearchRoute
-  '/(auth)/login/manager': typeof authLoginManagerRoute
-  '/(auth)/login/tenant': typeof authLoginTenantRoute
-  '/(auth)/register/manager': typeof authRegisterManagerRoute
-  '/(auth)/register/tenant': typeof authRegisterTenantRoute
+  '/(auth)/login/manager': typeof authLoginManagerLazyRoute
+  '/(auth)/login/tenant': typeof authLoginTenantLazyRoute
+  '/(auth)/register/manager': typeof authRegisterManagerLazyRoute
+  '/(auth)/register/tenant': typeof authRegisterTenantLazyRoute
   '/dashboard/manager/(sections)/create-property': typeof DashboardManagersectionsCreatePropertyRoute
   '/dashboard/tenant/(sections)/settings': typeof DashboardTenantsectionsSettingsRoute
   '/dashboard/manager/(sections)/': typeof DashboardManagersectionsPageRoute
@@ -356,15 +373,15 @@ declare module '@tanstack/react-router' {
     }
     '/(nondashboard)': {
       id: '/(nondashboard)'
-      path: '/'
-      fullPath: '/'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof nondashboardLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)': {
       id: '/(auth)'
-      path: '/'
-      fullPath: '/'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof authLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -414,28 +431,28 @@ declare module '@tanstack/react-router' {
       id: '/(auth)/register/tenant'
       path: '/register/tenant'
       fullPath: '/register/tenant'
-      preLoaderRoute: typeof authRegisterTenantRouteImport
+      preLoaderRoute: typeof authRegisterTenantLazyRouteImport
       parentRoute: typeof authLayoutRoute
     }
     '/(auth)/register/manager': {
       id: '/(auth)/register/manager'
       path: '/register/manager'
       fullPath: '/register/manager'
-      preLoaderRoute: typeof authRegisterManagerRouteImport
+      preLoaderRoute: typeof authRegisterManagerLazyRouteImport
       parentRoute: typeof authLayoutRoute
     }
     '/(auth)/login/tenant': {
       id: '/(auth)/login/tenant'
       path: '/login/tenant'
       fullPath: '/login/tenant'
-      preLoaderRoute: typeof authLoginTenantRouteImport
+      preLoaderRoute: typeof authLoginTenantLazyRouteImport
       parentRoute: typeof authLayoutRoute
     }
     '/(auth)/login/manager': {
       id: '/(auth)/login/manager'
       path: '/login/manager'
       fullPath: '/login/manager'
-      preLoaderRoute: typeof authLoginManagerRouteImport
+      preLoaderRoute: typeof authLoginManagerLazyRouteImport
       parentRoute: typeof authLayoutRoute
     }
     '/dashboard/tenant/(sections)/': {
@@ -533,17 +550,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface authLayoutRouteChildren {
-  authLoginManagerRoute: typeof authLoginManagerRoute
-  authLoginTenantRoute: typeof authLoginTenantRoute
-  authRegisterManagerRoute: typeof authRegisterManagerRoute
-  authRegisterTenantRoute: typeof authRegisterTenantRoute
+  authLoginManagerLazyRoute: typeof authLoginManagerLazyRoute
+  authLoginTenantLazyRoute: typeof authLoginTenantLazyRoute
+  authRegisterManagerLazyRoute: typeof authRegisterManagerLazyRoute
+  authRegisterTenantLazyRoute: typeof authRegisterTenantLazyRoute
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
-  authLoginManagerRoute: authLoginManagerRoute,
-  authLoginTenantRoute: authLoginTenantRoute,
-  authRegisterManagerRoute: authRegisterManagerRoute,
-  authRegisterTenantRoute: authRegisterTenantRoute,
+  authLoginManagerLazyRoute: authLoginManagerLazyRoute,
+  authLoginTenantLazyRoute: authLoginTenantLazyRoute,
+  authRegisterManagerLazyRoute: authRegisterManagerLazyRoute,
+  authRegisterTenantLazyRoute: authRegisterTenantLazyRoute,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(

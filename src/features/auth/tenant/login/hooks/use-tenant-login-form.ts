@@ -26,7 +26,7 @@ export function useTenantLoginForm() {
     },
     onError: (data) => {
       console.log(data);
-      alert('Something went wrong');
+      alert(data);
     },
   });
 }

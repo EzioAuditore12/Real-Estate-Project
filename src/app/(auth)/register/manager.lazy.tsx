@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { Link, createLazyFileRoute } from '@tanstack/react-router';
 
 import { H1, P } from '@/components/ui/typography';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ManagerRegisterForm } from '@/features/auth/manager/register/components/form';
 import { useManagerRegisterationForm } from '@/features/auth/manager/register/hooks/use-manager-register-form';
 
-export const Route = createFileRoute('/(auth)/register/manager')({
+export const Route = createLazyFileRoute('/(auth)/register/manager')({
   component: RouteComponent,
 });
 
@@ -14,7 +14,7 @@ function RouteComponent() {
   const { mutate, isPending } = useManagerRegisterationForm();
 
   return (
-    <div className="from-background to-muted/20 flex min-h-screen flex-col items-center justify-center bg-gradient-to-br p-4">
+    <div className="from-background to-muted/20 flex min-h-screen flex-col items-center justify-center bg-linear-to-br p-4">
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <H1 className="text-3xl font-bold tracking-tight">Welcome back</H1>

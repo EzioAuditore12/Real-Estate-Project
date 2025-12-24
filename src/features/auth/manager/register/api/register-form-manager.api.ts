@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { env } from '@/env';
+
+import { typedFetch } from '@/lib/fetch';
+
 import { registerManagerResponseSchema } from '../schemas/register-manager-response.schema';
 import type { ManagerRegisterationFormParams } from '../schemas/register-manager-params.schema';
-
-const url = `${env.VITE_PUBLIC_SERVER_URL}/auth/manager/register`;
 
 export const registerFormManagerApi = async (
   data: ManagerRegisterationFormParams,
@@ -20,14 +20,10 @@ export const registerFormManagerApi = async (
     }
   });
 
-  const response = await axios.post<ManagerRegisterationFormParams>(
-    url,
-    formData,
-  );
-
-  const parsed = registerManagerResponseSchema.safeParse(response.data);
-  if (!parsed.success) {
-    throw new Error('Invalid response from server');
-  }
-  return parsed.data;
+ return await typedFetch({
+  url: `${env.VITE_PUBLIC_SERVER_URL}/auth/manager/register`,
+  method: 'POST',
+  body: formData,
+  schema: registerManagerResponseSchema
+ })
 };

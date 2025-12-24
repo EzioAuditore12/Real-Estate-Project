@@ -1,21 +1,15 @@
-import axios from 'axios';
 import { env } from '@/env';
 
-import type { LoginTenantFormParams } from '../schemas/login-tenant-params.schema';
-import {
-  loginTenantResponseSchema,
-  type LoginTenantResponse,
-} from '../schemas/login-tenant-resposne.schema';
+import { typedFetch } from '@/lib/fetch';
 
-const url = `${env.VITE_PUBLIC_SERVER_URL}/auth/tenant/login`;
+import type { LoginTenantFormParams } from '../schemas/login-tenant-params.schema';
+import { loginTenantResponseSchema } from '../schemas/login-tenant-resposne.schema';
 
 export const loginFormTenantApi = async (data: LoginTenantFormParams) => {
-  const response = await axios.post<LoginTenantResponse>(url, data);
-
-  const parsed = loginTenantResponseSchema.safeParse(response.data);
-  if (!parsed.success) {
-    throw new Error('Invalid response from server');
-  }
-
-  return parsed.data;
+  return await typedFetch({
+    url: `${env.VITE_PUBLIC_SERVER_URL}/auth/tenant/login`,
+    method: 'POST',
+    body: data,
+    schema: loginTenantResponseSchema,
+  });
 };
