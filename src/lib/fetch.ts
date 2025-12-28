@@ -2,7 +2,7 @@ import * as s from 'standard-parse';
 
 export type HttpMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-interface TypedFetchProps<S extends s.StandardSchemaV1> extends Omit<
+export interface TypedFetchProps<S extends s.StandardSchemaV1> extends Omit<
   RequestInit,
   'method' | 'body'
 > {

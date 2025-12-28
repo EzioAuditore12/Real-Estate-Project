@@ -20,10 +20,10 @@ export const registerFormManagerApi = async (
     }
   });
 
- return await typedFetch({
-  url: `${env.VITE_PUBLIC_SERVER_URL}/auth/manager/register`,
-  method: 'POST',
-  body: formData,
-  schema: registerManagerResponseSchema
- })
+  return await typedFetch({
+    url: `${env.VITE_PUBLIC_SERVER_URL}/auth/manager/register`,
+    method: 'POST',
+    body: formData,
+    schema: registerManagerResponseSchema,
+  });
 };

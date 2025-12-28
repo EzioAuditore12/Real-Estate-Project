@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 import { useAuthStore } from '@/store';
 import { env } from '@/env';
-import { regenerateTokensApi } from './api/regenerate-tokens.api';
+import { refreshAccessToken } from './token-manager';
 
 interface GraphQLError {
   message: string;
@@ -48,26 +48,19 @@ class AuthenticatedGraphQLClient {
         requestError.response?.status === 401
       ) {
         try {
-          const refreshToken = useAuthStore.getState().tokens?.refreshToken;
-          const role = useAuthStore.getState().role;
+          // 1. Call shared refresh logic
+          await refreshAccessToken();
 
-          if (!refreshToken) throw new Error('No refresh token available');
-          if (!role) throw new Error('No role available');
+          // 2. Get new token from store
+          const newToken = useAuthStore.getState().tokens?.accessToken;
 
-          const data = await regenerateTokensApi({
-            oldRefreshToken: refreshToken,
-            role,
-          });
-
-          useAuthStore.getState().setUserTokens(data);
-
-          // Retry the original request with new token
-          const newHeaders = { Authorization: `Bearer ${data.accessToken}` };
+          // 3. Retry the original request with new token
+          const newHeaders = { Authorization: `Bearer ${newToken}` };
           return await this.client.request<T>(query, variables, newHeaders);
         } catch (refreshError) {
           console.log(refreshError);
           alert('Session expired. Please login again.');
-          useAuthStore.getState().logout();
+          // Note: logout() is already called inside refreshAccessToken on failure
           window.location.href = '/login/tenant';
           throw error;
         }
