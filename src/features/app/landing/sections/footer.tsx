@@ -1,12 +1,11 @@
 import { Link } from '@tanstack/react-router';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faLinkedin,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
+  CircleHelp,
+  FileText,
+  LifeBuoy,
+  Mail,
+  ShieldCheck,
+} from 'lucide-react';
 
 export const FooterSection = () => {
   return (
@@ -38,32 +37,28 @@ export const FooterSection = () => {
             </ul>
           </nav>
           <div className="mb-4 flex space-x-4">
-            <a
-              href="#"
-              aria-label="Facebook"
-              className="hover:text-primary-600"
-            >
-              <FontAwesomeIcon icon={faFacebook} className="h-6 w-6" />
+            <a href="#" aria-label="Contact" className="hover:text-primary-600">
+              <Mail className="h-6 w-6" />
+            </a>
+            <a href="#" aria-label="Support" className="hover:text-primary-600">
+              <LifeBuoy className="h-6 w-6" />
+            </a>
+            <a href="#" aria-label="Help" className="hover:text-primary-600">
+              <CircleHelp className="h-6 w-6" />
             </a>
             <a
               href="#"
-              aria-label="Instagram"
+              aria-label="Security"
               className="hover:text-primary-600"
             >
-              <FontAwesomeIcon icon={faInstagram} className="h-6 w-6" />
-            </a>
-            <a href="#" aria-label="Twitter" className="hover:text-primary-600">
-              <FontAwesomeIcon icon={faTwitter} className="h-6 w-6" />
+              <ShieldCheck className="h-6 w-6" />
             </a>
             <a
               href="#"
-              aria-label="Linkedin"
+              aria-label="Policies"
               className="hover:text-primary-600"
             >
-              <FontAwesomeIcon icon={faLinkedin} className="h-6 w-6" />
-            </a>
-            <a href="#" aria-label="Youtube" className="hover:text-primary-600">
-              <FontAwesomeIcon icon={faYoutube} className="h-6 w-6" />
+              <FileText className="h-6 w-6" />
             </a>
           </div>
         </div>

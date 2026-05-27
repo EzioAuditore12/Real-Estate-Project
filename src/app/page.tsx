@@ -48,7 +48,7 @@ const cardVariants = {
 
 function RouteComponent() {
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
+    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
       <motion.div
         className="container mx-auto px-4 py-16"
         variants={containerVariants}

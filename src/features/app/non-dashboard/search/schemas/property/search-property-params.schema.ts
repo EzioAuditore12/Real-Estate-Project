@@ -5,7 +5,6 @@ import { propertySchema } from '@/features/app/-schemas/property.schema';
 export const searchPropertyQueryParamsSchema = propertySchema
   .omit({
     location: true,
-    managerId: true,
     photoUrls: true,
     id: true,
     propertyTenantPaymentApplicationIds: true,
@@ -20,6 +19,12 @@ export const searchPropertyQueryParamsSchema = propertySchema
     city: z.string(),
 
     state: z.string(),
+
+    currentLatitude: z.coerce.number(),
+
+    currentLongitude: z.coerce.number(),
+
+    searchRadiusKm: z.coerce.number().default(10),
   })
   .partial();
 

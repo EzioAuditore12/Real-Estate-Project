@@ -215,10 +215,10 @@ export interface FileRoutesByFullPath {
   '/dashboard/tenant/applications/$id': typeof DashboardTenantsectionsApplicationsIdRoute
   '/dashboard/tenant/favourites/$id': typeof DashboardTenantsectionsFavouritesIdRoute
   '/dashboard/tenant/residences/$id': typeof DashboardTenantsectionsResidencesIdRoute
-  '/dashboard/manager/managed-properties': typeof DashboardManagersectionsManagedPropertiesPageRoute
-  '/dashboard/tenant/applications': typeof DashboardTenantsectionsApplicationsPageRoute
-  '/dashboard/tenant/favourites': typeof DashboardTenantsectionsFavouritesPageRoute
-  '/dashboard/tenant/residences': typeof DashboardTenantsectionsResidencesPageRoute
+  '/dashboard/manager/managed-properties/': typeof DashboardManagersectionsManagedPropertiesPageRoute
+  '/dashboard/tenant/applications/': typeof DashboardTenantsectionsApplicationsPageRoute
+  '/dashboard/tenant/favourites/': typeof DashboardTenantsectionsFavouritesPageRoute
+  '/dashboard/tenant/residences/': typeof DashboardTenantsectionsResidencesPageRoute
   '/dashboard/manager/managed-properties/application/$id': typeof DashboardManagersectionsManagedPropertiesApplicationIdRoute
 }
 export interface FileRoutesByTo {
@@ -296,10 +296,10 @@ export interface FileRouteTypes {
     | '/dashboard/tenant/applications/$id'
     | '/dashboard/tenant/favourites/$id'
     | '/dashboard/tenant/residences/$id'
-    | '/dashboard/manager/managed-properties'
-    | '/dashboard/tenant/applications'
-    | '/dashboard/tenant/favourites'
-    | '/dashboard/tenant/residences'
+    | '/dashboard/manager/managed-properties/'
+    | '/dashboard/tenant/applications/'
+    | '/dashboard/tenant/favourites/'
+    | '/dashboard/tenant/residences/'
     | '/dashboard/manager/managed-properties/application/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -486,28 +486,28 @@ declare module '@tanstack/react-router' {
     '/dashboard/tenant/(sections)/residences/': {
       id: '/dashboard/tenant/(sections)/residences/'
       path: '/residences'
-      fullPath: '/dashboard/tenant/residences'
+      fullPath: '/dashboard/tenant/residences/'
       preLoaderRoute: typeof DashboardTenantsectionsResidencesPageRouteImport
       parentRoute: typeof DashboardTenantLayoutRoute
     }
     '/dashboard/tenant/(sections)/favourites/': {
       id: '/dashboard/tenant/(sections)/favourites/'
       path: '/favourites'
-      fullPath: '/dashboard/tenant/favourites'
+      fullPath: '/dashboard/tenant/favourites/'
       preLoaderRoute: typeof DashboardTenantsectionsFavouritesPageRouteImport
       parentRoute: typeof DashboardTenantLayoutRoute
     }
     '/dashboard/tenant/(sections)/applications/': {
       id: '/dashboard/tenant/(sections)/applications/'
       path: '/applications'
-      fullPath: '/dashboard/tenant/applications'
+      fullPath: '/dashboard/tenant/applications/'
       preLoaderRoute: typeof DashboardTenantsectionsApplicationsPageRouteImport
       parentRoute: typeof DashboardTenantLayoutRoute
     }
     '/dashboard/manager/(sections)/managed-properties/': {
       id: '/dashboard/manager/(sections)/managed-properties/'
       path: '/managed-properties'
-      fullPath: '/dashboard/manager/managed-properties'
+      fullPath: '/dashboard/manager/managed-properties/'
       preLoaderRoute: typeof DashboardManagersectionsManagedPropertiesPageRouteImport
       parentRoute: typeof DashboardManagerLayoutRoute
     }

@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { useGetGeoLocation } from '@/features/app/non-dashboard/-hooks/use-get-location';
 
 import { Map } from '@/features/app/non-dashboard/-components/map';
+import { MapSkeleton } from '@/components/ui/map-skeleton';
 
 import type { SearchPropertyQueryParams } from '@/features/app/non-dashboard/search/schemas/property/search-property-params.schema';
 import { getAvailablePropertiesQueryOptions } from '@/features/app/non-dashboard/search/queries/get-available-properties.query';
@@ -25,6 +26,19 @@ function RouteComponent() {
   const { coords } = useGetGeoLocation();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!coords) {
+      return;
+    }
+
+    setSearchParams((prev) => ({
+      ...prev,
+      currentLatitude: prev.currentLatitude ?? coords.latitude,
+      currentLongitude: prev.currentLongitude ?? coords.longitude,
+      searchRadiusKm: prev.searchRadiusKm ?? 10,
+    }));
+  }, [coords]);
 
   const handleParamChange = <K extends keyof SearchPropertyQueryParams>(
     key: K,
@@ -58,7 +72,15 @@ function RouteComponent() {
       />
 
       <div className="flex flex-1 flex-row">
-        {coords && <Map className="flex-[0.5]" data={{ coords }} />}
+        {coords ? (
+          <Map
+            className="min-h-125 flex-[0.5]"
+            data={{ coords }}
+            properties={properties}
+          />
+        ) : (
+          <MapSkeleton />
+        )}
         <div className="flex-[0.5] p-2">
           <div className="xxl:grid-cols-3 grid grid-cols-1 gap-4 xl:grid-cols-2">
             {isLoading && <div>Loading...</div>}
