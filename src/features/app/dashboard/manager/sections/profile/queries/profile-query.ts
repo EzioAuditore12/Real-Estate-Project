@@ -4,16 +4,14 @@ import { queryOptions } from '@tanstack/react-query';
 import { graphQLClient } from '@/lib/graphql-client';
 import type { ManagerProfile } from '../schemas/manager-profile.schema';
 
-export const GET_TENANT_DETAILS = gql`
+export const GET_MANAGER_DETAILS = gql`
   query GetAuthenticatedManager {
     getAuthenticatedManager {
       id
       name
       email
       avatar
-      managedProperties {
-        id
-      }
+      managedPropertiesCount
     }
   }
 `;
@@ -23,7 +21,7 @@ export const managerProfileQuery = queryOptions({
   queryFn: async () => {
     const data = await graphQLClient.request<{
       getAuthenticatedManager: ManagerProfile;
-    }>(GET_TENANT_DETAILS);
+    }>(GET_MANAGER_DETAILS);
 
     return data.getAuthenticatedManager;
   },
