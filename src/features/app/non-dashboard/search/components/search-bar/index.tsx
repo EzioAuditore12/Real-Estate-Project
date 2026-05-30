@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 import { CitiesSelectBox } from './cities-select-box';
 import { StatesSelectBox } from './states-combo-box';
-import { ItemFilters } from '../filters';
+
 import { useGetAiLocationData } from '@/features/app/non-dashboard/-mutations/use-get-ai-location-data';
 
 interface SearchLocationBarProps extends Omit<
@@ -43,7 +43,6 @@ export const SearchLocationBar = ({
       className={cn('flex w-full flex-row items-center gap-x-3 p-2', className)}
       {...props}
     >
-      <ItemFilters />
       <div className="flex flex-1 flex-row">
         <Input
           placeholder="Search by neighborhood, address or prompt..."

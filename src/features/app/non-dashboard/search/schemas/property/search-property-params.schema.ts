@@ -10,6 +10,10 @@ export const searchPropertyQueryParamsSchema = propertySchema
     propertyTenantPaymentApplicationIds: true,
     manager: true,
     applications: true,
+    beds: true,
+    baths: true,
+    pricePerMonth: true,
+    squareFeet: true,
   })
   .extend({
     pageNo: z.coerce.number().default(0),
@@ -27,6 +31,38 @@ export const searchPropertyQueryParamsSchema = propertySchema
     currentLongitude: z.coerce.number(),
 
     searchRadiusKm: z.coerce.number().default(10),
+
+    beds: z.object({
+      lt: z.coerce.number().optional(),
+      lte: z.coerce.number().optional(),
+      gt: z.coerce.number().optional(),
+      gte: z.coerce.number().optional(),
+      eq: z.coerce.number().optional(),
+    }),
+
+    baths: z.object({
+      lt: z.coerce.number().optional(),
+      lte: z.coerce.number().optional(),
+      gt: z.coerce.number().optional(),
+      gte: z.coerce.number().optional(),
+      eq: z.coerce.number().optional(),
+    }),
+
+    pricePerMonth: z.object({
+      lt: z.coerce.number().optional(),
+      lte: z.coerce.number().optional(),
+      gt: z.coerce.number().optional(),
+      gte: z.coerce.number().optional(),
+      eq: z.coerce.number().optional(),
+    }),
+
+    squareFeet: z.object({
+      lt: z.coerce.number().optional(),
+      lte: z.coerce.number().optional(),
+      gt: z.coerce.number().optional(),
+      gte: z.coerce.number().optional(),
+      eq: z.coerce.number().optional(),
+    }),
   })
   .partial();
 

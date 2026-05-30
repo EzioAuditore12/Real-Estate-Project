@@ -10,6 +10,7 @@ import { MapSkeleton } from '@/components/ui/map-skeleton';
 import type { SearchPropertyQueryParams } from '@/features/app/non-dashboard/search/schemas/property/search-property-params.schema';
 import { getAvailablePropertiesQueryOptions } from '@/features/app/non-dashboard/search/queries/get-available-properties.query';
 import { SearchLocationBar } from '@/features/app/non-dashboard/search/components/search-bar';
+import { PropertyFilters } from '@/features/app/non-dashboard/search/components/property-filters';
 import { NAVBAR_HEIGHT } from '@/lib/constants';
 import { PropertyCard } from '@/features/app/non-dashboard/search/components/property-card';
 import type { AiLocationDataResponse } from '@/features/app/non-dashboard/search/schemas/ai-location-data/response.schema';
@@ -135,13 +136,16 @@ function RouteComponent() {
       className="flex flex-1 flex-col pt-2"
       style={{ paddingTop: NAVBAR_HEIGHT }}
     >
-      <SearchLocationBar
-        className="mt-3"
-        city={searchParams.city ?? ''}
-        state={searchParams.state ?? ''}
-        onCityChange={(city) => handleParamChange('city', city)}
-        onStateChange={(state) => handleParamChange('state', state)}
-      />
+      <div className="mt-3 flex flex-col items-center gap-4 px-4 sm:flex-row">
+        <SearchLocationBar
+          className="flex-1"
+          city={searchParams.city ?? ''}
+          state={searchParams.state ?? ''}
+          onCityChange={(city) => handleParamChange('city', city)}
+          onStateChange={(state) => handleParamChange('state', state)}
+        />
+        <PropertyFilters filters={searchParams} onChange={handleParamChange} />
+      </div>
 
       <div className="flex flex-1 flex-row">
         {mapCoords ? (

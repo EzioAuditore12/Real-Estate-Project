@@ -21,6 +21,8 @@ export const GET_PROPERTIES = gql`
         amenities
         beds
         baths
+        pricePerMonth
+        squareFeet
         location {
           city
           state
