@@ -39,13 +39,14 @@ export const getAvailablePropertiesQueryOptions = (
   infiniteQueryOptions({
     queryKey: ['properties', params],
     queryFn: async ({ pageParam = 0 }) => {
-      const searchRadiusKm = params.searchRadiusKm ?? 10;
+      const { pageNo, limit, ...searchInput } = params;
+      const searchRadiusKm = searchInput.searchRadiusKm ?? 10;
 
       const data = await pulicGraphQlClient.request(GET_PROPERTIES, {
         page: pageParam,
         size: 10,
         search: {
-          ...params,
+          ...searchInput,
           searchRadiusKm,
         },
       });

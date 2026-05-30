@@ -12,12 +12,24 @@ import { getAvailablePropertiesQueryOptions } from '@/features/app/non-dashboard
 import { SearchLocationBar } from '@/features/app/non-dashboard/search/components/search-bar';
 import { NAVBAR_HEIGHT } from '@/lib/constants';
 import { PropertyCard } from '@/features/app/non-dashboard/search/components/property-card';
+import type { AiLocationDataResponse } from '@/features/app/non-dashboard/search/schemas/ai-location-data/response.schema';
 
 export const Route = createFileRoute('/(nondashboard)/search')({
   component: RouteComponent,
+  validateSearch: ({ city, state, street, radius, latitude, longitude }: AiLocationDataResponse) => ({
+    city: city ?? '',
+    state: state ?? '',
+    street: street ?? '',
+    radius: radius ?? '5km',
+    latitude: latitude ?? null,
+    longitude: longitude ?? null,
+  }),
 });
 
 function RouteComponent() {
+  const search = Route.useSearch();
+  const { city, state, street, radius, latitude, longitude } = search;
+
   const [searchParams, setSearchParams] = useState<SearchPropertyQueryParams>({
     city: '',
     state: '',
@@ -28,7 +40,28 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const parsedRadius = radius ? parseInt(radius, 10) : undefined;
+    setSearchParams((prev) => ({
+      ...prev,
+      city: city || prev.city,
+      state: state || prev.state,
+      address: street || prev.address,
+      currentLatitude: latitude ?? prev.currentLatitude,
+      currentLongitude: longitude ?? prev.currentLongitude,
+      searchRadiusKm: (parsedRadius !== undefined && !isNaN(parsedRadius)) ? parsedRadius : prev.searchRadiusKm,
+    }));
+  }, [city, state, street, radius, latitude, longitude]);
+
+  useEffect(() => {
     if (!coords) {
+      return;
+    }
+
+    // Only use browser geolocation if the user hasn't searched for a specific city.
+    // Otherwise the browser's location would override the city-based text search
+    // and filter out results from the searched city.
+    const hasActiveSearch = searchParams.city || searchParams.state;
+    if (hasActiveSearch) {
       return;
     }
 
@@ -38,7 +71,7 @@ function RouteComponent() {
       currentLongitude: prev.currentLongitude ?? coords.longitude,
       searchRadiusKm: prev.searchRadiusKm ?? 10,
     }));
-  }, [coords]);
+  }, [coords, searchParams.city, searchParams.state]);
 
   const handleParamChange = <K extends keyof SearchPropertyQueryParams>(
     key: K,
@@ -58,6 +91,32 @@ function RouteComponent() {
 
   console.log(properties);
 
+  // Compute map center: prefer explicit coords from search,
+  // then derive from returned properties' locations, then browser geolocation
+  const mapCoords = (() => {
+    if (searchParams.currentLatitude && searchParams.currentLongitude) {
+      return { latitude: searchParams.currentLatitude, longitude: searchParams.currentLongitude };
+    }
+
+    // When Nominatim couldn't geocode, compute centroid from returned properties
+    if (properties.length > 0) {
+      const validLocations = properties.filter(
+        (p) => p.location?.latitude != null && p.location?.longitude != null,
+      );
+      if (validLocations.length > 0) {
+        const avgLat =
+          validLocations.reduce((sum, p) => sum + p.location!.latitude!, 0) /
+          validLocations.length;
+        const avgLng =
+          validLocations.reduce((sum, p) => sum + p.location!.longitude!, 0) /
+          validLocations.length;
+        return { latitude: avgLat, longitude: avgLng };
+      }
+    }
+
+    return coords ?? null;
+  })();
+
   return (
     <div
       className="flex flex-1 flex-col pt-2"
@@ -72,10 +131,10 @@ function RouteComponent() {
       />
 
       <div className="flex flex-1 flex-row">
-        {coords ? (
+        {mapCoords ? (
           <Map
             className="min-h-125 flex-[0.5]"
-            data={{ coords }}
+            data={{ coords: mapCoords }}
             properties={properties}
           />
         ) : (

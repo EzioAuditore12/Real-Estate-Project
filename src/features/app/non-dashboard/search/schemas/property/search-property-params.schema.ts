@@ -20,6 +20,8 @@ export const searchPropertyQueryParamsSchema = propertySchema
 
     state: z.string(),
 
+    address: z.string(),
+
     currentLatitude: z.coerce.number(),
 
     currentLongitude: z.coerce.number(),
