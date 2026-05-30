@@ -9,7 +9,10 @@ import { StatesSelectBox } from './states-combo-box';
 import { ItemFilters } from '../filters';
 import { useGetAiLocationData } from '@/features/app/non-dashboard/-mutations/use-get-ai-location-data';
 
-interface SearchLocationBarProps extends Omit<ComponentProps<'form'>, 'onSubmit'> {
+interface SearchLocationBarProps extends Omit<
+  ComponentProps<'form'>,
+  'onSubmit'
+> {
   city: string;
   state: string;
   onCityChange: (city: string) => void;
@@ -37,7 +40,7 @@ export const SearchLocationBar = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className={cn('flex w-full flex-row gap-x-3 p-2 items-center', className)}
+      className={cn('flex w-full flex-row items-center gap-x-3 p-2', className)}
       {...props}
     >
       <ItemFilters />
@@ -46,12 +49,12 @@ export const SearchLocationBar = ({
           placeholder="Search by neighborhood, address or prompt..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="rounded-r-none h-10"
+          className="h-10 rounded-r-none"
         />
         <Button
           type="submit"
           disabled={isPending}
-          className="rounded-l-none bg-red-500 hover:bg-red-600 text-white h-10 px-4"
+          className="h-10 rounded-l-none bg-red-500 px-4 text-white hover:bg-red-600"
         >
           {isPending ? 'Searching...' : 'Search'}
         </Button>
@@ -66,4 +69,3 @@ export const SearchLocationBar = ({
     </form>
   );
 };
-

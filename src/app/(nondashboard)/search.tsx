@@ -16,7 +16,14 @@ import type { AiLocationDataResponse } from '@/features/app/non-dashboard/search
 
 export const Route = createFileRoute('/(nondashboard)/search')({
   component: RouteComponent,
-  validateSearch: ({ city, state, street, radius, latitude, longitude }: AiLocationDataResponse) => ({
+  validateSearch: ({
+    city,
+    state,
+    street,
+    radius,
+    latitude,
+    longitude,
+  }: AiLocationDataResponse) => ({
     city: city ?? '',
     state: state ?? '',
     street: street ?? '',
@@ -48,7 +55,10 @@ function RouteComponent() {
       address: street || prev.address,
       currentLatitude: latitude ?? prev.currentLatitude,
       currentLongitude: longitude ?? prev.currentLongitude,
-      searchRadiusKm: (parsedRadius !== undefined && !isNaN(parsedRadius)) ? parsedRadius : prev.searchRadiusKm,
+      searchRadiusKm:
+        parsedRadius !== undefined && !isNaN(parsedRadius)
+          ? parsedRadius
+          : prev.searchRadiusKm,
     }));
   }, [city, state, street, radius, latitude, longitude]);
 
@@ -95,7 +105,10 @@ function RouteComponent() {
   // then derive from returned properties' locations, then browser geolocation
   const mapCoords = (() => {
     if (searchParams.currentLatitude && searchParams.currentLongitude) {
-      return { latitude: searchParams.currentLatitude, longitude: searchParams.currentLongitude };
+      return {
+        latitude: searchParams.currentLatitude,
+        longitude: searchParams.currentLongitude,
+      };
     }
 
     // When Nominatim couldn't geocode, compute centroid from returned properties
