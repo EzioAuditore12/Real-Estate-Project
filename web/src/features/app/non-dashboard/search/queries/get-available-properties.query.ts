@@ -17,13 +17,18 @@ export const GET_PROPERTIES = gql`
       content {
         id
         name
+        photoUrls
         amenities
         beds
         baths
+        pricePerMonth
+        squareFeet
         location {
           city
           state
           country
+          latitude
+          longitude
         }
       }
     }
@@ -36,10 +41,16 @@ export const getAvailablePropertiesQueryOptions = (
   infiniteQueryOptions({
     queryKey: ['properties', params],
     queryFn: async ({ pageParam = 0 }) => {
+      const { pageNo, limit, ...searchInput } = params;
+      const searchRadiusKm = searchInput.searchRadiusKm ?? 10;
+
       const data = await pulicGraphQlClient.request(GET_PROPERTIES, {
         page: pageParam,
         size: 10,
-        search: params,
+        search: {
+          ...searchInput,
+          searchRadiusKm,
+        },
       });
       return data.getProperties;
     },

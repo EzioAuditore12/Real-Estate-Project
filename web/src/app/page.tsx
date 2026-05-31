@@ -48,7 +48,7 @@ const cardVariants = {
 
 function RouteComponent() {
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
+    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
       <motion.div
         className="container mx-auto px-4 py-16"
         variants={containerVariants}
@@ -65,7 +65,7 @@ function RouteComponent() {
             transition={{ type: 'spring', stiffness: 300 }}
           >
             <Building2 className="text-primary h-12 w-12" />
-            <h1 className="from-primary to-primary/60 bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
+            <h1 className="from-primary to-primary/60 bg-linear-to-r bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
               Real Estate
             </h1>
           </motion.div>

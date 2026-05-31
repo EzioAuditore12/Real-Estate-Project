@@ -1,13 +1,9 @@
-import axios from 'axios';
 import { env } from '@/env';
 
-import type { TenantRegisterationFormParams } from '../schemas/tenant-register-params.schema';
-import {
-  registerTenantResponseSchema,
-  type RegisterManagerResponse,
-} from '../schemas/tenant-register-response.schema';
+import { typedFetch } from '@/lib/fetch';
 
-const url = `${env.VITE_PUBLIC_SERVER_URL}/auth/tenant/register`;
+import type { TenantRegisterationFormParams } from '../schemas/tenant-register-params.schema';
+import { registerTenantResponseSchema } from '../schemas/tenant-register-response.schema';
 
 export const registerFormTenantApi = async (
   data: TenantRegisterationFormParams,
@@ -24,11 +20,10 @@ export const registerFormTenantApi = async (
     }
   });
 
-  const response = await axios.post<RegisterManagerResponse>(url, formData);
-
-  const parsed = registerTenantResponseSchema.safeParse(response.data);
-  if (!parsed.success) {
-    throw new Error('Invalid response from server');
-  }
-  return parsed.data;
+  return await typedFetch({
+    url: `${env.VITE_PUBLIC_SERVER_URL}/auth/tenant/register`,
+    method: 'POST',
+    body: formData,
+    schema: registerTenantResponseSchema,
+  });
 };

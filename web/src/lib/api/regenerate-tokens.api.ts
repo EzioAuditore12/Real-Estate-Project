@@ -1,30 +1,25 @@
 import { env } from '@/env';
 import type { Role } from '@/features/auth/-schemas/role.schema';
-import axios from 'axios';
 
-const tokenRefreshAxios = axios.create({
-  baseURL: env.VITE_PUBLIC_SERVER_URL,
-});
+import { typedFetch } from '../fetch';
+
+import { regenerateTokensResponseSchema } from './-schemas/regenerate-tokens.schema';
 
 type regenerateTokenApiParams = {
   oldRefreshToken: string;
   role: Role;
 };
 
-type regenerateTokenResponse = {
-  accessToken: string;
-  refreshToken: string;
-};
-
-const managerUrl = `/auth/manager/refresh`;
-const tenantUrl = `/auth/tenant/refresh`;
+const managerUrl = `auth/manager/refresh`;
+const tenantUrl = `auth/tenant/refresh`;
 
 export const regenerateTokensApi = async (data: regenerateTokenApiParams) => {
   const url = data.role === 'MANAGER' ? managerUrl : tenantUrl;
 
-  const response = await tokenRefreshAxios.post<regenerateTokenResponse>(url, {
-    refreshToken: data.oldRefreshToken,
+  return await typedFetch({
+    url: `${env.VITE_PUBLIC_SERVER_URL}/${url}`,
+    method: 'POST',
+    body: { refreshToken: data.oldRefreshToken },
+    schema: regenerateTokensResponseSchema,
   });
-  console.log(response);
-  return response.data;
 };
