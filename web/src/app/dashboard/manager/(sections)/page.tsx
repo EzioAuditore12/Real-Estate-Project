@@ -14,10 +14,10 @@ function RouteComponent() {
   const { data } = useSuspenseQuery(managerProfileQuery);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 flex justify-center items-start min-h-[calc(100vh-4rem)]">
       <ManagerDetails
         manager={data}
-        showEditButton={true}
+        showEditButton={false}
         onEdit={() => {
           // Handle edit action
           console.log('Edit manager profile');

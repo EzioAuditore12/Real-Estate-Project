@@ -24,6 +24,7 @@ interface RespondToApplicationFormProps extends ComponentProps<'form'> {
     status: 'APPROVED' | 'DENIED' | 'PENDING';
   }) => void;
   isRequestPending: boolean;
+  defaultValues?: Partial<Omit<RespondToApplicationInput, 'applicationId'>>;
 }
 
 export const ResponseToApplicationForm = ({
@@ -31,6 +32,7 @@ export const ResponseToApplicationForm = ({
   className,
   handleSubmit,
   isRequestPending,
+  defaultValues,
   ...props
 }: RespondToApplicationFormProps) => {
   const appForm = useAppForm({
@@ -43,6 +45,7 @@ export const ResponseToApplicationForm = ({
       endDate: '',
       deposit: '',
       status: 'APPROVED' as ApplicationStatus,
+      ...defaultValues,
     } as Omit<RespondToApplicationInput, 'applicationId'>,
     onSubmit: ({ value }) => {
       // Transform values to match mutation requirements
@@ -90,8 +93,8 @@ export const ResponseToApplicationForm = ({
         {(field) => <field.InputField type="datetime-local" />}
       </appForm.AppField>
 
-      <Button type="submit" className="mt-6" disabled={isRequestPending}>
-        {isRequestPending ? 'Submitting' : 'Submit'}
+      <Button type="submit" className="mt-6 w-full py-6 text-lg font-semibold" disabled={isRequestPending}>
+        {isRequestPending ? 'Submitting' : 'Submit Response'}
       </Button>
     </form>
   );

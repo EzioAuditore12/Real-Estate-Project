@@ -1,9 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { User, Mail, Phone, Calendar, Edit, Home } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Edit, Home, ShieldCheck } from 'lucide-react';
 
 interface ManagerDetailsProps {
   manager: {
@@ -41,103 +41,111 @@ export function ManagerDetails({
     .slice(0, 2);
 
   return (
-    <Card className={`w-full max-w-2xl ${className}`}>
-      <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold">Manager Profile</CardTitle>
-          {showEditButton && (
-            <Button variant="outline" size="sm" onClick={onEdit}>
+    <Card className={`w-full max-w-3xl overflow-hidden border-none shadow-lg ${className}`}>
+      {/* Decorative Header Banner */}
+      <div className="h-32 w-full bg-gradient-to-r from-blue-600 to-indigo-600 relative">
+        {showEditButton && (
+          <div className="absolute top-4 right-4">
+            <Button variant="secondary" size="sm" onClick={onEdit} className="shadow-sm">
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+              Edit Profile
             </Button>
-          )}
-        </div>
-      </CardHeader>
+          </div>
+        )}
+      </div>
 
-      <CardContent className="space-y-6">
+      <CardContent className="px-8 pb-8 pt-0 sm:px-10 sm:pb-10">
         {/* Avatar and Basic Info */}
-        <div className="flex items-center space-x-4">
-          <Avatar className="h-16 w-16">
-            <AvatarImage src={manager.avatar ?? ''} alt={displayName} />
-            <AvatarFallback className="text-lg font-semibold">
+        <div className="relative -mt-16 mb-6 flex flex-col sm:flex-row sm:items-end sm:space-x-5">
+          <Avatar className="h-32 w-32 rounded-xl border-4 border-white shadow-md">
+            <AvatarImage src={manager.avatar ?? ''} alt={displayName} className="object-cover" />
+            <AvatarFallback className="rounded-xl bg-slate-100 text-3xl font-bold text-slate-600">
               {initials}
             </AvatarFallback>
           </Avatar>
-          <div className="space-y-1">
-            <h3 className="text-xl font-semibold">{displayName}</h3>
-            <Badge variant="secondary" className="text-xs">
-              <User className="mr-1 h-3 w-3" />
-              Manager
-            </Badge>
+          <div className="mt-4 flex-1 space-y-1 sm:mt-0 sm:pb-2">
+            <h3 className="text-3xl font-bold text-slate-800">{displayName}</h3>
+            <div className="flex items-center space-x-2">
+              <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 hover:bg-indigo-100">
+                <ShieldCheck className="mr-1 h-3.5 w-3.5" />
+                Property Manager
+              </Badge>
+              {manager.createdAt && (
+                <span className="text-sm text-slate-500 flex items-center">
+                  <Calendar className="mr-1 h-3.5 w-3.5" />
+                  Joined {new Date(manager.createdAt).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
-        <Separator />
-
-        {/* Contact Information */}
-        <div className="space-y-4">
-          <h4 className="text-lg font-medium">Contact Information</h4>
-
-          <div className="grid gap-3">
-            <div className="flex items-center space-x-3">
-              <Mail className="text-muted-foreground h-5 w-5" />
-              <div>
-                <p className="text-muted-foreground text-sm">Email</p>
-                <p className="font-medium">{manager.email}</p>
-              </div>
-            </div>
-
-            {manager.phoneNumber && (
-              <div className="flex items-center space-x-3">
-                <Phone className="text-muted-foreground h-5 w-5" />
-                <div>
-                  <p className="text-muted-foreground text-sm">Phone</p>
-                  <p className="font-medium">{manager.phoneNumber}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Contact Information */}
+          <div className="space-y-5">
+            <h4 className="text-lg font-semibold text-slate-800 flex items-center">
+              <User className="mr-2 h-5 w-5 text-slate-400" />
+              Contact Information
+            </h4>
+            <div className="rounded-xl border border-slate-100 bg-slate-50 p-5 space-y-4">
+              <div className="flex items-start space-x-3 overflow-hidden">
+                <div className="mt-0.5 shrink-0 rounded-md bg-white p-2 shadow-sm">
+                  <Mail className="h-4 w-4 text-blue-500" />
                 </div>
-              </div>
-            )}
-
-            {manager.createdAt && (
-              <div className="flex items-center space-x-3">
-                <Calendar className="text-muted-foreground h-5 w-5" />
-                <div>
-                  <p className="text-muted-foreground text-sm">Member Since</p>
-                  <p className="font-medium">
-                    {new Date(manager.createdAt).toLocaleDateString()}
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Email Address</p>
+                  <p className="truncate font-medium text-slate-800" title={manager.email}>
+                    {manager.email}
                   </p>
                 </div>
               </div>
-            )}
+
+              {manager.phoneNumber && (
+                <div className="flex items-start space-x-3">
+                  <div className="mt-0.5 rounded-md bg-white p-2 shadow-sm">
+                    <Phone className="h-4 w-4 text-green-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Phone Number</p>
+                    <p className="font-medium text-slate-800">{manager.phoneNumber}</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        <Separator />
-
-        {/* Statistics */}
-        <div className="space-y-4">
-          <h4 className="text-lg font-medium">Statistics</h4>
-
-          <div className="grid grid-cols-1 gap-4">
-            <div className="bg-muted/50 rounded-lg p-4 text-center">
-              <div className="mb-2 flex items-center justify-center">
-                <Home className="h-5 w-5 text-blue-500" />
+          {/* Statistics */}
+          <div className="space-y-5">
+            <h4 className="text-lg font-semibold text-slate-800 flex items-center">
+              <Home className="mr-2 h-5 w-5 text-slate-400" />
+              Portfolio Overview
+            </h4>
+            <div className="rounded-xl border border-indigo-100 bg-indigo-50/50 p-5 flex flex-col justify-center h-[120px]">
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-indigo-100 p-3">
+                  <Home className="h-6 w-6 text-indigo-600" />
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-indigo-900">
+                    {manager.managedPropertiesCount ??
+                      manager.managedProperties?.length ??
+                      0}
+                  </p>
+                  <p className="text-sm font-medium text-indigo-600/80">
+                    Properties Managed
+                  </p>
+                </div>
               </div>
-              <p className="text-2xl font-bold">
-                {manager.managedPropertiesCount ??
-                  manager.managedProperties?.length ??
-                  0}
-              </p>
-              <p className="text-muted-foreground text-sm">
-                Properties Managed
-              </p>
             </div>
           </div>
         </div>
 
+        <Separator className="my-8" />
+
         {/* Manager ID for reference */}
-        <div className="border-border/50 border-t pt-4">
-          <p className="text-muted-foreground text-xs">
-            Manager ID: <span className="font-mono">{manager.id}</span>
+        <div className="flex justify-between items-center">
+          <p className="text-xs text-slate-400">
+            System ID: <span className="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-slate-500">{manager.id}</span>
           </p>
         </div>
       </CardContent>
