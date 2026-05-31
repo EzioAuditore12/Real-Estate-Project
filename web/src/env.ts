@@ -7,6 +7,7 @@ export const env = createEnv({
     VITE_PUBLIC_NOMANTIM_USER_AGENT: z.email(),
     VITE_PUBLIC_GRAPHQL_SERVER: z.url(),
     VITE_PUBLIC_MAPBOX_API_TOKEN: z.string(),
+    VITE_PUBLIC_TEST_MANAGER_EMAIL: z.email(),
   },
   clientPrefix: 'VITE_',
   runtimeEnv: import.meta.env,

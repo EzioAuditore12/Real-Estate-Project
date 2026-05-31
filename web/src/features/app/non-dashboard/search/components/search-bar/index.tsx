@@ -40,7 +40,10 @@ export const SearchLocationBar = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className={cn('flex w-full flex-row items-center gap-x-3 p-2', className)}
+      className={cn(
+        'tour-search-location-bar flex w-full flex-row items-center gap-x-3 p-2',
+        className,
+      )}
       {...props}
     >
       <div className="flex flex-1 flex-row">

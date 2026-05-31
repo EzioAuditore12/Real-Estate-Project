@@ -20,7 +20,7 @@ function RouteComponent() {
   const { mutate, isPending } = useManagerLoginForm();
 
   return (
-    <div className="flex min-h-svh w-full flex-col items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-100 p-2">
+    <div className="flex min-h-svh w-full flex-col items-center justify-center bg-linear-to-br from-blue-50 via-white to-purple-100 p-2">
       <Card className="w-full max-w-4xl overflow-hidden rounded-2xl border border-blue-100 bg-white/90 p-0 shadow-xl">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Stack className="p-6 md:p-8" spacing={'md'}>

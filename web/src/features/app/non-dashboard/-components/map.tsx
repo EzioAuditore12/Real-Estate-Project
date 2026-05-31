@@ -115,7 +115,7 @@ export function Map({ className, data, properties = [], ...props }: MapProps) {
   const zoom = coords ? 15 : 11;
 
   return (
-    <div className={cn('relative', className)} {...props}>
+    <div className={cn('tour-map-view relative', className)} {...props}>
       <MapUI ref={mapRef} className="h-full" center={center} zoom={zoom}>
         {markerProperties.map((property) => (
           <MapMarker

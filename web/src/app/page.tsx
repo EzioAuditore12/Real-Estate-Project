@@ -1,54 +1,88 @@
+import { useEffect } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 
-import { type Variants, motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
+import { useJoyride } from 'react-joyride';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+
 import {
   Building2,
-  Users,
-  Key,
+  MapPin,
+  Search,
+  ShieldCheck,
   ArrowRight,
-  Github,
-  Code,
-  Sparkles,
-  Home as HomeIcon,
+  Home,
 } from 'lucide-react';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
 });
 
+const steps = [
+  {
+    target: '.tour-search',
+    content:
+      'Search across more than 114,000 rental property listings using location-aware discovery.',
+  },
+  {
+    target: '.tour-listings',
+    content:
+      'Explore property details including pricing, amenities, photos, and location information.',
+  },
+  {
+    target: '.tour-management',
+    content:
+      'Property managers can efficiently manage listings, applications, and tenant interactions.',
+  },
+  {
+    target: '.tour-login',
+    content:
+      'Continue to the Manager Portal to access property management tools.',
+  },
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { delayChildren: 0.2, staggerChildren: 0.1 },
+    transition: {
+      delayChildren: 0.15,
+      staggerChildren: 0.1,
+    },
   },
 } satisfies Variants;
 
 const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
+    opacity: 1,
     y: 0,
-    opacity: 1,
-    transition: { duration: 0.6, ease: 'easeOut' },
+    transition: {
+      duration: 0.5,
+    },
   },
-} satisfies Variants;
-
-const cardVariants = {
-  hidden: { scale: 0.9, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: { duration: 0.4, ease: 'easeOut' },
-  },
-  hover: { scale: 1.05, transition: { duration: 0.2 } },
 } satisfies Variants;
 
 function RouteComponent() {
+  const { controls, on, Tour } = useJoyride({
+    continuous: true,
+    steps,
+  });
+
+  useEffect(() => {
+    controls.start();
+
+    return on('tour:end', () => {
+      console.log('Tour completed');
+    });
+  }, [controls, on]);
+
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
+      {Tour}
+
       <motion.div
         className="container mx-auto px-4 py-16"
         variants={containerVariants}
@@ -56,159 +90,125 @@ function RouteComponent() {
         animate="visible"
       >
         <motion.div
-          className="mb-16 space-y-6 text-center"
+          className="mx-auto mb-20 max-w-4xl text-center"
           variants={itemVariants}
         >
-          <motion.div
-            className="mb-4 flex items-center justify-center gap-2"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <Building2 className="text-primary h-12 w-12" />
-            <h1 className="from-primary to-primary/60 bg-linear-to-r bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
-              Real Estate
-            </h1>
-          </motion.div>
+          <div className="mb-6 flex items-center justify-center gap-3">
+            <Building2 className="h-12 w-12" />
+            <h1 className="text-5xl font-bold md:text-7xl">Rental PG Finder</h1>
+          </div>
 
-          <motion.div variants={itemVariants}>
-            <Badge variant="secondary" className="mb-4 px-4 py-2">
-              <Sparkles className="mr-2 h-4 w-4" />
-              Student Project - Work in Progress
-            </Badge>
-          </motion.div>
-
-          <motion.p
-            className="text-muted-foreground mx-auto max-w-3xl text-xl leading-relaxed md:text-2xl"
-            variants={itemVariants}
-          >
-            A modern real estate management platform built by a student using
-            Vite + TanStack (Router & Query), Spring Boot, and PostgreSQL.
-          </motion.p>
+          <p className="text-muted-foreground mx-auto max-w-3xl text-xl leading-relaxed md:text-2xl">
+            Discover verified PGs, rooms, apartments, and rental properties
+            through location-aware search. Explore nearby accommodations,
+            compare amenities, and connect directly with property managers.
+          </p>
         </motion.div>
 
         <motion.div
-          className="mb-16 grid gap-8 md:grid-cols-3"
+          className="mb-20 grid gap-8 md:grid-cols-3"
           variants={containerVariants}
         >
-          <motion.div variants={cardVariants} whileHover="hover">
-            <Card className="bg-card/50 border-0 shadow-lg backdrop-blur">
+          <motion.div variants={itemVariants} className="tour-search">
+            <Card>
               <CardContent className="p-8 text-center">
-                <Users className="text-primary mx-auto mb-4 h-12 w-12" />
-                <h3 className="mb-2 text-xl font-semibold">User Management</h3>
-                <p className="text-muted-foreground">
-                  Dashboards tailored for tenants and managers.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+                <Search className="mx-auto mb-4 h-12 w-12" />
 
-          <motion.div variants={cardVariants} whileHover="hover">
-            <Card className="bg-card/50 border-0 shadow-lg backdrop-blur">
-              <CardContent className="p-8 text-center">
-                <HomeIcon className="text-primary mx-auto mb-4 h-12 w-12" />
-                <h3 className="mb-2 text-xl font-semibold">
-                  Property Listings
+                <h3 className="mb-3 text-xl font-semibold">
+                  Location-Aware Search
                 </h3>
+
                 <p className="text-muted-foreground">
-                  Browse and manage listings efficiently.
+                  Search across more than 114,000 property listings using
+                  geospatial location discovery.
                 </p>
               </CardContent>
             </Card>
           </motion.div>
 
-          <motion.div variants={cardVariants} whileHover="hover">
-            <Card className="bg-card/50 border-0 shadow-lg backdrop-blur">
+          <motion.div variants={itemVariants} className="tour-listings">
+            <Card>
               <CardContent className="p-8 text-center">
-                <Key className="text-primary mx-auto mb-4 h-12 w-12" />
-                <h3 className="mb-2 text-xl font-semibold">Secure Access</h3>
+                <Home className="mx-auto mb-4 h-12 w-12" />
+
+                <h3 className="mb-3 text-xl font-semibold">
+                  Verified Listings
+                </h3>
+
                 <p className="text-muted-foreground">
-                  JWT authentication with role-based permissions.
+                  Browse rental properties with detailed descriptions,
+                  amenities, pricing, and location information.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="tour-management">
+            <Card>
+              <CardContent className="p-8 text-center">
+                <ShieldCheck className="mx-auto mb-4 h-12 w-12" />
+
+                <h3 className="mb-3 text-xl font-semibold">
+                  Property Management
+                </h3>
+
+                <p className="text-muted-foreground">
+                  Manage listings, applications, and tenant interactions through
+                  a centralized dashboard.
                 </p>
               </CardContent>
             </Card>
           </motion.div>
         </motion.div>
 
-        <motion.div className="mb-16 text-center" variants={itemVariants}>
-          <h2 className="mb-8 text-3xl font-bold">Technologies Used</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              'Vite + TanStack',
-              'React 18',
-              'TypeScript',
-              'Spring Boot',
-              'PostgreSQL',
-              'Tailwind CSS',
-              'Framer Motion',
-              'Shadcn/ui',
-            ].map((tech, index) => (
-              <motion.div
-                key={tech}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.08 }}
-              >
-                <Badge variant="outline" className="px-3 py-1">
-                  <Code className="mr-1 h-3 w-3" />
-                  {tech}
-                </Badge>
-              </motion.div>
-            ))}
-          </div>
+        <motion.div className="mx-auto mb-20 max-w-5xl" variants={itemVariants}>
+          <Card>
+            <CardContent className="space-y-6 p-10">
+              <div className="flex items-center gap-3">
+                <MapPin className="h-6 w-6" />
+                <h2 className="text-3xl font-bold">About The Platform</h2>
+              </div>
+
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Rental PG Finder is a location-aware rental property platform
+                designed to simplify property discovery and management.
+              </p>
+
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                The platform supports more than 114,000 indexed property records
+                and enables geospatial property search using PostgreSQL and
+                PostGIS for fast and accurate location-based discovery.
+              </p>
+
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Property managers can publish and manage listings, while tenants
+                can explore accommodations, compare options, and discover nearby
+                rental opportunities.
+              </p>
+            </CardContent>
+          </Card>
         </motion.div>
 
         <motion.div
-          className="flex flex-col items-center justify-center gap-6 sm:flex-row"
+          className="tour-login flex justify-center"
           variants={itemVariants}
         >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button asChild size="lg" className="px-8 py-3 text-lg">
-              <Link to="/login/tenant">
-                Login
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="px-8 py-3 text-lg"
-            >
-              <Link to="/register/tenant">Register</Link>
-            </Button>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              asChild
-              variant="ghost"
-              size="lg"
-              className="px-8 py-3 text-lg"
-            >
-              <Link to="/landing">Landing</Link>
-            </Button>
-          </motion.div>
+          <Button asChild size="lg" className="px-10 py-6 text-lg">
+            <Link to="/login/manager">
+              Continue to Manager Portal
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
         </motion.div>
 
         <motion.div
-          className="border-border/50 mt-16 space-y-3 border-t pt-8 text-center"
+          className="mt-20 border-t pt-8 text-center"
           variants={itemVariants}
         >
-          <p className="text-muted-foreground">
-            This ongoing academic project is being crafted by a dedicated
-            student.
+          <p className="text-muted-foreground text-sm">
+            Rental PG Finder — Location-aware rental property discovery and
+            management platform.
           </p>
-          <motion.div
-            className="flex justify-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Badge variant="secondary" className="px-4 py-2">
-              <Github className="mr-2 h-4 w-4" />
-              Open Source Initiative
-            </Badge>
-          </motion.div>
         </motion.div>
       </motion.div>
     </div>

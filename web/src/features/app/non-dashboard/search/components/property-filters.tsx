@@ -97,7 +97,7 @@ export function PropertyFilters({ filters, onChange }: PropertyFiltersProps) {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" className="gap-2">
+        <Button variant="outline" className="tour-filters-button gap-2">
           <Settings2 className="h-4 w-4" />
           Filters
         </Button>
