@@ -22,12 +22,16 @@ function RouteComponent() {
 
   const navigate = useNavigate();
 
-  const tourSteps = useMemo(() => [
-    {
-      target: '.tour-applications-section',
-      content: 'Here you can view all applications submitted for this property. Click on any application to view details and respond.',
-    }
-  ], []);
+  const tourSteps = useMemo(
+    () => [
+      {
+        target: '.tour-applications-section',
+        content:
+          'Here you can view all applications submitted for this property. Click on any application to view details and respond.',
+      },
+    ],
+    [],
+  );
 
   const { controls, on, Tour } = useJoyride({
     continuous: true,
@@ -50,7 +54,7 @@ function RouteComponent() {
         controls.start();
       }, 500);
     }
-    
+
     return on('tour:end', () => {
       localStorage.setItem('manager-property-details-tour', 'true');
     });
@@ -58,7 +62,11 @@ function RouteComponent() {
 
   if (isLoading) return <div className="p-8 text-center">Loading...</div>;
   if (error)
-    return <div className="p-8 text-center text-red-500">Error loading property details.</div>;
+    return (
+      <div className="p-8 text-center text-red-500">
+        Error loading property details.
+      </div>
+    );
   if (!data) return <div className="p-8 text-center">No property found.</div>;
 
   const {
@@ -119,8 +127,10 @@ function RouteComponent() {
               <CarouselNext className="right-4" />
             </Carousel>
 
-            <div className="rounded-lg bg-slate-50 p-6 shadow-sm border border-slate-100">
-              <h3 className="mb-3 text-xl font-semibold text-slate-800">Description</h3>
+            <div className="rounded-lg border border-slate-100 bg-slate-50 p-6 shadow-sm">
+              <h3 className="mb-3 text-xl font-semibold text-slate-800">
+                Description
+              </h3>
               <p className="whitespace-pre-wrap text-slate-600">
                 {description || 'No description provided.'}
               </p>
@@ -128,9 +138,9 @@ function RouteComponent() {
           </div>
 
           {/* Right Side: Property Details */}
-          <div className="flex flex-col gap-6 rounded-lg bg-slate-50 p-6 shadow-sm border border-slate-100">
+          <div className="flex flex-col gap-6 rounded-lg border border-slate-100 bg-slate-50 p-6 shadow-sm">
             <div>
-              <h3 className="text-3xl font-bold text-primary">
+              <h3 className="text-primary text-3xl font-bold">
                 ₹{pricePerMonth}
                 <span className="text-base font-normal text-slate-500">
                   {' '}
@@ -144,21 +154,29 @@ function RouteComponent() {
 
             <div className="grid grid-cols-2 gap-4 border-y border-slate-200 py-5">
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Property Type</p>
+                <p className="mb-1 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+                  Property Type
+                </p>
                 <p className="font-medium text-slate-800">{propertyType}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Beds / Baths</p>
+                <p className="mb-1 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+                  Beds / Baths
+                </p>
                 <p className="font-medium text-slate-800">
                   {beds} / {baths}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Square Feet</p>
+                <p className="mb-1 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+                  Square Feet
+                </p>
                 <p className="font-medium text-slate-800">{squareFeet}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Posted Date</p>
+                <p className="mb-1 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+                  Posted Date
+                </p>
                 <p className="font-medium text-slate-800">
                   {postedDate
                     ? new Date(postedDate).toLocaleDateString()
@@ -176,13 +194,17 @@ function RouteComponent() {
 
             <div className="grid grid-cols-2 gap-y-3">
               <div className="flex items-center">
-                <span className="text-sm font-semibold text-slate-700">Pet Allowed:</span>
+                <span className="text-sm font-semibold text-slate-700">
+                  Pet Allowed:
+                </span>
                 <span className="ml-2 text-sm text-slate-600">
                   {petAllowed ? 'Yes' : 'No'}
                 </span>
               </div>
               <div className="flex items-center">
-                <span className="text-sm font-semibold text-slate-700">Parking:</span>
+                <span className="text-sm font-semibold text-slate-700">
+                  Parking:
+                </span>
                 <span className="ml-2 text-sm text-slate-600">
                   {parkingIncluded ? 'Yes' : 'No'}
                 </span>
@@ -207,12 +229,14 @@ function RouteComponent() {
 
             {highlights && highlights.length > 0 && (
               <div>
-                <h4 className="mb-2 font-semibold text-slate-800">Highlights</h4>
+                <h4 className="mb-2 font-semibold text-slate-800">
+                  Highlights
+                </h4>
                 <div className="flex flex-wrap gap-2">
                   {highlights.map((highlight, i) => (
                     <span
                       key={i}
-                      className="rounded bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
+                      className="bg-primary/10 text-primary rounded px-2.5 py-1 text-xs font-medium"
                     >
                       {highlight}
                     </span>
@@ -228,19 +252,19 @@ function RouteComponent() {
                 </span>
                 <span>ID: {propertyId}</span>
               </div>
-              
+
               <div className="flex justify-between text-xs text-slate-500">
-                <span>
-                  Applications: {applications?.length ?? 0}
-                </span>
+                <span>Applications: {applications?.length ?? 0}</span>
               </div>
             </div>
           </div>
         </div>
 
         {applications && applications.length > 0 && (
-          <div className="mt-8 tour-applications-section">
-            <h3 className="mb-4 text-xl font-bold text-slate-800">Applications</h3>
+          <div className="tour-applications-section mt-8">
+            <h3 className="mb-4 text-xl font-bold text-slate-800">
+              Applications
+            </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {applications.map((app) => (
                 <div
@@ -255,12 +279,16 @@ function RouteComponent() {
                 >
                   <div className="mb-2 flex items-center justify-between">
                     <span className="font-semibold text-slate-700">Status</span>
-                    <span className={`rounded-full px-2 py-1 text-xs font-medium ${app.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' : app.status === 'APPROVED' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    <span
+                      className={`rounded-full px-2 py-1 text-xs font-medium ${app.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' : app.status === 'APPROVED' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                    >
                       {app.status}
                     </span>
                   </div>
                   <div className="mb-3 text-sm text-slate-600">
-                    <strong className="font-semibold text-slate-700">Start Date:</strong>{' '}
+                    <strong className="font-semibold text-slate-700">
+                      Start Date:
+                    </strong>{' '}
                     {app.startDate
                       ? new Date(app.startDate).toLocaleDateString()
                       : 'N/A'}
@@ -273,9 +301,11 @@ function RouteComponent() {
                           'https://unpic.imgix.net/sample-images/person.png'
                         }
                         alt={app.tenant.name ?? 'Tenant'}
-                        className="h-10 w-10 rounded-full object-cover border"
+                        className="h-10 w-10 rounded-full border object-cover"
                       />
-                      <span className="font-medium text-slate-800">{app.tenant.name ?? 'Unknown Tenant'}</span>
+                      <span className="font-medium text-slate-800">
+                        {app.tenant.name ?? 'Unknown Tenant'}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -287,4 +317,3 @@ function RouteComponent() {
     </>
   );
 }
-

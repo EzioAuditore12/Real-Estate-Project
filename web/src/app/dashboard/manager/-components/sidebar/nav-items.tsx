@@ -39,7 +39,10 @@ export function ManagerNavItems({ projects }: { projects: ManagerNavItem[] }) {
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton
+              asChild
+              className={`tour-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+            >
               <Link to={item.url}>
                 <item.icon />
                 <span>{item.name}</span>

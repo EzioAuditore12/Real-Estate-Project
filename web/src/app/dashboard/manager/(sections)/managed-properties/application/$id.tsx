@@ -47,8 +47,8 @@ function RouteComponent() {
     <div className="flex flex-1 flex-col items-start justify-center p-2 lg:flex-row lg:space-x-8">
       {data && <ApplicationDetails className="w-full lg:w-1/2" data={data} />}
 
-      <div className="w-full lg:w-1/2 mt-8 lg:mt-0 p-6 rounded-lg border bg-white shadow-sm">
-        <h3 className="text-xl font-semibold mb-6">Respond to Application</h3>
+      <div className="mt-8 w-full rounded-lg border bg-white p-6 shadow-sm lg:mt-0 lg:w-1/2">
+        <h3 className="mb-6 text-xl font-semibold">Respond to Application</h3>
         <ResponseToApplicationForm
           applicationId={id}
           handleSubmit={mutate}

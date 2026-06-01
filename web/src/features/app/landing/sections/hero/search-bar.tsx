@@ -27,7 +27,7 @@ const steps = [
   },
 ];
 
-const EXAMPLE_QUERY = 'I want residences in Dehradun, Uttarakhand within 10 km';
+const EXAMPLE_QUERY = 'I want residences in Mumbai, Maharashtra within 10 km';
 
 export function HeroSearchBar() {
   const { mutate, isPending } = useGetAiLocationData();

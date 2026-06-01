@@ -14,7 +14,7 @@ function RouteComponent() {
   const { data } = useSuspenseQuery(managerProfileQuery);
 
   return (
-    <div className="container mx-auto px-4 py-8 flex justify-center items-start min-h-[calc(100vh-4rem)]">
+    <div className="container mx-auto flex min-h-[calc(100vh-4rem)] items-start justify-center px-4 py-8">
       <ManagerDetails
         manager={data}
         showEditButton={false}

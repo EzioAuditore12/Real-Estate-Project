@@ -93,7 +93,11 @@ export const ResponseToApplicationForm = ({
         {(field) => <field.InputField type="datetime-local" />}
       </appForm.AppField>
 
-      <Button type="submit" className="mt-6 w-full py-6 text-lg font-semibold" disabled={isRequestPending}>
+      <Button
+        type="submit"
+        className="mt-6 w-full py-6 text-lg font-semibold"
+        disabled={isRequestPending}
+      >
         {isRequestPending ? 'Submitting' : 'Submit Response'}
       </Button>
     </form>

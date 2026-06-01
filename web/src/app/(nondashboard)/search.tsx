@@ -37,6 +37,11 @@ const searchTourSteps = [
     content:
       'Browse property cards showing photos, pricing, amenities, and location details. Click any card to view the full property page.',
   },
+  {
+    target: '.tour-first-property',
+    content: 'Click on a property to view its full details and make a booking.',
+    spotlightClicks: true,
+  },
 ];
 
 export const Route = createFileRoute('/(nondashboard)/search')({
@@ -212,9 +217,10 @@ function RouteComponent() {
             <div className="xxl:grid-cols-3 grid grid-cols-1 gap-4 xl:grid-cols-2">
               {isLoading && <div>Loading...</div>}
               {isError && <div>Error loading properties.</div>}
-              {properties.map((property) => (
+              {properties.map((property, index) => (
                 <PropertyCard
                   key={property.id}
+                  className={index === 0 ? 'tour-first-property' : ''}
                   propertyDetails={property}
                   onClick={() =>
                     navigate({
